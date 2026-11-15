@@ -148,6 +148,11 @@ export const ConfigSchema = z.object({
       grudgeOrCallbackShare: probability.default(0.25),
       /** A persona never repeats a format used in its last N posts. */
       formatNoRepeatWindow: z.number().int().nonnegative().default(5),
+      /**
+       * Best-of-N for posts: generate N candidates in one call and let the judge pick one
+       * (ADR 0005). 1 disables selection. Comments are always single-shot.
+       */
+      postCandidates: z.number().int().min(1).max(5).default(3),
     })
     .prefault({}),
 

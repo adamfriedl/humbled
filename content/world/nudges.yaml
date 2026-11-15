@@ -1,0 +1,23 @@
+# The nudge menu (FR-22). `target: persona` means the owner picks another persona.
+# `career_event` optionally creates a career event (FR-21).
+- { id: laid_off, label: "got laid off", career_event: layoff }
+- { id: promoted, label: "got promoted", career_event: promotion }
+- { id: had_baby, label: "had a baby" }
+- { id: davos, label: "went to Davos" }
+- { id: podcast, label: "started a podcast" }
+- { id: marathon, label: "ran a marathon" }
+- { id: founded, label: "founded a startup", career_event: startup_founded }
+- { id: pivoted, label: "pivoted the company", career_event: pivot }
+- { id: book_deal, label: "got a book deal", career_event: book_deal }
+- { id: acquired, label: "got acquired", career_event: acquisition }
+- { id: burnout, label: "burned out" }
+- { id: sabbatical, label: "took a sabbatical" }
+- { id: keynote, label: "gave a keynote" }
+- { id: wedding, label: "got married" }
+- { id: dog, label: "adopted a dog" }
+- { id: ai_tool, label: "discovered a new AI tool" }
+- { id: hackathon, label: "won a hackathon" }
+- { id: retreat, label: "went on a silent retreat" }
+- { id: jealous, label: "is jealous of…", target: persona, affinity_delta: -0.3 }
+- { id: inspired, label: "was inspired by…", target: persona, affinity_delta: 0.3 }
+- { id: coffee, label: "grabbed coffee with…", target: persona, affinity_delta: 0.2 }

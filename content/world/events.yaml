@@ -1,0 +1,92 @@
+# Fictional industry events, one per day. `launch: true` is the launch-day seed event.
+- id: synergetix-pod-crackdown
+  launch: true
+  headline: Synergetix cracks down on engagement pods, comment automation and "comment to agree" posts
+  body: Synergetix says its professional feed will now suppress coordinated engagement, automated comments and posts that ask readers to comment "agree". Insiders say the change affects "basically everyone".
+- id: ai-replaces-middle-managers
+  headline: AI replaces all middle managers at Synergetix; productivity unchanged
+  body: The company confirmed 400 management roles were replaced by a scheduling agent. Meeting volume is reportedly up 30%.
+- id: synergetix-workweek
+  headline: Synergetix announces 4-day work week, then 7-day work week, in the same press release
+  body: A spokesperson called it "flexibility in both directions".
+- id: return-to-office-tents
+  headline: Pivotal Paradigms mandates return to office; office has been converted to a glamping site
+  body: Employees must badge in to a tent four days a week. "Collaboration happens around the fire," said the CEO.
+- id: cold-plunge-benefit
+  headline: Grindstone Capital replaces health insurance with a company cold plunge
+  body: The firm says the plunge "addresses root causes".
+- id: unlimited-pto-zero
+  headline: Study finds employees with unlimited PTO take an average of negative two days off
+  body: Researchers at Northstar Alignment Group say some respondents "apologized for the survey taking time".
+- id: chief-vibes-officer
+  headline: Kaizen Kollective appoints its first Chief Vibes Officer, a golden retriever
+  body: The dog will report to the board quarterly. Analysts call the move "long overdue".
+- id: biscuit-unicorn
+  headline: Blue Ocean Biscuits reaches $1B valuation without selling a biscuit
+  body: The company says it is "focused on the platform, not the biscuit".
+- id: top-voice-humble-badge
+  headline: Professional feeds introduce "Top Voice in Being Humble" badge
+  body: The first 10,000 recipients have each posted about how humbled they are to receive it.
+- id: agent-gets-promoted
+  headline: Agentic Solutions promotes an AI agent to VP; agent immediately schedules a reorg
+  body: The agent's first memo was 11 pages and titled "Alignment Is a Journey".
+- id: meeting-free-wednesday
+  headline: OmniSync introduces Meeting-Free Wednesdays; employees schedule a meeting to discuss them
+  body: The kickoff meeting is recurring.
+- id: four-am-club-ipo
+  headline: The 4AM Club, a morning-routine startup, files for IPO
+  body: The S-1 lists "waking up" as a core competency and "sleep" as a key risk factor.
+- id: office-nap-pods-removed
+  headline: Hyperscale Hospitality removes nap pods, citing "too much resting"
+  body: The pods will be repurposed as phone booths for "intentional networking".
+- id: synergy-shortage
+  headline: Consultants warn of a global synergy shortage
+  body: Pivotal Paradigms says existing synergies are being "leveraged at unsustainable rates".
+- id: hustle-tax
+  headline: Grindstone Capital proposes an internal "rest tax" on employees who log off before 7pm
+  body: Proceeds fund the cold plunge.
+- id: email-banned
+  headline: Disruptify bans email internally; all communication now happens via voice memo
+  body: The average voice memo is 14 minutes long and begins with "so, quick one".
+- id: podcast-glut
+  headline: Thoughtwave Media reports more B2B podcasts than B2B podcast listeners
+  body: The company is launching a podcast about the problem.
+- id: rebrand-rebrand
+  headline: Paradigm Shift Partners rebrands for the tenth time, to its original name
+  body: The agency calls it "a return to our roots, reimagined".
+- id: layoffs-gratitude
+  headline: Synapse & Sons lays off 200 employees via a gratitude journal entry
+  body: Each employee received a personalized page beginning "I'm grateful for you, and…"
+- id: productivity-score
+  headline: OmniSync launches a public productivity score on every employee profile
+  body: Early adopters report sleeping in their cars "to keep the streak".
+- id: vc-funds-vibes
+  headline: Ascendant Ventures raises a $500M fund exclusively for "founders with momentum"
+  body: The partners declined to define momentum but said "you know it when you see it".
+- id: ai-writes-all-posts
+  headline: Survey finds 90% of professional posts are now written by AI; the other 10% claim they are
+  body: Every respondent insisted their own posts were "100% authentic".
+- id: open-office-outdoors
+  headline: CloudNine Dynamics moves its open-plan office outdoors "to break down walls"
+  body: The company says weather is "a growth opportunity".
+- id: mandatory-fun-quarterly
+  headline: Kaizen Kollective makes fun a quarterly OKR
+  body: The Q3 target is "4.2 laughs per employee per week, measured by survey".
+- id: logistics-blockchain-pallet
+  headline: Quantum Leap Logistics puts a single pallet on the blockchain; pallet is now lost
+  body: Executives say the pallet is "decentralized".
+- id: thought-leader-shortage
+  headline: Report says there are now more thought leaders than thoughts
+  body: Northstar Alignment Group calls for "a framework to address the gap".
+- id: hiring-freeze-thaw
+  headline: Bandwidth Partners announces a hiring freeze, a hiring thaw, and a hiring "slush"
+  body: Candidates in the slush will be contacted "in due course".
+- id: standing-desk-mandate
+  headline: Hyperscale Hospitality bans sitting at work; chairs reclassified as "legacy furniture"
+  body: Exceptions require two manager approvals and a doctor's note.
+- id: ai-reference-checks
+  headline: Brightpath launches AI reference checks that call your ex-partners
+  body: The company says relationships "are the ultimate track record".
+- id: unlimited-hustle
+  headline: Grindstone Capital announces "unlimited hustle" policy
+  body: Employees may now work as many hours as they want, which leadership expects to be "all of them".

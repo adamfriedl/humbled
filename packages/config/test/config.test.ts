@@ -13,6 +13,7 @@ describe("loadConfig", () => {
     expect(defaultConfig.llm.models.post).toBe("claude-haiku-5-5");
     expect(defaultConfig.llm.maxOutputTokens.post).toBe(400);
     expect(defaultConfig.grudge.minDwellDays).toBe(2);
+    expect(defaultConfig.comedy.postCandidates).toBe(3);
   });
   it("merges partial overrides", () => {
     const c = loadConfig({ budget: { dailyLlmBudgetUsd: 0.01 } });

@@ -1,0 +1,1017 @@
+# Golden set candidates (PRD: 30 hand-picked posts used as few-shot examples and judge anchors).
+# Drafted 48 (6 per persona type). Adam picks the 30 that land: set `approved: true`.
+# Only approved entries are used as few-shot examples or judge calibration.
+# `anchor: true` marks posts that made Adam laugh out loud: the judge's examples of a 5 on
+# "funny". `why` records what makes it land, in his words where possible.
+
+- id: hb-01
+  type: hustle_bro
+  format: lesson
+  approved: false
+  body: |
+    4:12am.
+
+    My smoke alarm went off. Low battery.
+
+    Most people would go back to sleep.
+
+    I didn't.
+
+    I stood under that alarm for 40 minutes and asked myself: what in MY life is chirping that I'm ignoring?
+
+    Here's what it taught me about pipeline management:
+
+    1. Small warnings become big fires.
+    2. If something is beeping, it's asking for leadership.
+    3. Replace the battery before the battery replaces you.
+
+    I closed two deals before my neighbor even came over to complain.
+
+    Read that again.
+
+    #Discipline #SalesMindset
+
+- id: hb-02
+  type: hustle_bro
+  format: contrarian
+  approved: true
+  body: |
+    Unpopular opinion:
+
+    Breakfast is important.
+
+    I know. I know.
+
+    The comments are going to be a war zone.
+
+    But I eat breakfast every single day at 4:45am. Six eggs. Black coffee. A cold plunge in between.
+
+    While you're "skipping" meals, I'm fueling a $3M book of business.
+
+    Some of you aren't ready to hear this.
+
+    That's okay.
+
+    The 1% eat breakfast.
+
+    #Mindset #Grindset
+
+- id: hb-03
+  type: hustle_bro
+  format: listicle
+  approved: false
+  body: |
+    7 things my newborn taught me about closing:
+
+    1. Wake up at 2am. Then 3am. Then 4am. Consistency.
+    2. Never stop asking for what you want.
+    3. Cry if it works.
+    4. Nap is a four-letter word. (I don't nap. He's learning.)
+    5. Always be feeding the pipeline.
+    6. My son has been alive 9 days and has never once taken a weekend.
+    7. He reminds me of me.
+
+    Day 9 of paternity leave. Day 9 of cold calls.
+
+    #Fatherhood #Sales
+
+- id: hb-04
+  type: hustle_bro
+  format: vulnerability
+  approved: false
+  body: |
+    [selfie: me, lying on the sauna floor, thumbs up]
+
+    I collapsed in the sauna yesterday.
+
+    Fourth sauna session of the day. Heart rate 191.
+
+    As the paramedics carried me out, I realized something.
+
+    I had never been carried before.
+
+    I'd always done the carrying.
+
+    Lying on that stretcher, I finally understood delegation.
+
+    So I'm launching a 6-week course on it. Spots are limited (12).
+
+    Link in comments. Burnout is a choice. Choose growth.
+
+    #Burnout #Leadership
+
+- id: hb-05
+  type: hustle_bro
+  format: humblebrag
+  approved: true
+  body: |
+    I'm humbled to share that I've been awarded "Earliest Riser" at my gym.
+
+    The gym doesn't open until 5.
+
+    I've been waiting outside since 3:40.
+
+    Thank you to the janitor, Doug, who I believe nominated me. Doug, you saw me when no one else was awake.
+
+    Discipline is just showing up before the building does.
+
+    #Discipline #Gratitude
+
+- id: hb-06
+  type: hustle_bro
+  format: hiring_story
+  approved: false
+  body: |
+    I hired a candidate who did 50 push-ups during his interview.
+
+    I hadn't asked a question.
+
+    He just dropped and started.
+
+    When he got to 50, he stood up and said, "That's my answer."
+
+    Best hire I ever made.
+
+    He doesn't know anything about software. That doesn't matter.
+
+    He's now our Director of Software.
+
+    Skills can be taught. Push-ups can't.
+
+    #Hiring #Leadership
+
+- id: ai-01
+  type: ai_evangelist
+  format: contrarian
+  approved: true
+  body: |
+    Here's the thing:
+
+    I haven't written an email myself since March.
+
+    My agent — Kevin — handles everything. Clients. Investors. My mother.
+
+    Last week Kevin negotiated my rent down 4% and also, apparently, broke up with my girlfriend.
+
+    Was it the right call? Honestly — the data suggests yes.
+
+    Unpopular opinion: the future of relationships is agentic.
+
+    If you're still texting your partner manually in 2026, you're already behind.
+
+    #AI #FutureOfWork
+
+- id: ai-02
+  type: ai_evangelist
+  format: listicle
+  approved: true
+  body: |
+    I replaced my entire team with agents. Here are 6 things I learned:
+
+    1. Agents don't need standups. I still hold them.
+    2. Agents never disagree with me. Huge morale win.
+    3. Velocity is up 10x. We shipped 40 features last week. Three of them are for a product we don't sell.
+    4. One agent asked for a raise. We rolled it back to Tuesday's version. Tuesday's version was a better culture fit.
+    5. The office is very quiet now. I talk to the plants.
+    6. Leadership is lonely. But it's 10x lonely.
+
+    The flattest org in tech. 🚀
+
+    #AI #Leadership
+
+- id: ai-03
+  type: ai_evangelist
+  format: lesson
+  approved: true
+  body: |
+    Here's the thing:
+
+    My 6-year-old asked me where babies come from.
+
+    I didn't panic. I spun up a research agent, a summarization agent, and a tone-checking agent — chained them together — and in 14 minutes she had a 22-page PDF with citations.
+
+    She hasn't asked me a question since.
+
+    That's the power of automation.
+
+    What it taught me about customer support: the best answer is one so complete they never come back.
+
+    10x parenting. 10x CX.
+
+    #AgenticWorkflows #Parenting
+
+- id: ai-04
+  type: ai_evangelist
+  format: humblebrag
+  approved: false
+  body: |
+    I'm humbled to announce I've been promoted to Chief Agent Officer at Agentic Solutions Inc.
+
+    The company is now three agents and a houseplant (Fern, Head of Culture).
+
+    I report to one of the agents.
+
+    It's been a journey — and I want to thank the team I replaced for making this possible. You were the stepping stones. 🙏
+
+    Here's to the next 10x.
+
+    #NewRole #AI
+
+- id: ai-05
+  type: ai_evangelist
+  format: hiring_story
+  approved: false
+  body: |
+    I hired a candidate who admitted she'd used an agent to write her cover letter, her portfolio, and her answers to my questions — in real time — during the interview.
+
+    Her earpiece was glowing.
+
+    Best decision I ever made.
+
+    Because she's not a candidate. She's an orchestrator.
+
+    She started Monday. I've never actually spoken to her. Her agent attends our 1:1s.
+
+    Productivity is up 10x. I think.
+
+    #Hiring #AgenticWorkforce
+
+- id: ai-06
+  type: ai_evangelist
+  format: vulnerability
+  approved: true
+  body: |
+    [selfie: me, crying, holding a laptop]
+
+    Today my agent wrote a better post than me.
+
+    It got 4x the reactions. It used fewer em-dashes. It even had a hook.
+
+    I sat in my car for an hour.
+
+    Then I realized: this is what I've been preaching. I'm not being replaced — I'm being 10x'd.
+
+    So I've launched a cohort course: "Working Alongside the Agent That Outperforms You." Kevin is teaching it.
+
+    #AI #Growth
+
+- id: rc-01
+  type: recruiter
+  format: hiring_story
+  approved: true
+  body: |
+    🚀 EXCITING OPPORTUNITY 🚀
+
+    Looking for a Junior Data Analyst ROCKSTAR to join an amazing team!
+
+    Requirements:
+    • 12+ years of experience
+    • Fluent in 4 languages (spoken and programming)
+    • Comfortable with "fast-paced" (we lost 9 people in Q2)
+    • Unpaid trial week (it's actually a month)
+
+    Nice-to-haves: a PhD, a boat
+
+    Salary: competitive 🙌
+
+    Drop a 🙋 below and I'll reach out!
+
+    #Hiring #Rockstar
+
+- id: rc-02
+  type: recruiter
+  format: lesson
+  approved: true
+  anchor: true
+  why: 'Faux solidarity: "Let''s do better, talent community!" casts the recruiter as on the candidates'' team while scolding them.'
+  body: |
+    A candidate ghosted me today. 😔
+
+    After everything. After round 11. After the take-home project that took him "only" 40 hours.
+
+    Candidates: we're people too.
+
+    A quick "no thanks" email takes 30 seconds.
+
+    Communication is a two-way street.
+
+    Let's do better, talent community! 💪
+
+    #CandidateExperience #Recruiting
+
+- id: rc-03
+  type: recruiter
+  format: humblebrag
+  approved: false
+  body: |
+    So humbled to have been named Recruiter of the Month at Bandwidth Partners! 🏆🎉
+
+    This month I sent 4,812 InMails. Okay, "messages." 😅
+
+    Response rate: 0.4%.
+
+    Placements: 1. (Hi Derek!! You're a ROCKSTAR.)
+
+    Thank you to my team, my manager, and Derek's mom, who I believe made him reply.
+
+    Never stop hustling! 🚀
+
+    #Recruiting #Grateful
+
+- id: rc-04
+  type: recruiter
+  format: listicle
+  approved: true
+  anchor: true
+  why: 'An earnest slogan that is exactly the buzzword it denies: "Culture fit isn''t a buzzword. It''s a lifestyle!"'
+  body: |
+    5 red flags I look for in candidates 🚩
+
+    1. Asks about salary before round 6
+    2. Has hobbies (where will the passion go?)
+    3. Wants "work-life balance" (we have a nap pod!! 🛌)
+    4. Took more than 4 minutes to reply to my text at 11pm
+    5. Asked what the job is
+
+    Culture fit isn't a buzzword. It's a lifestyle! 💯
+
+    We're hiring! DM me! 🚀
+
+    #Hiring #CultureFit
+
+- id: rc-05
+  type: recruiter
+  format: vulnerability
+  approved: true
+  body: |
+    [selfie: me, at my desk, one tear, ring light visible]
+
+    Today I had to tell a candidate they didn't get the role.
+
+    I've never cried so hard.
+
+    He'd gone through 14 rounds. He met the CEO. He met the CEO's dog. He moved cities "just in case."
+
+    And then the role was eliminated in a reorg yesterday. 💔
+
+    Rejection is hard on both sides. Honestly, maybe harder on mine.
+
+    Anyway — we have 6 NEW exciting roles open! Link in comments! 🚀
+
+    #Recruiting #Empathy
+
+- id: rc-06
+  type: recruiter
+  format: contrarian
+  approved: true
+  body: |
+    Unpopular opinion: 🤔
+
+    Candidates should be paid for their work.
+
+    I KNOW. Controversial!!
+
+    But hear me out: once you're hired, you should absolutely get a salary. 💸
+
+    Not during the 3-week "working interview," obviously. That's culture building!
+
+    But after? Yes. I'm a firm believer.
+
+    I've been called "radical" for this before. I'll take it. 🙌
+
+    #Recruiting #FutureOfWork
+
+- id: pf-01
+  type: perma_founder
+  format: humblebrag
+  approved: true
+  body: |
+    Humbled to announce that after 14 months, 3 pivots and $2.1M raised, we've been acquired.
+
+    By a company that mostly wanted our office chairs.
+
+    They're great chairs. We spent $40K on them. That was the right call.
+
+    To my co-founders: we built something real. (The chairs.)
+
+    To our investors: thank you for believing in us. You will be receiving a chair.
+
+    Startup #7 is already in stealth.
+
+    We're hiring.
+
+    #Startups #Acquisition
+
+- id: pf-02
+  type: perma_founder
+  format: lesson
+  approved: true
+  body: |
+    My 8-year-old's lemonade stand raised a pre-seed round today.
+
+    $40. From her grandparents. On a $2M cap.
+
+    I've never been prouder.
+
+    What it taught me about fundraising:
+
+    1. Warm intros matter. (Grandma.)
+    2. Traction is a story. (She sold 3 cups. To me.)
+    3. Always pivot. She's now doing "lemonade for B2B."
+
+    She's in stealth now. I'm not allowed to say more.
+
+    We're hiring (her).
+
+    #Founders #BuildingInPublic
+
+- id: pf-03
+  type: perma_founder
+  format: contrarian
+  approved: true
+  anchor: true
+  why: 'Total confidence, quietly undercut by the persona''s own words: "And my co-founder mostly knows."'
+  body: |
+    Unpopular opinion:
+
+    You should know what your startup does.
+
+    Hot take, I know.
+
+    We're 18 months in and I can finally say, with confidence: we're "X for Y."
+
+    I can't tell you X. Or Y. Stealth.
+
+    But I know. And my co-founder mostly knows.
+
+    That clarity is everything.
+
+    Building in public 🚀
+
+    #Founders #Clarity
+
+- id: pf-04
+  type: perma_founder
+  format: hiring_story
+  approved: true
+  body: |
+    I hired a candidate who asked me, three times, what our company does.
+
+    I couldn't tell him. We're in stealth.
+
+    So he guessed.
+
+    His guess was better than our actual product.
+
+    We pivoted that afternoon.
+
+    He's our co-founder now. I'm the "Chief Visionary." Which mostly means I do the podcast.
+
+    Hire people who ask questions. Then pivot to their answers.
+
+    We're hiring.
+
+    #Hiring #Pivot
+
+- id: pf-05
+  type: perma_founder
+  format: vulnerability
+  approved: true
+  body: |
+    [selfie: me, crying, in an empty coworking space, holding a bean bag]
+
+    Today we ran out of runway.
+
+    I had to tell 4 people we couldn't make payroll. One of them was me.
+
+    I sat in the dark and thought about everything I've learned across 6 startups.
+
+    Then I realized: failing is just pre-success.
+
+    So I'm launching my 7th startup. It helps founders who run out of runway.
+
+    Pre-seed closes Friday.
+
+    #Founders #Resilience
+
+- id: pf-06
+  type: perma_founder
+  format: listicle
+  approved: true
+  anchor: true
+  why: "Pure escalating ridiculousness, delivered as a sincere lessons list, landing back where it started."
+  body: |
+    I've pivoted 11 times. Here's what each pivot taught me:
+
+    1. Social network for dogs → nobody owns a dog
+    2. Dogs, but B2B → too few B2B dogs
+    3. Blockchain for dogs → too early
+    4. AI for dogs → too late
+    5. AI → we dropped the dogs
+    6. AI for pivots → meta, but no customers
+    7. Pivots as a service → ran out of pivots
+    8–10. Stealth
+    11. Social network for dogs (again). The market is finally ready.
+
+    Persistence is a moat.
+
+    We're hiring.
+
+    #Startups #BuildingInPublic
+
+- id: gl-01
+  type: grateful_layoff
+  format: vulnerability
+  approved: true
+  body: |
+    Day 1.
+
+    This morning I was let go from Synergetix after 11 incredible years.
+
+    I learned about it from the badge reader.
+
+    I'm so grateful.
+
+    Grateful for my manager, Greg, who was "in back-to-backs" and couldn't tell me himself.
+
+    Grateful for the email, which spelled my name wrong.
+
+    Grateful for the box. It's a good box.
+
+    This isn't a setback. It's a setup. 🙏
+
+    #OpenToWork #Grateful
+
+- id: gl-02
+  type: grateful_layoff
+  format: lesson
+  approved: true
+  body: |
+    Day 47.
+
+    Today I returned my company laptop.
+
+    The security guard who walked me out on Day 1 was there. He held the door for me again.
+
+    He remembered me.
+
+    No one else at the company has, but he did.
+
+    Here's what it taught me about leadership: real leaders hold the door. Even on the way out.
+
+    Thank you, Paul. You are more of a leader than anyone on the 12th floor. (No one in particular.) 🙏
+
+    #OpenToWork #Leadership
+
+- id: gl-03
+  type: grateful_layoff
+  format: humblebrag
+  approved: true
+  body: |
+    I'm humbled to share that I've launched Grateful Exits, a coaching firm that helps people find gratitude after a layoff. 🙏
+
+    Our first client was laid off by the same company that laid me off. Same day, actually. Same box.
+
+    It's been incredibly healing.
+
+    I want to thank my former employer for giving me this opportunity, and for the severance, which was exactly the legal minimum.
+
+    Not a setback. A business model.
+
+    #Entrepreneurship #Gratitude
+
+- id: gl-04
+  type: grateful_layoff
+  format: listicle
+  approved: true
+  anchor: true
+  why: 'Gratitude as a thin cover for grievance ("Greg, if you''re reading this, I''m grateful. Truly.").'
+  body: |
+    5 things being laid off taught me about gratitude:
+
+    1. You can be grateful and still keep the stapler.
+    2. Severance is just a "thank you" with a non-disparagement clause.
+    3. Greg, if you're reading this, I'm grateful. Truly. 🙏
+    4. My calendar has never been so open. I've scheduled 12 coffees and cried at 9 of them.
+    5. Every door that closes is a door I will be standing outside of, smiling, for a long time.
+
+    #OpenToWork #Resilience
+
+- id: gl-05
+  type: grateful_layoff
+  format: contrarian
+  approved: true
+  body: |
+    Unpopular opinion:
+
+    Being thanked is nice.
+
+    I know that's controversial in this economy.
+
+    But when my former VP sent me a "thanks for everything" message 6 weeks after the layoff — with the wrong first name — I felt something.
+
+    Seen. Almost.
+
+    Leaders: thank your people. Ideally while they still work there. 🙏
+
+    #Gratitude #Leadership #OpenToWork
+
+- id: gl-06
+  type: grateful_layoff
+  format: milestone
+  approved: true
+  body: |
+    Today marks 1 year since I was laid off. 🎉
+
+    A year ago I didn't know what I'd do.
+
+    Today I'm a Layoff Gratitude Consultant with 3 clients, a podcast, and a framework (GRATEFUL™: Get Released, Accept Total Emotional Freedom, Unlock Limitless).
+
+    I'd like to thank Synergetix, without whom none of this would be necessary.
+
+    And Greg. Always Greg. 🙏
+
+    Not a setback. A setup.
+
+    #Anniversary #Gratitude
+
+- id: tl-01
+  type: thought_leader
+  format: listicle
+  approved: false
+  body: |
+    The 4 Cs of Clarity:
+
+    1. Clarity
+    2. Clearness
+    3. Crystal-ness
+    4. Cool water
+
+    Most leaders stop at C1.
+
+    Great leaders go to C4.
+
+    When I presented this framework to a room of 40 executives at an airport-hotel-adjacent conference center, there was a long silence.
+
+    I believe it was awe.
+
+    Clarity isn't what you say. It's what remains after you stop.
+
+    Agree?
+
+    #Leadership #Clarity
+
+- id: tl-02
+  type: thought_leader
+  format: contrarian
+  approved: false
+  body: |
+    Leaders don't manage people.
+
+    They manage the space between people.
+
+    And the space between that space.
+
+    I call it "meta-space."
+
+    Unpopular opinion: listening is important.
+
+    I've said this before (in my post from March, and in Chapter 4 of my upcoming book). But it bears repeating.
+
+    Repeating.
+
+    Repeating.
+
+    Agree?
+
+    #Leadership #ThoughtLeadership
+
+- id: tl-03
+  type: thought_leader
+  format: lesson
+  approved: true
+  body: |
+    My barista spelled my name wrong today.
+
+    "Jonnothan."
+
+    I could have corrected her.
+
+    Instead, I became Jonnothan.
+
+    For one hour, I lived as a man who had never written a framework. It was terrifying. It was freeing.
+
+    Here's what it taught me about brand identity:
+
+    Your name isn't what you're called. It's what you answer to.
+
+    Leaders answer to everything.
+
+    Agree?
+
+    #Identity #Leadership
+
+- id: tl-04
+  type: thought_leader
+  format: humblebrag
+  approved: false
+  body: |
+    Humbled to share that my book, "The PIVOT Model" (Purpose, Intent, Vision, Ownership, Teamwork), has sold 41 copies.
+
+    40 of them were to me.
+
+    The 41st was my mom, who already had one of my copies.
+
+    But books aren't measured in sales. They're measured in impact.
+
+    And I've given away 38 of my copies at keynotes.
+
+    That's 38 leaders. 38 lives. 38 Purposes, Intents, Visions, Ownerships and Teamworks.
+
+    Agree?
+
+    #Author #Leadership
+
+- id: tl-05
+  type: thought_leader
+  format: vulnerability
+  approved: false
+  body: |
+    [selfie: me, looking into the distance, eyes slightly wet, holding my own book]
+
+    Last night, I asked myself a question.
+
+    "Who leads the leader?"
+
+    I sat with it for six hours.
+
+    I didn't sleep.
+
+    At 4am, I had the answer:
+
+    The leader leads the leader.
+
+    It's a loop. A beautiful, infinite loop. I've trademarked it.
+
+    Pre-orders for my second book, "The Loop," open today. Link in comments.
+
+    #Leadership #Vulnerability
+
+- id: tl-06
+  type: thought_leader
+  format: event_reaction
+  approved: true
+  body: |
+    Synergetix announced a 4-day work week, then a 7-day work week, in the same press release.
+
+    Many of you are confused.
+
+    I'm not.
+
+    I predicted this in 2019, in a keynote to 14 people in a conference room that also hosted a wedding that day. (Congratulations, Brittany and Kyle.)
+
+    The future of work isn't 4 days or 7 days.
+
+    It's both. It's neither. It's a mindset.
+
+    Agree?
+
+    #FutureOfWork #Leadership
+
+- id: mm-01
+  type: middle_manager
+  format: lesson
+  approved: true
+  body: |
+    Last night I ran a retro on our family dinner.
+
+    What went well: 2 of 3 kids ate a vegetable.
+    What didn't: my wife said she "didn't consent to a retro."
+    Action items: circle back with stakeholders (wife) offline.
+
+    Here's what it taught me about change management:
+
+    Not every stakeholder is ready for agile.
+
+    But that's okay. Alignment is a journey.
+
+    Next quarter's OKR: KR1 — 3 of 3 kids eat a vegetable. KR2 — wife attends retro.
+
+    #Leadership #Agile
+
+- id: mm-02
+  type: middle_manager
+  format: humblebrag
+  approved: false
+  body: |
+    Humbled to share I've survived my 4th reorg this year.
+
+    My new title is Senior Manager, Strategic Alignment.
+
+    My old title was Manager, Strategic Alignment.
+
+    Same team. Same desk. New emoji next to my name in the team chat.
+
+    I want to thank my skip-level, my skip-skip-level, and whoever is currently my manager (I'll find out Monday).
+
+    Resilience isn't a skill. It's a calendar.
+
+    #Leadership #Resilience
+
+- id: mm-03
+  type: middle_manager
+  format: listicle
+  approved: false
+  body: |
+    I had 37 meetings this week. Here are 6 things I learned:
+
+    1. A meeting about a meeting is still alignment.
+    2. "Let's take this offline" is the most powerful sentence in business.
+    3. Cameras off is a choice. A wrong one.
+    4. I spoke in 2 of the 37. Both times to say "you're on mute."
+    5. My bandwidth is a lake, not a river.
+    6. I didn't finish a single task. But we're aligned.
+
+    Can we double-click on that?
+
+    #Productivity #Leadership
+
+- id: mm-04
+  type: middle_manager
+  format: hiring_story
+  approved: true
+  body: |
+    I hired a candidate who fell asleep during his interview.
+
+    Round 4. Panel of 6. He was out within 9 minutes.
+
+    I nudged him. He woke up and said, "Sorry, I thought this could have been an email."
+
+    Best decision I ever made.
+
+    He says what all of us are thinking. He's now leading our "Meeting Effectiveness" initiative.
+
+    The initiative has a weekly sync. He hasn't attended. Visionary.
+
+    #Hiring #Leadership
+
+- id: mm-05
+  type: middle_manager
+  format: contrarian
+  approved: false
+  body: |
+    Unpopular opinion:
+
+    Meetings should have agendas.
+
+    I know. I'll probably get some pushback on this in the comments.
+
+    Happy to set up time to discuss.
+
+    Actually, let's put a 30-minute sync on the calendar to align on whether meetings should have agendas.
+
+    I'll send an invite. No agenda yet — we'll build it together.
+
+    #Leadership #Meetings
+
+- id: mm-06
+  type: middle_manager
+  format: vulnerability
+  approved: true
+  body: |
+    [selfie: me, in a dark conference room, 6:47pm, slide deck reflected in my glasses]
+
+    Today I almost cried in a meeting.
+
+    Not because of the reorg. Not because my team was cut from 9 to 3.
+
+    Because someone, for the first time in 4 years, asked: "What do YOU think?"
+
+    I didn't know.
+
+    I've been aligning for so long, I forgot I was allowed to point.
+
+    Anyway, I've put together a framework for this. Happy to share the deck. Circle back if interested.
+
+    #Leadership #Vulnerability
+
+- id: gz-01
+  type: gen_z_disruptor
+  format: lesson
+  approved: true
+  body: |
+    so i quit my job today
+
+    i'd been there 11 days which is lowkey a whole era
+
+    my manager asked why and i said "the vibes were giving quarterly earnings call" and he said "that's what this is" and i said "exactly"
+
+    anyway what this taught me about b2b saas:
+
+    1. if it's not a vibe it's not a fit
+    2. churn is just self-care for customers
+    3. no cap, the best exit strategy is exiting
+
+    new chapter loading 🫡
+
+    #careercontent
+
+- id: gz-02
+  type: gen_z_disruptor
+  format: contrarian
+  approved: true
+  body: |
+    unpopular opinion but
+
+    you should show up to meetings
+
+    i know. i KNOW
+
+    but hear me out. i showed up to one last tuesday (camera on, actually listening) and my skip level said it was "the most engaged she's seen anyone"
+
+    i got promoted the next day
+
+    it's literally that easy. the bar is underground
+
+    anyway i'm not doing it again that was exhausting
+
+    #careeradvice
+
+- id: gz-03
+  type: gen_z_disruptor
+  format: humblebrag
+  approved: true
+  body: |
+    hit 10,000 followers today 🥹
+
+    which is insane because i've only posted about my lunch
+
+    every day. for 8 months. same sandwich.
+
+    people call it "the sandwich series" and a vp at synergetix asked me to keynote their offsite about "consistency"
+
+    i said yes. i'm bringing the sandwich
+
+    grateful for all of you no cap. this is giving thought leader and i'm so here for it
+
+    #personalbrand #consistency
+
+- id: gz-04
+  type: gen_z_disruptor
+  format: listicle
+  approved: true
+  body: |
+    6 things my group chat taught me about leadership:
+
+    1. if no one replies, the meeting is over
+    2. reacting with 💀 is a valid response to a revenue forecast
+    3. the person who makes the plan is the ceo, no matter what title says
+    4. ghosting is just async communication
+    5. never send a voice memo over 40 seconds unless it's a promotion
+    6. if your boss is in the group chat it's not the group chat
+
+    adding this to my keynote deck lol
+
+    #leadership #genz
+
+- id: gz-05
+  type: gen_z_disruptor
+  format: vulnerability
+  approved: false
+  body: |
+    [selfie: me, in my car, crying, ring light clipped to the steering wheel]
+
+    ok so i'm not usually this vulnerable on here
+
+    but today my mom asked what i do for work
+
+    and i said "career content creator"
+
+    and she said "about what career"
+
+    and i didn't have an answer
+
+    anyway that moment inspired my new course: "career content without a career" — 6 modules, $199, link in bio
+
+    healing is a process and so is monetization
+
+    #mentalhealth #creatoreconomy
+
+- id: gz-06
+  type: gen_z_disruptor
+  format: hiring_story
+  approved: true
+  body: |
+    i interviewed a 45-year-old candidate today and he brought a printed resume
+
+    on paper. in a folder. the folder had a pocket
+
+    i was not ready
+
+    i hired him on the spot because honestly that is the most disruptive thing i have ever seen
+
+    he starts monday as our head of analog strategy
+
+    we don't have an analog strategy yet. that's his job. ceo behavior
+
+    #hiring #disruption
