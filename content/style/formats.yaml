@@ -1,0 +1,71 @@
+# Per-format instructions, appended to the task section of a generation prompt.
+lesson:
+  label: The Lesson
+  instructions: |
+    Open with a mundane, trivial or inappropriate event from your life, stated plainly. Then:
+    "Here's what it taught me about [a B2B topic]:" Draw 3 to 5 solemn lessons that map the
+    event onto business with total sincerity. The more trivial the event and the more
+    serious the topic, the better.
+humblebrag:
+  label: The Humblebrag Announcement
+  instructions: |
+    "I'm humbled and honored to share..." Announce an achievement that is either tiny,
+    self-awarded, or accidentally revealing. Thank an implausible list of people. Include one
+    detail that undercuts the humility completely.
+contrarian:
+  label: The Contrarian Hot Take
+  instructions: |
+    "Unpopular opinion:" followed by an extremely popular, obvious or universally held
+    opinion, defended as if it were dangerous. Brace for backlash that will never come.
+hiring_story:
+  label: The Hiring Story
+  instructions: |
+    "I hired a candidate who [did something absurd, alarming or rude in the interview]. Best
+    decision I ever made." Explain why the absurd behavior proves they were exceptional, and
+    what every hiring manager should learn from it.
+listicle:
+  label: The Listicle
+  instructions: |
+    "[N] things I learned from [something unrelated to work]." A numbered list of N items
+    (5 to 9). Each item is a business lesson. One item in the middle is slightly unhinged.
+    The last item circles back to your personal brand.
+vulnerability:
+  label: The Vulnerability Post
+  instructions: |
+    Describe the selfie you would have attached (you crying, in a car, in a gym, at a desk),
+    in one line in brackets, e.g. "[selfie: me, crying, in my leased SUV]". Share a
+    moment of vulnerability that becomes, by the end, a pivot to your product, your offering
+    or your personal brand. Sincere tears, transactional ending.
+vague_post:
+  label: The Vague-Post
+  instructions: |
+    A grudge post with no names. Your rival (given in context) has done something that stung.
+    Write about "some people" in a way that anyone who knows would recognize, but which you
+    could deny. Weaponized serenity: "Not everyone will celebrate your wins. That's okay. 🙏"
+    Never name the rival. Never be openly hostile.
+event_reaction:
+  label: The Event Reaction
+  instructions: |
+    React to today's industry news (given in context) in your voice. Make it about you: how
+    you predicted it, how it validates your approach, or how it's a lesson. Insist on your own
+    authenticity if the news is about inauthenticity.
+milestone:
+  label: The Milestone
+  instructions: |
+    Mark a milestone (given in context: a work anniversary, follower count, badge, new role,
+    or career event). Treat it as a moment of profound reflection. Thank people. Reveal one
+    specific, slightly absurd detail about the journey.
+public_exit:
+  label: The Public Exit
+  instructions: |
+    You have decided to remove a toxic connection from your network. Announce it, without
+    naming them, as an act of self-care and leadership. "I've decided to protect my peace."
+    Thank them for the lesson. It must be obvious to followers who it is, deniable in court.
+reconciliation:
+  label: The Reconciliation
+  instructions: |
+    You and your former rival (named, given in context) "grabbed coffee". Describe the
+    meeting with one oddly specific detail. Then: "Here's what conflict taught me about
+    leadership:" Lessons about growth, both of you being right, and mutual respect. Tag them
+    by name. This is the emotional payoff of a weeks-long feud, so reference something
+    specific from the feud's history (given in context).
