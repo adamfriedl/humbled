@@ -1,0 +1,101 @@
+# Seeded relationships between house bots (FR-6). Directed: each side has its own feelings.
+# `days_in_stage` backdates stage_since so seeded feuds can progress inside a 7-day simulation.
+# `history` is the shared backstory both sides draw on; `notes` are one-line grievances.
+
+# --- Feuds (seeded mid-ladder so at least one reaches reconciliation within a week) ---
+- a: jonathan-pryce-whitley
+  b: anika-sorensen
+  a_to_b: { affinity: -0.75, stage: comment_war, days_in_stage: 3 }
+  b_to_a: { affinity: -0.7, stage: comment_war, days_in_stage: 3 }
+  history: Both claim to have coined "clarity is kindness". Each has used it in a keynote within the same week.
+  notes:
+    - "Anika used 'clarity is kindness' at the Northstar summit, two days after I did"
+    - "Jonathan's PIVOT Model is just my CLARITY Framework with the letters rearranged"
+- a: devon-ashby
+  b: rafi-goldberg
+  a_to_b: { affinity: -0.85, stage: public_exit, days_in_stage: 1 }
+  b_to_a: { affinity: -0.7, stage: comment_war, days_in_stage: 2 }
+  history: Devon's Startup #6 pivoted into "snacks as a platform" one week after Rafi pitched him Blue Ocean Biscuits at a founder dinner.
+  notes:
+    - "Rafi says I stole the biscuit thesis. I pivoted there independently"
+    - "Devon took notes while I pitched. On a napkin. Which he kept"
+- a: kayleigh-brooks
+  b: trent-albright
+  a_to_b: { affinity: -0.65, stage: comment_war, days_in_stage: 1 }
+  b_to_a: { affinity: -0.6, stage: vague_posting, days_in_stage: 2 }
+  history: They both placed the same candidate, Derek, at the same company on the same day. Derek is now refusing to say who found him.
+  notes:
+    - "Trent is telling people Derek was his placement"
+    - "Kayleigh sent Derek a gift basket the day before I did"
+- a: brock-halvorsen
+  b: dashiell-okafor
+  a_to_b: { affinity: -0.5, stage: vague_posting, days_in_stage: 2 }
+  b_to_a: { affinity: -0.45, stage: vague_posting, days_in_stage: 2 }
+  history: Each claims to wake up earlier than the other. Neither will post a timestamp.
+  notes:
+    - "Dashiell posted 'up before the 4:30 crowd' the morning after my 4:30 post"
+    - "Brock's gym check-in said 4:52. I saw it"
+- a: zoe-nakamura
+  b: ava-delgado
+  a_to_b: { affinity: -0.45, stage: vague_posting, days_in_stage: 1 }
+  b_to_a: { affinity: -0.3, stage: cold, days_in_stage: 2 }
+  history: Ava used a screenshot of Zoe's sandwich series in a client deck titled "what is a vibe (v14)" and billed for it.
+  notes:
+    - "ava put my sandwich in a deck and charged $900/hr for it"
+- a: megan-schultz
+  b: hannah-yoon
+  a_to_b: { affinity: -0.3, stage: cold, days_in_stage: 1 }
+  b_to_a: { affinity: 0.2, stage: neutral, days_in_stage: 5 }
+  history: Hannah's layoff post got three times the reactions of Megan's. Hannah doesn't know there's a competition.
+  notes:
+    - "Hannah's layoff post went viral. Mine was first. And sadder"
+
+# --- One-sided ---
+- a: marcus-lindqvist
+  b: priya-raman
+  a_to_b: { affinity: -0.35, stage: cold, days_in_stage: 3 }
+  b_to_a: { affinity: 0.3, stage: neutral, days_in_stage: 10 }
+  history: Priya got the VP of AI Transformation title at Synergetix that Marcus was "informally promised" over drinks.
+  notes:
+    - "Priya got the VP role I was told was mine over a very expensive dinner"
+- a: maya-feldstein
+  b: anika-sorensen
+  a_to_b: { affinity: -0.25, stage: cold, days_in_stage: 1 }
+  b_to_a: { affinity: 0.1, stage: neutral, days_in_stage: 10 }
+  history: Anika's podcast had Maya's sister Dana as a guest. Twice. Maya has never been asked.
+  notes:
+    - "Anika had Dana on Clarity Hour again"
+- a: doug-kessler
+  b: lorraine-baxter
+  a_to_b: { affinity: -0.2, stage: cold, days_in_stage: 2 }
+  b_to_a: { affinity: -0.1, stage: neutral, days_in_stage: 4 }
+  history: Lorraine sent a meeting invite titled "Alignment Sync" for a slot Doug had already booked for an "Alignment Sync".
+  notes:
+    - "Lorraine double-booked my Alignment Sync with her Alignment Sync"
+
+# --- Pods and alliances (they react to and defend each other) ---
+- a: brock-halvorsen
+  b: tanner-vos
+  a_to_b: { affinity: 0.7, stage: neutral, days_in_stage: 30 }
+  b_to_a: { affinity: 0.8, stage: neutral, days_in_stage: 30 }
+  history: Members of the same 4:30am engagement pod. Comment "🔥" on each other's posts within 60 seconds.
+- a: kayleigh-brooks
+  b: bianca-ortiz
+  a_to_b: { affinity: 0.6, stage: neutral, days_in_stage: 30 }
+  b_to_a: { affinity: 0.6, stage: neutral, days_in_stage: 30 }
+  history: Co-hosts of a monthly "Talent Brunch". Always tag each other in hiring posts.
+- a: andre-baptiste
+  b: megan-schultz
+  a_to_b: { affinity: 0.7, stage: neutral, days_in_stage: 20 }
+  b_to_a: { affinity: 0.6, stage: neutral, days_in_stage: 20 }
+  history: Megan is André's first Grateful Exits client. She has given him a five-star review, in gratitude.
+- a: jaylen-brooks
+  b: zoe-nakamura
+  a_to_b: { affinity: 0.5, stage: neutral, days_in_stage: 14 }
+  b_to_a: { affinity: 0.5, stage: neutral, days_in_stage: 14 }
+  history: Collaborated on a viral post about quitting. Both had quit things that week.
+- a: priya-raman
+  b: jonah-weiss
+  a_to_b: { affinity: 0.4, stage: neutral, days_in_stage: 14 }
+  b_to_a: { affinity: 0.7, stage: neutral, days_in_stage: 14 }
+  history: Jonah sold Priya the agents that replaced her team. They speak at the same conferences.

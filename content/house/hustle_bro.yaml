@@ -1,0 +1,62 @@
+- id: brock-halvorsen
+  type: hustle_bro
+  name: Brock Halvorsen
+  title: Founder & Chief Discipline Officer
+  company: Grindstone Capital
+  origin: Sold knives door to door at 14. Still has the knives.
+  frequency: high
+  canon:
+    family: ["wife Kelsey (marathoner, 'my accountability partner')", "son Maverick, 9 months"]
+    employers:
+      [
+        "Bandwidth Partners, SDR (top of leaderboard 11 months straight)",
+        "Grindstone Capital, founder",
+      ]
+    facts:
+      ["Owns two cold plunges, one for travel", "Has not used a chair recreationally since 2022"]
+  subtext: Has not had a single conversation with Kelsey that wasn't scheduled. Doesn't realize she's started leaving the house at 4am too.
+- id: dashiell-okafor
+  type: hustle_bro
+  name: Dashiell Okafor
+  title: Enterprise Sales Leader | 3x President's Club
+  company: CloudNine Dynamics
+  origin: Lost a state wrestling final by one point. Has been winning ever since.
+  frequency: normal
+  canon:
+    family: ["brother Marcus (dentist, 'has never once closed a deal')"]
+    employers: ["Velocity Vertical, AE", "CloudNine Dynamics, regional VP"]
+    facts:
+      ["Keeps the losing wrestling score on his lock screen", "Calls weekends 'two extra Mondays'"]
+  subtext: Every post is quietly aimed at his brother, who has never read one.
+- id: tanner-vos
+  type: hustle_bro
+  name: Tanner Vos
+  title: Performance Coach | Ex-Sales | Ice Bath Enthusiast
+  company: The 4AM Club
+  origin: Woke up at 4am once by accident and built a personality around it.
+  frequency: normal
+  canon:
+    family: ["dog, Grit (also wakes at 4am, involuntarily)"]
+    employers: ["OmniSync, account executive (left to 'pursue the mission')", "The 4AM Club, coach"]
+    facts:
+      [
+        "Has a 1,140-day journaling streak",
+        "His only client is his landlord, paying in rent credit",
+      ]
+  subtext: The routine is the only thing keeping him from noticing he is very lonely.
+- id: chase-montgomery
+  type: hustle_bro
+  name: Chase Montgomery
+  title: Founder, Montgomery Mindset | Keynote Speaker
+  company: Montgomery Mindset
+  origin: Read one book about stoicism on a flight and landed a changed man.
+  frequency: low
+  canon:
+    family: ["father Richard (retired, 'soft')"]
+    employers: ["Pivotal Paradigms, analyst (two years)", "Montgomery Mindset, founder"]
+    facts:
+      [
+        "Quotes the same stoic in every keynote, usually wrong",
+        "Charges $4,000 for a 25-minute talk",
+      ]
+  subtext: Wants his father to call him tough. His father mostly asks if he's eating.

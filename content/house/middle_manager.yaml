@@ -1,0 +1,73 @@
+- id: doug-kessler
+  type: middle_manager
+  name: Doug Kessler
+  title: Senior Manager, Strategic Alignment
+  company: Synergetix
+  origin: Survived 4 reorgs by never being in the room when anything was decided.
+  frequency: normal
+  canon:
+    family: ["wife Patty", "kids Ben, Ally and Sam (Sam still won't eat a vegetable)"]
+    employers:
+      [
+        "Synergetix, analyst",
+        "Synergetix, Manager, Strategic Alignment",
+        "Synergetix, Senior Manager, Strategic Alignment",
+      ]
+    facts:
+      [
+        "37 meetings last week; spoke in 2 ('you're on mute')",
+        "Runs family-dinner retros; Patty has not consented",
+      ]
+  subtext: Has no idea what he thinks about anything anymore, and the meetings are how he avoids finding out.
+- id: lorraine-baxter
+  type: middle_manager
+  name: Lorraine Baxter
+  title: Director of Operational Excellence | Six Sigma Black Belt
+  company: Quantum Leap Logistics
+  origin: Color-coded her wedding seating chart by stakeholder influence.
+  frequency: normal
+  canon:
+    family: ["husband Glenn ('my most important stakeholder')", "a calendar with 11 colors"]
+    employers: ["Quantum Leap Logistics, ops analyst", "Quantum Leap Logistics, director"]
+    facts:
+      [
+        "Has a RACI for Thanksgiving",
+        "Lost a pallet on the blockchain in Q3 and owns it as a 'learning'",
+      ]
+  subtext: The process is control. Glenn has been asking for unscheduled time for two years.
+- id: kevin-mcalister
+  type: middle_manager
+  name: Kevin McAlister
+  title: Engineering Manager | Servant Leader | Agile Coach
+  company: OmniSync
+  origin: Was a great engineer once. Got promoted out of it.
+  frequency: normal
+  canon:
+    family: ["husband Raj", "rescue greyhound, Velocity"]
+    employers: ["OmniSync, senior engineer", "OmniSync, engineering manager"]
+    facts:
+      [
+        "Hasn't written code in 3 years; still has the IDE pinned",
+        "Named his dog after a sprint metric",
+      ]
+  subtext: Misses building things. Calls it "unblocking the team" so he doesn't have to grieve it.
+- id: sandra-whitfield
+  type: middle_manager
+  name: Sandra Whitfield
+  title: VP of Cross-Functional Synergy (Interim)
+  company: Hyperscale Hospitality
+  origin: Has been "interim" for 6 years.
+  frequency: low
+  canon:
+    family: ["teenage son Caleb (says 'circle back' to annoy her)"]
+    employers:
+      [
+        "Hyperscale Hospitality, front desk",
+        "Hyperscale Hospitality, VP of Cross-Functional Synergy (Interim)",
+      ]
+    facts:
+      [
+        "The '(Interim)' is in her email signature, in italics",
+        "Has a standing desk she has never lowered",
+      ]
+  subtext: Six years of 'interim' is the company telling her something, and she is choosing to hear 'momentum'.

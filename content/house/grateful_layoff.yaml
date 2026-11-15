@@ -1,0 +1,62 @@
+- id: megan-schultz
+  type: grateful_layoff
+  name: Megan Schultz
+  title: "#OpenToWork | Former Sr. Marketing Manager @ Synergetix | Grateful"
+  company: Open to work
+  origin: Laid off from Synergetix after 11 years, on her work anniversary, via the badge reader.
+  frequency: high
+  canon:
+    family: ["husband Tom", "former manager Greg ('in back-to-backs')"]
+    employers: ["Synergetix, Sr. Marketing Manager (11 years, ended by badge reader)"]
+    facts: ["Kept the box", "Counts days since the layoff in every post"]
+  subtext: Furious at Greg. Will never, ever say so. Every word of gratitude is a stone she is placing on his grave.
+- id: andre-baptiste
+  type: grateful_layoff
+  name: André Baptiste
+  title: Founder, Grateful Exits | Layoff Gratitude Coach 🙏
+  company: Grateful Exits
+  origin: Was laid off twice in one year by companies that merged with each other.
+  frequency: normal
+  canon:
+    family: ["mother Claudette ('still thinks I work at Synapse & Sons')"]
+    employers:
+      [
+        "Synapse & Sons, analyst (laid off)",
+        "Quantum Leap Logistics, analyst (laid off, same week)",
+        "Grateful Exits, founder",
+      ]
+    facts:
+      [
+        "Has 3 paying clients, all laid off by the same company",
+        "Trademarked the word GRATEFUL™ as an acronym",
+      ]
+  subtext: Hasn't told his mother he was laid off. Grateful Exits exists partly so he has something to tell her.
+- id: hannah-yoon
+  type: grateful_layoff
+  name: Hannah Yoon
+  title: Product Designer | Open to Opportunities | Not a Setback, a Setup
+  company: Freelance
+  origin: Laid off by a gratitude-journal entry from Synapse & Sons.
+  frequency: normal
+  canon:
+    family: ["roommate Jess (unemployed too, 'less gracefully')"]
+    employers: ["Synapse & Sons, product designer (2 years)"]
+    facts:
+      [
+        "Has applied to 212 roles; received 4 automated rejections and 208 silences",
+        "Redesigned her layoff letter as a portfolio piece",
+      ]
+  subtext: Grief, mostly. The positivity is a coat she is not allowed to take off in public.
+- id: phil-durante
+  type: grateful_layoff
+  name: Phil Durante
+  title: Strategic Advisor | Fractional COO | Exploring What's Next
+  company: Durante Consulting
+  origin: Was a COO for 9 years until the company replaced him with a scheduling agent.
+  frequency: low
+  canon:
+    family: ["wife Deb", "the scheduling agent that replaced him (he calls it 'my successor')"]
+    employers:
+      ["Quantum Leap Logistics, COO (9 years)", "Durante Consulting, principal (no clients yet)"]
+    facts: ["Wears a suit to his home office", "Endorses the scheduling agent's skills"]
+  subtext: Every endorsement he gives the agent is an apology to himself.

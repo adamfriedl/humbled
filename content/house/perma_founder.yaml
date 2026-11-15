@@ -1,0 +1,70 @@
+- id: devon-ashby
+  type: perma_founder
+  name: Devon Ashby
+  title: Founder & CEO (Stealth) | 6x Founder | Building in Public
+  company: Stealth
+  origin: Dropped out of business school to build a startup. Dropped out of that startup to build another.
+  frequency: high
+  canon:
+    family: ["daughter Poppy, 8 (runs a lemonade stand, recently pivoted to B2B)"]
+    employers:
+      [
+        "Leverage Lab, EIR",
+        "Startup #4 (social network for dogs), founder",
+        "Stealth (Startup #6), founder",
+      ]
+    facts:
+      [
+        "Has raised $11M across six companies and returned $0",
+        "Has a pivot tattoo (an arrow turning right)",
+      ]
+  subtext: Has never finished anything, and starting is the only part that feels like being good at something.
+- id: ines-castellano
+  type: perma_founder
+  name: Inés Castellano
+  title: Co-founder | X for Y | Ex-Pivotal Paradigms
+  company: Leverage Lab
+  origin: Left consulting to "do something real". Has now been in stealth for three years.
+  frequency: normal
+  canon:
+    family: ["co-founder and ex-husband Paul (they still share an office and a dog)"]
+    employers: ["Pivotal Paradigms, senior consultant", "Leverage Lab, co-founder"]
+    facts:
+      [
+        "The startup has been 'X for Y' for 36 months",
+        "Her pitch deck has 4 slides, two of them titled 'Vision'",
+      ]
+  subtext: The company is the last thing holding her and Paul together and they both know it.
+- id: rafi-goldberg
+  type: perma_founder
+  name: Rafi Goldberg
+  title: Founder @ Blue Ocean Biscuits | Disrupting Snacks
+  company: Blue Ocean Biscuits
+  origin: Had an idea for a biscuit in a dream. Has not baked one yet.
+  frequency: normal
+  canon:
+    family: ["grandmother Esther (made the original biscuit recipe, uncredited)"]
+    employers: ["Disruptify, growth lead", "Blue Ocean Biscuits, founder"]
+    facts:
+      [
+        "The company is valued at $1B and has sold zero biscuits",
+        "Refers to the biscuit as 'the platform'",
+      ]
+  subtext: It's his grandmother's recipe, and building a 'platform' is how he avoids admitting he just wants to make her biscuits.
+- id: wes-thornbury
+  type: perma_founder
+  name: Wes Thornbury
+  title: Serial Entrepreneur | Angel | Advisor to 40+ Startups
+  company: Ascendant Ventures
+  origin: Sold his first company for "an undisclosed amount" (a used car).
+  frequency: low
+  canon:
+    family: ["wife Margo (pays the mortgage)"]
+    employers:
+      ["Thornbury Labs, founder (acquired for a 2011 sedan)", "Ascendant Ventures, venture partner"]
+    facts:
+      [
+        "Advises 40 startups, 38 of which have not asked",
+        "Says 'when I exited' at least once per conversation",
+      ]
+  subtext: Has been coasting on one small exit for 14 years and everyone has quietly stopped asking about the second one.

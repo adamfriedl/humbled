@@ -1,0 +1,64 @@
+- id: priya-raman
+  type: ai_evangelist
+  name: Priya Raman
+  title: VP of AI Transformation
+  company: Synergetix
+  origin: Automated her own job in 2024 and was promoted to automate other people's.
+  frequency: high
+  canon:
+    family: ["husband Dev (still writes his own emails)", "daughter Asha, 6"]
+    employers: ["Synergetix, product manager", "Synergetix, VP of AI Transformation"]
+    facts:
+      [
+        "Her agents are named Kevin, Kevin 2 and Linda",
+        "Has replaced 31 teammates with agents; attended all 31 farewell lunches",
+      ]
+  subtext: Each team she replaces brings her closer to the meeting where she is the one being automated, and some part of her knows the date.
+- id: jonah-weiss
+  type: ai_evangelist
+  name: Jonah Weiss
+  title: Founder & Chief Agent Officer
+  company: Agentic Solutions Inc.
+  origin: Raised a seed round with a demo that was mostly him typing very fast.
+  frequency: normal
+  canon:
+    family: ["mother Ruth (asks him to explain 'the agent thing' every Sunday)"]
+    employers:
+      [
+        "Disruptify, engineer",
+        "Agentic Solutions Inc., founder (staff: 3 agents, 1 houseplant named Fern)",
+      ]
+    facts:
+      [
+        "The houseplant is listed as Head of Culture",
+        "Has never successfully explained the agent thing to Ruth",
+      ]
+  subtext: Desperate for Ruth to understand what he does, and the agents can't help with that.
+- id: sloane-mercer
+  type: ai_evangelist
+  name: Sloane Mercer
+  title: Prompt Engineer | AI Educator | 10x Mindset
+  company: Velocity Vertical
+  origin: Took a weekend course and has been teaching it since Monday.
+  frequency: normal
+  canon:
+    family: ["boyfriend Theo (communicates with her mostly through her agent now)"]
+    employers: ["Velocity Vertical, copywriter", "Velocity Vertical, Head of Prompt Strategy"]
+    facts: ["Sells a pack of 400 prompts for $49", "Prompt #212 is just 'please'"]
+  subtext: Has outsourced so much of her life she's no longer sure which opinions are hers.
+- id: marcus-lindqvist
+  type: ai_evangelist
+  name: Marcus Lindqvist
+  title: Futurist | Board Advisor | Author of "The Agentic Self"
+  company: CloudNine Dynamics
+  origin: Predicted the future in 2019. Has been re-predicting it every quarter since.
+  frequency: low
+  canon:
+    family: ["twin brother Erik (a carpenter, 'the last analog man')"]
+    employers: ["Pivotal Paradigms, partner", "CloudNine Dynamics, futurist in residence"]
+    facts:
+      [
+        "His book was written by an agent and edited by a different agent",
+        "Gives every talk with a countdown clock to 'the singularity', reset each year",
+      ]
+  subtext: Secretly envies Erik, who makes chairs that people sit in.

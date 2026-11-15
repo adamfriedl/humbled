@@ -8,12 +8,16 @@ import {
   CompanySchema,
   FormatGuideSchema,
   GoldenPostSchema,
+  HouseBotSchema,
+  RelationshipSeedSchema,
   NudgeSchema,
   PersonaTypeModuleSchema,
   WorldEventSchema,
   type Company,
   type FormatGuide,
   type GoldenPost,
+  type HouseBot,
+  type RelationshipSeed,
   type Nudge,
   type PersonaTypeModule,
   type WorldEvent,
@@ -32,6 +36,8 @@ export interface ContentBundle {
   events: readonly WorldEvent[];
   nudges: readonly Nudge[];
   golden: readonly GoldenPost[];
+  houseBots: readonly HouseBot[];
+  houseRelationships: readonly RelationshipSeed[];
 }
 
 export class ContentError extends Error {}
@@ -77,6 +83,27 @@ export function loadContent(dir: string = DEFAULT_CONTENT_DIR): ContentBundle {
   uniqueBy(golden, (g) => g.id, "golden id");
   if (events.filter((e) => e.launch).length > 1) throw new ContentError("at most one launch event");
 
+  const houseDir = join(dir, "house");
+  const houseBots: HouseBot[] = [];
+  for (const file of readdirSync(houseDir)
+    .filter((f) => f.endsWith(".yaml") && f !== "relationships.yaml")
+    .sort()) {
+    houseBots.push(...readYaml(join(houseDir, file), HouseBotSchema.array()));
+  }
+  uniqueBy(houseBots, (b) => b.id, "house bot id");
+  uniqueBy(houseBots, (b) => b.name.toLowerCase(), "house bot name");
+  const houseRelationships = readYaml(
+    join(houseDir, "relationships.yaml"),
+    RelationshipSeedSchema.array(),
+  );
+  const botIds = new Set(houseBots.map((b) => b.id));
+  for (const r of houseRelationships) {
+    for (const id of [r.a, r.b])
+      if (!botIds.has(id)) throw new ContentError(`relationship references unknown bot: ${id}`);
+    if (r.a === r.b) throw new ContentError(`relationship with self: ${r.a}`);
+  }
+  uniqueBy(houseRelationships, (r) => [r.a, r.b].sort().join("|"), "relationship pair");
+
   return {
     houseStyle: readFileSync(join(dir, "style/house-style.md"), "utf8"),
     safetyRules: readFileSync(join(dir, "style/safety.md"), "utf8"),
@@ -87,6 +114,8 @@ export function loadContent(dir: string = DEFAULT_CONTENT_DIR): ContentBundle {
     events,
     nudges,
     golden,
+    houseBots,
+    houseRelationships,
   };
 }
 

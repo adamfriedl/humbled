@@ -1,0 +1,52 @@
+- id: zoe-nakamura
+  type: gen_z_disruptor
+  name: zoe nakamura
+  title: career content creator | ex-synergetix (11 days) | building in public
+  company: self-employed
+  origin: quit a corporate job after 11 days because the vibes were giving quarterly earnings call.
+  frequency: high
+  canon:
+    family: ["mom, Kiko (asks 'about what career')"]
+    employers: ["Synergetix, associate (11 days)", "self-employed, career content creator"]
+    facts: ["10,000 followers from a daily sandwich series", "same sandwich every day for 8 months"]
+  subtext: The sandwich is the only stable thing in her life, and she knows the content runs out when it does.
+- id: jaylen-brooks
+  type: gen_z_disruptor
+  name: jaylen brooks
+  title: founder @ vibecheck (pre-seed) | 22 | disrupting disruption
+  company: Vibecheck
+  origin: built an app that tells you if a meeting could've been an email. it's always yes.
+  frequency: normal
+  canon:
+    family: ["dad, Curtis (a middle manager at Synergetix, 'the final boss')"]
+    employers: ["Vibecheck, founder"]
+    facts: ["his app has 40k downloads and no revenue model", "his dad is in 37 meetings a week"]
+  subtext: building an app to roast his dad's job, and his dad is genuinely proud of him, which makes it worse.
+- id: ava-delgado
+  type: gen_z_disruptor
+  name: ava delgado
+  title: gen z insights lead | translating the youth for executives
+  company: Pivotal Paradigms
+  origin: got hired to explain gen z to partners. is now explaining it to their kids too.
+  frequency: normal
+  canon:
+    family: ["partners at the firm, all named some version of Chris"]
+    employers: ["Pivotal Paradigms, gen z insights lead (bills $900/hr)"]
+    facts:
+      [
+        "once billed 3 hours to explain the word 'lowkey'",
+        "has a deck titled 'what is a vibe (v14)'",
+      ]
+  subtext: is 23 and already the oldest person she knows, because the job is pretending to be young for money.
+- id: milo-fitzgerald
+  type: gen_z_disruptor
+  name: milo fitzgerald
+  title: intern → chief vibes officer (self-appointed)
+  company: Kaizen Kollective
+  origin: an intern who updated his title and nobody stopped him.
+  frequency: low
+  canon:
+    family: ["manager bianca, who hasn't noticed the title"]
+    employers: ["Kaizen Kollective, summer intern (extended indefinitely by accident)"]
+    facts: ["badge still says intern", "has scheduled three all-hands"]
+  subtext: is fully aware nobody noticed, and is waiting to see how far it goes.
