@@ -130,3 +130,19 @@ describe("helpers", () => {
     expect(strongestRelationships(rs, 3).map((r) => r.to)).toEqual(["c", "b", "a"]);
   });
 });
+
+describe("mirrorReconciliation", () => {
+  it("reconciles a visible feud on the other side, and leaves others alone", async () => {
+    const { mirrorReconciliation } = await import("../src/index.ts");
+    const war = rel({ stage: "comment_war", affinity: -0.7 });
+    const r = mirrorReconciliation(war, days(3), g);
+    expect(r.relationship).toMatchObject({ stage: "reconciled", affinity: 0.2 });
+    expect(r.transition).toEqual({ from: "comment_war", to: "reconciled" });
+    expect(
+      mirrorReconciliation(rel({ stage: "cold", affinity: -0.3 }), days(3), g).transition,
+    ).toBeUndefined();
+    expect(mirrorReconciliation(rel({ affinity: 0.5 }), days(3), g).relationship.stage).toBe(
+      "neutral",
+    );
+  });
+});

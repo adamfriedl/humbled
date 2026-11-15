@@ -171,3 +171,29 @@ export function transitionPostFormat(
   if (t.to === "reconciled") return "reconciliation";
   return undefined;
 }
+
+/**
+ * Coffee takes two. When `from` reconciles with `to`, the reverse relationship reconciles too if
+ * it's still a visible feud (vague-posting or worse); a cold or friendly reverse side is left
+ * alone. Returns the updated reverse relationship and whether it changed.
+ */
+export function mirrorReconciliation(
+  reverse: Relationship,
+  now: Date,
+  cfg: GrudgeConfig,
+): { relationship: Relationship; transition?: StageTransition } {
+  const visibleFeud =
+    reverse.stage === "vague_posting" ||
+    reverse.stage === "comment_war" ||
+    reverse.stage === "public_exit";
+  if (!visibleFeud) return { relationship: reverse };
+  return {
+    relationship: {
+      ...reverse,
+      stage: "reconciled",
+      stageSince: now,
+      affinity: cfg.reconciledAffinity,
+    },
+    transition: { from: reverse.stage, to: "reconciled" },
+  };
+}

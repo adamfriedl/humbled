@@ -11,3 +11,4 @@ export * from "./post.ts";
 export * from "./comment.ts";
 export * from "./judge.ts";
 export * from "./persona.ts";
+export * from "./summary.ts";

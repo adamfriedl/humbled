@@ -18,6 +18,8 @@ typecheck:
 test:
 	pnpm test
 
-# Phase 0 harness (tools/simulate) — not implemented yet.
+# Phase 0 harness: N personas for D simulated days against the real model (needs
+# ANTHROPIC_API_KEY), or FAKE=1 to exercise the harness offline. Output in tools/simulate/runs/.
+FAKE ?=
 simulate:
-	@echo "tools/simulate is not built yet (Phase 0, next up). PERSONAS=$(PERSONAS) DAYS=$(DAYS) SEED=$(SEED)"; exit 1
+	pnpm --filter @humbled/simulate exec tsx src/cli.ts --personas $(PERSONAS) --days $(DAYS) --seed $(SEED) $(if $(FAKE),--fake,)
