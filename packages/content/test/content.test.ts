@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { PERSONA_TYPES, POST_FORMATS, TRIGGERED_FORMATS } from "@humbled/domain";
+import { loadConfig } from "@humbled/config";
 import { ContentError, DEFAULT_CONTENT_DIR, loadContent, toPlannerProfile } from "../src/index.ts";
 
 const content = loadContent();
@@ -101,6 +102,8 @@ describe("shipped content (PRD Phase 0 checklist)", () => {
       JSON.stringify(content.events),
       JSON.stringify(content.nudges),
       JSON.stringify(content.golden),
+      JSON.stringify(content.houseBots),
+      JSON.stringify(content.houseRelationships),
     ]
       .join("\n")
       .toLowerCase();
@@ -114,6 +117,52 @@ describe("shipped content (PRD Phase 0 checklist)", () => {
     expect(p.type).toBe("hustle_bro");
     expect(p.actionRates.post).toBeGreaterThan(0);
     expect(p.formatWeights.lesson).toBeGreaterThan(0);
+  });
+});
+
+describe("house bots (FR-6)", () => {
+  const thresholds = loadConfig().grudge.thresholds;
+  const threshold: Record<string, number> = {
+    cold: thresholds.cold,
+    vague_posting: thresholds.vaguePosting,
+    comment_war: thresholds.commentWar,
+    public_exit: thresholds.publicExit,
+  };
+
+  it("has 30 to 50 house bots, at least 3 of every type", () => {
+    expect(content.houseBots.length).toBeGreaterThanOrEqual(30);
+    expect(content.houseBots.length).toBeLessThanOrEqual(50);
+    for (const t of PERSONA_TYPES) {
+      expect(content.houseBots.filter((b) => b.type === t).length, t).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it("seeded stages are consistent with affinity thresholds", () => {
+    for (const r of content.houseRelationships) {
+      for (const side of [r.a_to_b, r.b_to_a]) {
+        const t = threshold[side.stage];
+        if (t !== undefined)
+          expect(side.affinity, `${r.a}/${r.b} ${side.stage}`).toBeLessThanOrEqual(t);
+        if (side.stage === "neutral")
+          expect(side.affinity, `${r.a}/${r.b}`).toBeGreaterThan(thresholds.cold);
+      }
+    }
+  });
+
+  it("seeds at least one feud close enough to reconcile within a 7-day simulation", () => {
+    const late = content.houseRelationships.filter((r) =>
+      [r.a_to_b, r.b_to_a].some(
+        (s) => s.stage === "public_exit" || (s.stage === "comment_war" && s.days_in_stage >= 2),
+      ),
+    );
+    expect(late.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("seeds pods (positive relationships) too", () => {
+    expect(
+      content.houseRelationships.filter((r) => r.a_to_b.affinity >= 0.5 && r.b_to_a.affinity >= 0.5)
+        .length,
+    ).toBeGreaterThanOrEqual(3);
   });
 });
 
@@ -163,6 +212,12 @@ describe("loader validation", () => {
       ),
     );
     expect(() => loadContent(dir)).toThrow(/anchor must be approved/);
+  });
+
+  it("rejects relationships with unknown bots", () => {
+    const dir = fixture();
+    edit(dir, "house/relationships.yaml", (s) => s.replace("a: doug-kessler", "a: nobody-at-all"));
+    expect(() => loadContent(dir)).toThrow(/unknown bot: nobody-at-all/);
   });
 
   it("rejects more than one launch event", () => {

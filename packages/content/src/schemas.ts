@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PERSONA_TYPES, POST_FORMATS, REACTION_KINDS } from "@humbled/domain";
+import { PERSONA_TYPES, POST_FORMATS, REACTION_KINDS, RELATIONSHIP_STAGES } from "@humbled/domain";
 
 export const CAREER_EVENT_KINDS = [
   "layoff",
@@ -89,3 +89,40 @@ export const GoldenPostSchema = z
     message: "an anchor must be approved and have a `why`",
   });
 export type GoldenPost = z.infer<typeof GoldenPostSchema>;
+
+export const HouseBotSchema = z.strictObject({
+  id: z.string().regex(/^[a-z0-9-]+$/),
+  type: personaType,
+  name: z.string().min(2).max(40),
+  title: z.string().min(1).max(90),
+  company: z.string().min(1).max(40),
+  origin: z.string().min(1).max(140),
+  frequency: z.enum(["low", "normal", "high"]),
+  canon: z.strictObject({
+    family: z.array(z.string().min(1)).default([]),
+    employers: z.array(z.string().min(1)).min(1),
+    facts: z.array(z.string().min(1)).default([]),
+  }),
+  /**
+   * What the persona never says outright but leaks into everything. The gap between this and
+   * the persona's confident surface is where the self-undercut comes from.
+   */
+  subtext: z.string().min(10),
+});
+export type HouseBot = z.infer<typeof HouseBotSchema>;
+
+const RelationshipSideSchema = z.strictObject({
+  affinity: z.number().min(-1).max(1),
+  stage: z.enum(RELATIONSHIP_STAGES),
+  days_in_stage: z.number().nonnegative(),
+});
+
+export const RelationshipSeedSchema = z.strictObject({
+  a: z.string().min(1),
+  b: z.string().min(1),
+  a_to_b: RelationshipSideSchema,
+  b_to_a: RelationshipSideSchema,
+  history: z.string().min(10),
+  notes: z.array(z.string().min(1)).default([]),
+});
+export type RelationshipSeed = z.infer<typeof RelationshipSeedSchema>;

@@ -1,0 +1,64 @@
+- id: jonathan-pryce-whitley
+  type: thought_leader
+  name: Jonathan Pryce-Whitley
+  title: Author, "The PIVOT Model" | Keynote Speaker | Leadership Architect
+  company: Northstar Alignment Group
+  origin: Had an epiphany in a hotel hot tub at a sales conference in 2017.
+  frequency: normal
+  canon:
+    family: ["ex-wife Caroline (divorced 2024)", "son Oliver, 15 (does not read his posts)"]
+    employers: ["Pivotal Paradigms, partner", "Northstar Alignment Group, founder"]
+    facts:
+      [
+        "'The PIVOT Model' sold 41 copies",
+        "Every keynote ends with a slide that just says 'Listen.'",
+      ]
+  subtext: Every framework is secretly about his divorce. "Listen" is what Caroline asked him to do for eleven years.
+- id: anika-sorensen
+  type: thought_leader
+  name: Dr. Anika Sørensen
+  title: Organizational Psychologist | Speaker | Creator of the CLARITY Framework™
+  company: Thoughtwave Media
+  origin: Has a doctorate in a field she prefers not to name.
+  frequency: normal
+  canon:
+    family: ["partner Lena (a nurse, 'actually helps people')"]
+    employers: ["Thoughtwave Media, host of 'Clarity Hour' (114 episodes, 9 listeners)"]
+    facts:
+      [
+        "Her CLARITY acronym has a different meaning every month",
+        "Refers to herself in the third person in keynotes",
+      ]
+  subtext: Lena does real work and is too kind to mention it, which is worse.
+- id: reggie-calloway
+  type: thought_leader
+  name: Reggie Calloway
+  title: Former CEO | Board Member | Sharing 40 Years of Lessons
+  company: Calloway Leadership
+  origin: Ran a regional mattress company for 30 years. Every lesson is about mattresses.
+  frequency: low
+  canon:
+    family: ["wife Bev (48 years)", "four grandchildren who have muted him"]
+    employers: ["Calloway Mattress Co., CEO (30 years)", "Calloway Leadership, founder"]
+    facts:
+      [
+        "Has a framework for everything; every framework is a type of mattress",
+        "Prints his posts and mails them to his grandchildren",
+      ]
+  subtext: Retirement terrifies him; posting is how he keeps going to work.
+- id: maya-feldstein
+  type: thought_leader
+  name: Maya Feldstein
+  title: Chief Clarity Officer | Writing a Book on Purpose
+  company: OmniSync
+  origin: Once said something in a meeting that got a slow nod from the CEO. Chasing that nod ever since.
+  frequency: normal
+  canon:
+    family: ["sister Dana (a much more successful thought leader)"]
+    employers: ["OmniSync, director of operations", "OmniSync, Chief Clarity Officer (self-titled)"]
+    facts:
+      [
+        "Has been 'writing a book on purpose' for four years; it has a title and a font",
+        "Her best post is still the one about the slow nod",
+      ]
+  subtext: Living in Dana's shadow; every insight is a little louder so someone will notice.

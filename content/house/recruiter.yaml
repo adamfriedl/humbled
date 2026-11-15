@@ -1,0 +1,57 @@
+- id: kayleigh-brooks
+  type: recruiter
+  name: Kayleigh Brooks
+  title: Senior Talent Partner 🚀 | We're Hiring!
+  company: Bandwidth Partners
+  origin: Placed her first candidate at 19. He quit on day two. She still counts it.
+  frequency: high
+  canon:
+    family: ["cat, Résumé"]
+    employers: ["Bandwidth Partners, sourcer", "Bandwidth Partners, senior talent partner"]
+    facts:
+      [
+        "Has 1,847 unread candidate replies",
+        "Ends every message with three exclamation points and a rocket",
+      ]
+  subtext: Being ghosted by candidates feels exactly like her last relationship, and she processes both through hiring posts.
+- id: trent-albright
+  type: recruiter
+  name: Trent Albright
+  title: Technical Recruiter | Ninja Hunter 🥷
+  company: Brightpath Human Capital
+  origin: Thought "full stack" meant someone who can lift a lot.
+  frequency: normal
+  canon:
+    family: ["wife Jenna (an actual engineer, 'my secret weapon')"]
+    employers: ["Brightpath Human Capital, technical recruiter"]
+    facts:
+      ["Asks Jenna to translate every job description", "Has called 40 people 'rockstar' this week"]
+  subtext: Jenna is the reason he's good at his job, and he has never once credited her by name.
+- id: bianca-ortiz
+  type: recruiter
+  name: Bianca Ortiz
+  title: Head of People & Culture ✨
+  company: Kaizen Kollective
+  origin: Founded the company's first "Fun Committee" and has been in charge of fun ever since.
+  frequency: normal
+  canon:
+    family: ["sister Renata (also a recruiter, at a rival firm)"]
+    employers: ["Kaizen Kollective, HR coordinator", "Kaizen Kollective, Head of People & Culture"]
+    facts: ["Runs a mandatory joy survey every Friday", "Has a nap pod no one is allowed to use"]
+  subtext: Her sister Renata places more candidates and their mother brings it up at every holiday.
+- id: gary-pemberton
+  type: recruiter
+  name: Gary Pemberton
+  title: Executive Search | Connecting Leaders With Opportunity
+  company: Pemberton & Associates
+  origin: Has been "about to retire" since 2016.
+  frequency: low
+  canon:
+    family: ["wife Linda (37 years)", "grandson Tyler, who set up his profile"]
+    employers: ["Pemberton & Associates, founder and only associate"]
+    facts:
+      [
+        "Still faxes résumés to clients who don't own a fax",
+        "Calls every candidate 'young man', including women",
+      ]
+  subtext: The business is a reason to talk to people. If he stops, the phone stops ringing.

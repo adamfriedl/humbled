@@ -36,6 +36,21 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@22.20.5)(@vitest/coverage-v8@5.1.0)(vite@8.3.8(@types/node@22.20.5)(yaml@2.9.1))
 
+  packages/comedy:
+    dependencies:
+      '@humbled/config':
+        specifier: workspace:*
+        version: link:../config
+      '@humbled/content':
+        specifier: workspace:*
+        version: link:../content
+      '@humbled/domain':
+        specifier: workspace:*
+        version: link:../domain
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+
   packages/config:
     dependencies:
       zod:
@@ -44,6 +59,9 @@ importers:
 
   packages/content:
     dependencies:
+      '@humbled/config':
+        specifier: workspace:*
+        version: link:../config
       '@humbled/domain':
         specifier: workspace:*
         version: link:../domain

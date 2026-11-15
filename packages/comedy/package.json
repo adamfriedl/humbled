@@ -1,0 +1,22 @@
+{
+  "name": "@humbled/comedy",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@humbled/config": "workspace:*",
+    "@humbled/content": "workspace:*",
+    "@humbled/domain": "workspace:*",
+    "zod": "^4.6.7"
+  }
+}

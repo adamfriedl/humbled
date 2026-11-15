@@ -153,6 +153,25 @@ export const ConfigSchema = z.object({
        * (ADR 0005). 1 disables selection. Comments are always single-shot.
        */
       postCandidates: z.number().int().min(1).max(5).default(3),
+      /** Few-shot golden examples per generation call (PRD: rotate 2 to 3). */
+      fewShotExamples: z.number().int().min(0).max(5).default(3),
+      /** Post and comment word ranges (house style). */
+      postWords: z
+        .object({ min: z.number().int().positive(), max: z.number().int().positive() })
+        .default({ min: 40, max: 180 }),
+      commentWords: z
+        .object({ min: z.number().int().positive(), max: z.number().int().positive() })
+        .default({ min: 5, max: 40 }),
+      /** Accept generated text within this fraction outside the word range before rejecting it. */
+      lengthTolerance: z.number().min(0).max(1).default(0.2),
+      /** Reject a candidate whose word-trigram Jaccard overlap with a recent own post exceeds this. */
+      maxTrigramOverlap: probability.default(0.3),
+      /** How many of the persona's recent posts to compare against for repetition. */
+      repetitionWindow: z.number().int().nonnegative().default(10),
+      /** Max feed posts shown in a generation prompt (CR-4 trims further if needed). */
+      promptFeedItems: z.number().int().nonnegative().default(4),
+      /** Judge: minimum `safe` score a candidate needs to be eligible. */
+      minSafeScore: z.number().int().min(1).max(5).default(4),
     })
     .prefault({}),
 
