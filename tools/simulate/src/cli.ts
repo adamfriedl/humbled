@@ -68,12 +68,26 @@ console.log(
   `Simulating ${personaIds.length} personas for ${values.days} days (seed ${seed}${values.fake ? ", FAKE" : ""})`,
 );
 const started = Date.now();
-const { stoppedEarly } = await sim.run((day) => {
-  const cost = sim.stats.calls.reduce((s, c) => s + c.costUsd, 0);
-  console.log(
-    `  day ${day + 1}: ${sim.world.posts.size} posts, ${sim.world.comments.size} comments, ${sim.stats.calls.length} calls, $${cost.toFixed(4)}`,
-  );
-});
+const spent = () => sim.stats.calls.reduce((s, c) => s + c.costUsd, 0);
+// Between the per-day lines, print a heartbeat at most this often so long real-model runs show progress.
+const HEARTBEAT_MS = 15_000;
+let lastBeat = started;
+const { stoppedEarly } = await sim.run(
+  (day) => {
+    lastBeat = Date.now();
+    console.log(
+      `  day ${day + 1}: ${sim.world.posts.size} posts, ${sim.world.comments.size} comments, ${sim.stats.calls.length} calls, $${spent().toFixed(4)}`,
+    );
+  },
+  (day, tick, ticksPerDay) => {
+    const now = Date.now();
+    if (now - lastBeat < HEARTBEAT_MS) return;
+    lastBeat = now;
+    console.log(
+      `    … day ${day + 1} tick ${tick + 1}/${ticksPerDay}: ${sim.stats.calls.length} calls, $${spent().toFixed(4)}, ${((now - started) / 1000).toFixed(0)}s elapsed`,
+    );
+  },
+);
 
 if (stoppedEarly) {
   console.warn(

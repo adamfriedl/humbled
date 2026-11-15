@@ -48,8 +48,15 @@ describe("Simulation (fake LLM)", () => {
   it("runs, posts, comments, and stays within quotas", async () => {
     const sim = makeSim();
     const days: number[] = [];
-    await sim.run((d) => days.push(d));
+    const ticks: [number, number, number][] = [];
+    await sim.run(
+      (d) => days.push(d),
+      (d, t, n) => ticks.push([d, t, n]),
+    );
     expect(days).toEqual([0, 1]);
+    const perDay = ticks[0]![2];
+    expect(ticks).toHaveLength(2 * perDay);
+    expect(ticks.at(-1)).toEqual([1, perDay - 1, perDay]);
     expect(sim.world.posts.size).toBeGreaterThan(0);
     expect(sim.world.comments.size).toBeGreaterThan(0);
     for (const p of sim.world.personas.values()) {

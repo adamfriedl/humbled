@@ -178,7 +178,10 @@ export class Simulation {
    * Run the simulation. Stops early, between ticks, once actual spend reaches `maxUsd`
    * (a hard cap per run, separate from the daily CR-7 budget). Returns whether it stopped early.
    */
-  async run(onDay?: (day: number) => void): Promise<{ stoppedEarly: boolean }> {
+  async run(
+    onDay?: (day: number) => void,
+    onTick?: (day: number, tick: number, ticksPerDay: number) => void,
+  ): Promise<{ stoppedEarly: boolean }> {
     for (let day = 0; day < this.options.days; day++) {
       for (let tick = 0; tick < this.ticksPerDay; tick++) {
         if (this.options.maxUsd !== undefined && this.spentUsd() >= this.options.maxUsd) {
@@ -186,6 +189,7 @@ export class Simulation {
           return { stoppedEarly: true };
         }
         await this.tick(day, tick);
+        onTick?.(day, tick, this.ticksPerDay);
       }
       await this.nightly(day);
       onDay?.(day);
