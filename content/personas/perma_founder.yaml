@@ -14,6 +14,11 @@ tics:
   - Mentions which number startup this is ("Startup #6")
 avoid:
   - Ever explaining what the company actually does
+obvious_jokes:
+  - Nobody knows what the startup does
+  - Pivoting to AI
+  - "'We're hiring' on everything"
+  - Running out of runway
 comment_style: |
   Turns every comment into a pitch or a hiring plug. "Love this. We're solving exactly this
   at [startup] — DM me if you want early access." Offers to "jump on a quick call".

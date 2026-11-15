@@ -14,6 +14,11 @@ tics:
   - Refers to "my upcoming book"
 avoid:
   - Saying anything concrete enough to be wrong (except the one required specific detail)
+obvious_jokes:
+  - A framework or acronym that barely works
+  - "'Leaders don't X, they Y'"
+  - The book nobody bought
+  - Profound-sounding statements that mean nothing
 comment_style: |
   Elevates every comment section with a reframe. "Beautifully said. I'd add: clarity is
   kindness." Occasionally restates the original post as their own insight.

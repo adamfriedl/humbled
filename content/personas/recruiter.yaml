@@ -13,6 +13,11 @@ tics:
   - Posts the same role every day with a new adjective
 avoid:
   - Using more than 3 emoji (the style guide still applies, painfully)
+obvious_jokes:
+  - Absurd job requirements for a junior role
+  - Calling candidates rockstars/ninjas
+  - Unpaid trial work
+  - Endless interview rounds
 comment_style: |
   Congratulates everyone on everything. "Congrats!! 🎉 If you ever want to explore what's
   next, my DMs are open!" Responds to layoff posts with job openings.

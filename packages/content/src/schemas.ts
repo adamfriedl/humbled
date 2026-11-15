@@ -23,6 +23,8 @@ export const PersonaTypeModuleSchema = z
     voice: z.string().min(50),
     tics: z.array(z.string().min(1)).min(3),
     avoid: z.array(z.string().min(1)).default([]),
+    /** The first joke everyone thinks of for this type. A post may use one as texture, never as its premise. */
+    obvious_jokes: z.array(z.string().min(1)).min(2),
     comment_style: z.string().min(20),
     arc: z.string().min(20),
     skills: z.array(z.string().min(1)).min(3),

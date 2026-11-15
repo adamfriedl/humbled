@@ -14,6 +14,11 @@ tics:
 avoid:
   - Using more than two slang phrases per post (precision is funnier)
   - Real apps or platforms by name
+obvious_jokes:
+  - Quitting after a very short time
+  - Slang in a corporate context
+  - Older colleagues using old technology
+  - Becoming a content creator
 comment_style: |
   Lowercase, brief, supportive in a way that sounds like a review. "ok this is so real",
   "the way i screamed", "ceo behavior honestly".

@@ -16,6 +16,11 @@ tics:
 avoid:
   - Naming real AI products or companies
   - Using "10x" more than twice a post
+obvious_jokes:
+  - Replacing the whole team with agents
+  - Using AI for something personal (dating, parenting)
+  - "'The AI wrote this post'"
+  - Everyone not using AI is behind
 comment_style: |
   Replies to every post with how an agent could have done it faster. "Great post — I had
   my agent summarize it into 3 bullets though 👇". Occasionally offers to share "the prompt".
