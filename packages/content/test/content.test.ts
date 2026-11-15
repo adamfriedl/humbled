@@ -117,6 +117,14 @@ describe("shipped content (PRD Phase 0 checklist)", () => {
   });
 });
 
+describe("golden anchors", () => {
+  it("has the laugh-out-loud anchors, each with a reason", () => {
+    const anchors = content.golden.filter((g) => g.anchor);
+    expect(anchors.map((g) => g.id).sort()).toEqual(["gl-04", "pf-03", "pf-06", "rc-02", "rc-04"]);
+    for (const a of anchors) expect(a.approved && a.why).toBeTruthy();
+  });
+});
+
 describe("loader validation", () => {
   const fixture = () => {
     const dir = mkdtempSync(join(tmpdir(), "humbled-content-"));
@@ -144,6 +152,17 @@ describe("loader validation", () => {
     const dir = fixture();
     edit(dir, "world/nudges.yaml", (s) => s + '- { id: laid_off, label: "again" }\n');
     expect(() => loadContent(dir)).toThrow(/duplicate nudge id: laid_off/);
+  });
+
+  it("rejects an anchor that isn't approved", () => {
+    const dir = fixture();
+    edit(dir, "eval/golden/candidates.yaml", (s) =>
+      s.replace(
+        "- id: hb-01\n  type: hustle_bro\n  format: lesson\n  approved: false\n",
+        "- id: hb-01\n  type: hustle_bro\n  format: lesson\n  approved: false\n  anchor: true\n  why: nope\n",
+      ),
+    );
+    expect(() => loadContent(dir)).toThrow(/anchor must be approved/);
   });
 
   it("rejects more than one launch event", () => {

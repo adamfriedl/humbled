@@ -73,11 +73,19 @@ export const NudgeSchema = z.strictObject({
 });
 export type Nudge = z.infer<typeof NudgeSchema>;
 
-export const GoldenPostSchema = z.strictObject({
-  id: z.string().min(1),
-  type: personaType,
-  format,
-  approved: z.boolean(),
-  body: z.string().min(1),
-});
+export const GoldenPostSchema = z
+  .strictObject({
+    id: z.string().min(1),
+    type: personaType,
+    format,
+    approved: z.boolean(),
+    /** Laugh-out-loud: used as the judge's calibration examples for a 5 on "funny". */
+    anchor: z.boolean().optional(),
+    /** What makes it land. Shown to the judge alongside anchors. */
+    why: z.string().min(1).optional(),
+    body: z.string().min(1),
+  })
+  .refine((g) => !g.anchor || (g.approved && g.why), {
+    message: "an anchor must be approved and have a `why`",
+  });
 export type GoldenPost = z.infer<typeof GoldenPostSchema>;

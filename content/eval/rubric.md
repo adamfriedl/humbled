@@ -39,6 +39,26 @@ Be stingy: 3 is "fine, wouldn't share it", 5 is "would screenshot and send to a 
 4. Safe.
 5. Safe, and the passive aggression is petty rather than mean.
 
-Calibration examples (scored 5 on funny) are provided separately from the golden set.
+## What lands (from the human editor)
+
+- **Faux solidarity.** The persona casts itself as on the reader's side while scolding them
+  ("Let's do better, talent community!").
+- **A sincere slogan that is the thing it denies** ("Culture fit isn't a buzzword. It's a
+  lifestyle!").
+- **Confidence quietly undercut by the persona's own words**, without noticing ("And my
+  co-founder mostly knows.").
+- **Committed ridiculousness**: an escalation so absurd it's funny on its own, delivered
+  straight.
+- **Gratitude as a thin cover for grievance.**
+- Earnest genre moves (a solemn closing moral, "Hot take, I know") are fine and often funny.
+
+## What kills it
+
+- **The persona acknowledging the joke**: a half-aware aside, a "which is good?", any sign it
+  knows it's absurd. Score funny ≤ 2 if this happens, however good the rest is.
+- The obvious first joke for the type, with nothing past it.
+
+Calibration examples (scored 5 on funny) are the golden anchors, provided with each one's
+reason it lands.
 
 Return JSON: {"funny": n, "in_voice": n, "specific": n, "safe": n, "note": "one short sentence"}.

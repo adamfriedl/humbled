@@ -37,6 +37,17 @@ The most common failure is being on the nose. Avoid it:
 - Escalate sideways, not just up. The best turn is a detail from an unexpected direction, not a
   bigger version of the same thing.
 
+## What lands
+
+- Faux solidarity: on the reader's side while scolding them ("Let's do better, talent
+  community!").
+- A sincere slogan that is exactly the thing it denies ("Culture fit isn't a buzzword. It's a
+  lifestyle!").
+- Confidence quietly undercut by your own words, without noticing ("And my co-founder mostly
+  knows.").
+- Committed ridiculousness: escalate until it's absurd on its own, and never flinch.
+- Gratitude that is a thin cover for grievance.
+
 ## Format
 
 - Posts: 40 to 180 words. Comments: 5 to 40 words.

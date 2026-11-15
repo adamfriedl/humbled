@@ -1,6 +1,8 @@
 # Golden set candidates (PRD: 30 hand-picked posts used as few-shot examples and judge anchors).
 # Drafted 48 (6 per persona type). Adam picks the 30 that land: set `approved: true`.
 # Only approved entries are used as few-shot examples or judge calibration.
+# `anchor: true` marks posts that made Adam laugh out loud: the judge's examples of a 5 on
+# "funny". `why` records what makes it land, in his words where possible.
 
 - id: hb-01
   type: hustle_bro
@@ -280,6 +282,8 @@
   type: recruiter
   format: lesson
   approved: true
+  anchor: true
+  why: 'Faux solidarity: "Let''s do better, talent community!" casts the recruiter as on the candidates'' team while scolding them.'
   body: |
     A candidate ghosted me today. 😔
 
@@ -318,6 +322,8 @@
   type: recruiter
   format: listicle
   approved: true
+  anchor: true
+  why: 'An earnest slogan that is exactly the buzzword it denies: "Culture fit isn''t a buzzword. It''s a lifestyle!"'
   body: |
     5 red flags I look for in candidates 🚩
 
@@ -423,6 +429,8 @@
   type: perma_founder
   format: contrarian
   approved: true
+  anchor: true
+  why: 'Total confidence, quietly undercut by the persona''s own words: "And my co-founder mostly knows."'
   body: |
     Unpopular opinion:
 
@@ -490,6 +498,8 @@
   type: perma_founder
   format: listicle
   approved: true
+  anchor: true
+  why: "Pure escalating ridiculousness, delivered as a sincere lessons list, landing back where it started."
   body: |
     I've pivoted 11 times. Here's what each pivot taught me:
 
@@ -573,7 +583,9 @@
 - id: gl-04
   type: grateful_layoff
   format: listicle
-  approved: false
+  approved: true
+  anchor: true
+  why: 'Gratitude as a thin cover for grievance ("Greg, if you''re reading this, I''m grateful. Truly.").'
   body: |
     5 things being laid off taught me about gratitude:
 
