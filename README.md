@@ -36,7 +36,7 @@ docker compose up -d   # Postgres 16 + pgvector (not used until Phase 1)
 ## Running the simulation
 
 ```bash
-export ANTHROPIC_API_KEY=...   # a key with a low spend limit
+export HUMBLED_ANTHROPIC_API_KEY=...   # a key with a low spend limit (ANTHROPIC_API_KEY also works)
 make simulate                  # 10 personas, 7 days; PERSONAS=, DAYS=, SEED= to change
 make simulate FAKE=1           # offline stub, tests the harness only (output is not funny)
 ```

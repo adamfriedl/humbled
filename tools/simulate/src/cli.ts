@@ -36,10 +36,12 @@ let llm: LLMClient;
 if (values.fake) {
   llm = new FakeLLMClient(fakeResponder, config.llm);
 } else {
-  const apiKey = process.env.ANTHROPIC_API_KEY ?? "";
+  // HUMBLED_ANTHROPIC_API_KEY first, so the key can live in a shared environment (e.g. a
+  // cloud dev container) without other tools picking it up as their own ANTHROPIC_API_KEY.
+  const apiKey = process.env.HUMBLED_ANTHROPIC_API_KEY ?? process.env.ANTHROPIC_API_KEY ?? "";
   if (!apiKey) {
     console.error(
-      "ANTHROPIC_API_KEY is not set. Set it, or run with FAKE=1 to test the harness offline.",
+      "Set HUMBLED_ANTHROPIC_API_KEY (or ANTHROPIC_API_KEY), or run with FAKE=1 to test the harness offline.",
     );
     process.exit(2);
   }
