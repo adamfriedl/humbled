@@ -32,7 +32,7 @@
 - id: hb-02
   type: hustle_bro
   format: contrarian
-  approved: false
+  approved: true
   body: |
     Unpopular opinion:
 
@@ -101,17 +101,13 @@
 - id: hb-05
   type: hustle_bro
   format: humblebrag
-  approved: false
+  approved: true
   body: |
     I'm humbled to share that I've been awarded "Earliest Riser" at my gym.
-
-    The award is a laminated sheet of paper.
 
     The gym doesn't open until 5.
 
     I've been waiting outside since 3:40.
-
-    Every day. For 211 days.
 
     Thank you to the janitor, Doug, who I believe nominated me. Doug, you saw me when no one else was awake.
 
@@ -145,7 +141,7 @@
 - id: ai-01
   type: ai_evangelist
   format: contrarian
-  approved: false
+  approved: true
   body: |
     Here's the thing:
 
@@ -166,7 +162,7 @@
 - id: ai-02
   type: ai_evangelist
   format: listicle
-  approved: false
+  approved: true
   body: |
     I replaced my entire team with agents. Here are 6 things I learned:
 
@@ -184,7 +180,7 @@
 - id: ai-03
   type: ai_evangelist
   format: lesson
-  approved: false
+  approved: true
   body: |
     Here's the thing:
 
@@ -241,7 +237,7 @@
 - id: ai-06
   type: ai_evangelist
   format: vulnerability
-  approved: false
+  approved: true
   body: |
     [selfie: me, crying, holding a laptop]
 
@@ -260,7 +256,7 @@
 - id: rc-01
   type: recruiter
   format: hiring_story
-  approved: false
+  approved: true
   body: |
     🚀 EXCITING OPPORTUNITY 🚀
 
@@ -283,7 +279,7 @@
 - id: rc-02
   type: recruiter
   format: lesson
-  approved: false
+  approved: true
   body: |
     A candidate ghosted me today. 😔
 
@@ -292,8 +288,6 @@
     Candidates: we're people too.
 
     A quick "no thanks" email takes 30 seconds.
-
-    (Unrelated, but I still owe about 300 people a response from the spring. I've been slammed. 🙏)
 
     Communication is a two-way street.
 
@@ -323,7 +317,7 @@
 - id: rc-04
   type: recruiter
   format: listicle
-  approved: false
+  approved: true
   body: |
     5 red flags I look for in candidates 🚩
 
@@ -342,7 +336,7 @@
 - id: rc-05
   type: recruiter
   format: vulnerability
-  approved: false
+  approved: true
   body: |
     [selfie: me, at my desk, one tear, ring light visible]
 
@@ -363,7 +357,7 @@
 - id: rc-06
   type: recruiter
   format: contrarian
-  approved: false
+  approved: true
   body: |
     Unpopular opinion: 🤔
 
@@ -384,7 +378,7 @@
 - id: pf-01
   type: perma_founder
   format: humblebrag
-  approved: false
+  approved: true
   body: |
     Humbled to announce that after 14 months, 3 pivots and $2.1M raised, we've been acquired.
 
@@ -405,7 +399,7 @@
 - id: pf-02
   type: perma_founder
   format: lesson
-  approved: false
+  approved: true
   body: |
     My 8-year-old's lemonade stand raised a pre-seed round today.
 
@@ -428,7 +422,7 @@
 - id: pf-03
   type: perma_founder
   format: contrarian
-  approved: false
+  approved: true
   body: |
     Unpopular opinion:
 
@@ -451,7 +445,7 @@
 - id: pf-04
   type: perma_founder
   format: hiring_story
-  approved: false
+  approved: true
   body: |
     I hired a candidate who asked me, three times, what our company does.
 
@@ -474,7 +468,7 @@
 - id: pf-05
   type: perma_founder
   format: vulnerability
-  approved: false
+  approved: true
   body: |
     [selfie: me, crying, in an empty coworking space, holding a bean bag]
 
@@ -495,7 +489,7 @@
 - id: pf-06
   type: perma_founder
   format: listicle
-  approved: false
+  approved: true
   body: |
     I've pivoted 11 times. Here's what each pivot taught me:
 
@@ -518,7 +512,7 @@
 - id: gl-01
   type: grateful_layoff
   format: vulnerability
-  approved: false
+  approved: true
   body: |
     Day 1.
 
@@ -541,7 +535,7 @@
 - id: gl-02
   type: grateful_layoff
   format: lesson
-  approved: false
+  approved: true
   body: |
     Day 47.
 
@@ -562,7 +556,7 @@
 - id: gl-03
   type: grateful_layoff
   format: humblebrag
-  approved: false
+  approved: true
   body: |
     I'm humbled to share that I've launched Grateful Exits, a coaching firm that helps people find gratitude after a layoff. 🙏
 
@@ -594,7 +588,7 @@
 - id: gl-05
   type: grateful_layoff
   format: contrarian
-  approved: false
+  approved: true
   body: |
     Unpopular opinion:
 
@@ -613,7 +607,7 @@
 - id: gl-06
   type: grateful_layoff
   format: milestone
-  approved: false
+  approved: true
   body: |
     Today marks 1 year since I was laid off. 🎉
 
@@ -683,7 +677,7 @@
 - id: tl-03
   type: thought_leader
   format: lesson
-  approved: false
+  approved: true
   body: |
     My barista spelled my name wrong today.
 
@@ -700,8 +694,6 @@
     Your name isn't what you're called. It's what you answer to.
 
     Leaders answer to everything.
-
-    I'll be exploring this in Chapter 9.
 
     Agree?
 
@@ -756,7 +748,7 @@
 - id: tl-06
   type: thought_leader
   format: event_reaction
-  approved: false
+  approved: true
   body: |
     Synergetix announced a 4-day work week, then a 7-day work week, in the same press release.
 
@@ -777,7 +769,7 @@
 - id: mm-01
   type: middle_manager
   format: lesson
-  approved: false
+  approved: true
   body: |
     Last night I ran a retro on our family dinner.
 
@@ -835,7 +827,7 @@
 - id: mm-04
   type: middle_manager
   format: hiring_story
-  approved: false
+  approved: true
   body: |
     I hired a candidate who fell asleep during his interview.
 
@@ -873,7 +865,7 @@
 - id: mm-06
   type: middle_manager
   format: vulnerability
-  approved: false
+  approved: true
   body: |
     [selfie: me, in a dark conference room, 6:47pm, slide deck reflected in my glasses]
 
@@ -894,7 +886,7 @@
 - id: gz-01
   type: gen_z_disruptor
   format: lesson
-  approved: false
+  approved: true
   body: |
     so i quit my job today
 
@@ -915,7 +907,7 @@
 - id: gz-02
   type: gen_z_disruptor
   format: contrarian
-  approved: false
+  approved: true
   body: |
     unpopular opinion but
 
@@ -931,12 +923,12 @@
 
     anyway i'm not doing it again that was exhausting
 
-    #careeradvice #genz
+    #careeradvice
 
 - id: gz-03
   type: gen_z_disruptor
   format: humblebrag
-  approved: false
+  approved: true
   body: |
     hit 10,000 followers today 🥹
 
@@ -955,7 +947,7 @@
 - id: gz-04
   type: gen_z_disruptor
   format: listicle
-  approved: false
+  approved: true
   body: |
     6 things my group chat taught me about leadership:
 
@@ -996,7 +988,7 @@
 - id: gz-06
   type: gen_z_disruptor
   format: hiring_story
-  approved: false
+  approved: true
   body: |
     i interviewed a 45-year-old candidate today and he brought a printed resume
 
