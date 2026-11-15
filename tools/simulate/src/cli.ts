@@ -22,6 +22,7 @@ const { values } = parseArgs({
     seed: { type: "string", default: "1" },
     fake: { type: "boolean", default: false },
     concurrency: { type: "string", default: "6" },
+    "max-usd": { type: "string", default: "2" },
     out: { type: "string" },
   },
 });
@@ -54,6 +55,7 @@ const sim = new Simulation(content, config, llm, new InMemorySpendLedger(), rand
   start: new Date("2026-11-16T00:00:00Z"),
   transport: "realtime",
   concurrency: Number(values.concurrency),
+  maxUsd: Number(values["max-usd"]),
 });
 
 const repoRoot = resolve(fileURLToPath(import.meta.url), "../../../..");
@@ -66,12 +68,18 @@ console.log(
   `Simulating ${personaIds.length} personas for ${values.days} days (seed ${seed}${values.fake ? ", FAKE" : ""})`,
 );
 const started = Date.now();
-await sim.run((day) => {
+const { stoppedEarly } = await sim.run((day) => {
   const cost = sim.stats.calls.reduce((s, c) => s + c.costUsd, 0);
   console.log(
     `  day ${day + 1}: ${sim.world.posts.size} posts, ${sim.world.comments.size} comments, ${sim.stats.calls.length} calls, $${cost.toFixed(4)}`,
   );
 });
+
+if (stoppedEarly) {
+  console.warn(
+    `\nStopped early at day ${sim.stoppedAt!.day + 1}, tick ${sim.stoppedAt!.tick}: spend reached the --max-usd cap ($${values["max-usd"]}). Reports cover the partial run.`,
+  );
+}
 
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "transcript.md"), transcript(sim));

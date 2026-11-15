@@ -148,6 +148,40 @@ describe("Simulation (fake LLM)", () => {
   });
 });
 
+describe("spend cap", () => {
+  it("stops between ticks once actual spend reaches maxUsd", async () => {
+    const config = loadConfig();
+    const random = seededRandom(1);
+    const sim = new Simulation(
+      content,
+      config,
+      new FakeLLMClient(fakeResponder, config.llm),
+      new InMemorySpendLedger(),
+      random,
+      {
+        personaIds: selectPersonas(content, 6, random),
+        days: 3,
+        start: START,
+        transport: "realtime",
+        concurrency: 4,
+        maxUsd: 0.001,
+      },
+    );
+    const { stoppedEarly } = await sim.run();
+    expect(stoppedEarly).toBe(true);
+    expect(sim.stoppedAt?.day).toBe(0);
+    expect(sim.spentUsd()).toBeGreaterThanOrEqual(0.001);
+    expect(sim.spentUsd()).toBeLessThan(0.01);
+    expect(sim.daysSimulated()).toBeGreaterThan(0);
+    expect(sim.daysSimulated()).toBeLessThan(1);
+    expect(transcript(sim)).toContain("Stopped early at the spend cap.");
+  });
+
+  it("runs to completion under the cap", async () => {
+    expect((await makeSim({ days: 1 }).run()).stoppedEarly).toBe(false);
+  });
+});
+
 describe("reports", () => {
   it("renders transcript, judge, cost and gate", async () => {
     const sim = makeSim({ days: 3 });

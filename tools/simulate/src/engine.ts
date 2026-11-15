@@ -56,6 +56,8 @@ export interface SimOptions {
   start: Date;
   transport: Transport;
   concurrency: number;
+  /** Hard cap on actual spend for the whole run. */
+  maxUsd?: number;
 }
 
 export interface CallRecord {
@@ -167,12 +169,37 @@ export class Simulation {
     return ordered[day % Math.max(1, ordered.length)];
   }
 
-  async run(onDay?: (day: number) => void): Promise<void> {
+  /** Actual spend so far in this run (at the transport's real price). */
+  spentUsd(): number {
+    return this.stats.calls.reduce((s, c) => s + c.costUsd, 0);
+  }
+
+  /**
+   * Run the simulation. Stops early, between ticks, once actual spend reaches `maxUsd`
+   * (a hard cap per run, separate from the daily CR-7 budget). Returns whether it stopped early.
+   */
+  async run(onDay?: (day: number) => void): Promise<{ stoppedEarly: boolean }> {
     for (let day = 0; day < this.options.days; day++) {
-      for (let tick = 0; tick < this.ticksPerDay; tick++) await this.tick(day, tick);
+      for (let tick = 0; tick < this.ticksPerDay; tick++) {
+        if (this.options.maxUsd !== undefined && this.spentUsd() >= this.options.maxUsd) {
+          this.stoppedAt = { day, tick };
+          return { stoppedEarly: true };
+        }
+        await this.tick(day, tick);
+      }
       await this.nightly(day);
       onDay?.(day);
     }
+    return { stoppedEarly: false };
+  }
+
+  /** Where the run stopped, if the spend cap was hit. */
+  stoppedAt?: { day: number; tick: number };
+
+  /** Simulated days actually run (fractional if stopped early), for per-day metrics. */
+  daysSimulated(): number {
+    if (!this.stoppedAt) return this.options.days;
+    return this.stoppedAt.day + this.stoppedAt.tick / this.ticksPerDay;
   }
 
   private now(day: number, tick: number): Date {

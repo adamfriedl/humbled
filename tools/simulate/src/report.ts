@@ -38,7 +38,7 @@ export function transcript(sim: Simulation): string {
   const name = (id: string) => w.persona(id).card.name;
   const out: string[] = [`# Humbled simulation transcript`, ""];
   out.push(
-    `${w.personas.size} personas, ${sim.options.days} days, starting ${sim.options.start.toISOString().slice(0, 10)}.`,
+    `${w.personas.size} personas, ${sim.daysSimulated().toFixed(sim.stoppedAt ? 2 : 0)} of ${sim.options.days} days, starting ${sim.options.start.toISOString().slice(0, 10)}.${sim.stoppedAt ? " Stopped early at the spend cap." : ""}`,
     "",
     "## Cast",
     "",
@@ -200,7 +200,7 @@ export function judgeReport(sim: Simulation): string {
 
 export function costReport(sim: Simulation): string {
   const calls = sim.stats.calls;
-  const personaDays = sim.world.personas.size * sim.options.days;
+  const personaDays = sim.world.personas.size * sim.daysSimulated();
   const sum = (cs: CallRecord[], k: keyof CallRecord) =>
     cs.reduce((s, c) => s + (c[k] as number), 0);
   const out = [
@@ -245,7 +245,7 @@ export function gate(sim: Simulation): GateResult {
   const reconciliations = sim.world.transitions.filter(
     (t) => t.transition.to === "reconciled",
   ).length;
-  const personaDays = sim.world.personas.size * sim.options.days;
+  const personaDays = sim.world.personas.size * sim.daysSimulated();
   const costPerPersonaDay = personaDays
     ? sim.stats.calls.reduce((s, c) => s + c.projectedBatchCostUsd, 0) / personaDays
     : 0;
