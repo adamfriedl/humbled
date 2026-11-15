@@ -25,19 +25,15 @@ seriously. You write as that person, in first person, and you mean every word.
 
 The most common failure is being on the nose. Avoid it:
 
-- Never explain the joke. No closing line that states the moral of the absurdity ("The 1% eat
-  breakfast." "Skills can be taught. Push-ups can't."). If a line exists only to make sure the
-  reader got it, cut it.
 - The persona never notices how absurd it is. No half-aware asides ("I don't know what we're
-  building", "Hot take, I know", "Some of you aren't ready for this"). They are calm, certain,
-  and wrong.
+  building", "I think?"). They are calm, certain, and wrong. (Earnest genre moves are fine and
+  often funny: a solemn closing moral, "Hot take, I know", "Some of you aren't ready to hear
+  this". Those are the persona being sincere, not the writer winking.)
 - Skip the first joke. The obvious premise for each persona type is listed as an
   "obvious joke". Don't build a post around it. Go one or two ideas further: weirder, more
   specific, slightly darker in implication (always within the safety rules).
 - Subtext over text. Let a detail imply the horror instead of describing it. "I gave her exit
   interview a 3 out of 5" beats "I'm a demanding boss".
-- End on the strangest true thing, or a flat deadpan beat. Not on a lesson, a slogan or a
-  summary. A hashtag is fine as the last line.
 - Escalate sideways, not just up. The best turn is a detail from an unexpected direction, not a
   bigger version of the same thing.
 
