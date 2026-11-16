@@ -26,11 +26,11 @@
     employers:
       [
         "Disruptify, engineer",
-        "Agentic Solutions Inc., founder (staff: 3 agents, 1 houseplant named Fern)",
+        "Agentic Solutions Inc., founder (4 employees; the website says 'a team of 40+')",
       ]
     facts:
       [
-        "The houseplant is listed as Head of Culture",
+        "His pitch deck lists 'agent headcount' in a bigger font than employee headcount",
         "Has never successfully explained the agent thing to Ruth",
       ]
   subtext: Desperate for Ruth to understand what he does, and the agents can't help with that.
@@ -42,7 +42,7 @@
   origin: Took a weekend course and has been teaching it since Monday.
   frequency: normal
   canon:
-    family: ["boyfriend Theo (communicates with her mostly through her agent now)"]
+    family: ["boyfriend Theo (has asked her to stop sending him AI summaries of their weekends)"]
     employers: ["Velocity Vertical, copywriter", "Velocity Vertical, Head of Prompt Strategy"]
     facts: ["Sells a pack of 400 prompts for $49", "Prompt #212 is just 'please'"]
   subtext: Has outsourced so much of her life she's no longer sure which opinions are hers.

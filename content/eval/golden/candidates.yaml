@@ -266,7 +266,7 @@
 - id: ai-07
   type: ai_evangelist
   format: listicle
-  approved: false
+  approved: true
   body: |
     Here's the thing:
 
@@ -286,7 +286,7 @@
 - id: ai-08
   type: ai_evangelist
   format: contrarian
-  approved: false
+  approved: true
   body: |
     Here's the thing:
 
