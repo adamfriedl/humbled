@@ -115,6 +115,7 @@ resource "google_project_iam_member" "deployer" {
     "roles/iam.serviceAccountAdmin",
     "roles/secretmanager.admin",
     "roles/run.admin",
+    "roles/pubsub.admin", # editor can't read or set IAM on topics and subscriptions
     "roles/servicenetworking.networksAdmin",
   ])
   project = var.project_id
