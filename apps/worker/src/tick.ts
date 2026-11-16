@@ -208,7 +208,7 @@ async function planAndSubmit(
   if (contexts.length > 0) {
     const { requests, byId } = toBatch(contexts);
     const providerId = await deps.llm.submitBatch(requests);
-    const batchId = await repos.createBatch(providerId, "tick", byId);
+    const batchId = await repos.createBatch(providerId, "tick", byId, deps.clock.now());
     await repos.attachBatch(keys, batchId);
     report.submitted = requests.length;
     report.batchId = batchId;

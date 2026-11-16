@@ -15,8 +15,13 @@ import type { WorkerDeps } from "./deps.ts";
 import { tryBuild } from "./tick.ts";
 import { rescore, Snapshot, toBatch, type RequestContext } from "./world.ts";
 
+/** CR-3: a batch still running after 2 hours is logged, and not retried in real time. */
+export const BATCH_SLA_MS = 2 * 60 * 60 * 1000;
+
 export interface CollectReport {
   batchesCollected: number;
+  /** Open batches past the CR-3 2-hour SLA (logged; never retried in real time). */
+  overdue: number;
   posts: number;
   comments: number;
   summaries: number;
@@ -29,6 +34,7 @@ export interface CollectReport {
 export async function runCollect(deps: WorkerDeps): Promise<CollectReport> {
   const report: CollectReport = {
     batchesCollected: 0,
+    overdue: 0,
     posts: 0,
     comments: 0,
     summaries: 0,
@@ -41,7 +47,14 @@ export async function runCollect(deps: WorkerDeps): Promise<CollectReport> {
   const golden = deps.content.golden.map((g) => g.body);
 
   for (const batch of await deps.repos.openBatches()) {
-    if (!(await deps.llm.batchEnded(batch.providerBatchId))) continue;
+    if (!(await deps.llm.batchEnded(batch.providerBatchId))) {
+      const ageMs = deps.clock.now().getTime() - batch.submittedAt.getTime();
+      if (ageMs > BATCH_SLA_MS) {
+        report.overdue++;
+        deps.log("batch_sla_exceeded", { batchId: batch.id, minutes: Math.round(ageMs / 60_000) });
+      }
+      continue;
+    }
     const now = deps.clock.now();
     // Claim it first: an overlapping /collect run skips a batch another run already took.
     if (!(await deps.repos.markBatch(batch.id, "collected", now))) continue;
@@ -69,7 +82,12 @@ export async function runCollect(deps: WorkerDeps): Promise<CollectReport> {
   if (followUps.length > 0) {
     const { requests, byId } = toBatch(followUps);
     const providerId = await deps.llm.submitBatch(requests);
-    report.followUpBatchId = await deps.repos.createBatch(providerId, "tick", byId);
+    report.followUpBatchId = await deps.repos.createBatch(
+      providerId,
+      "tick",
+      byId,
+      deps.clock.now(),
+    );
   }
   deps.log("collect", { ...report });
   return report;

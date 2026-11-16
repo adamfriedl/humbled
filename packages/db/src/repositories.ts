@@ -562,10 +562,11 @@ export class Repositories {
     providerBatchId: string,
     purpose: "tick" | "nightly",
     requests: Record<string, unknown>,
+    submittedAt?: Date,
   ): Promise<string> {
     const [row] = await this.db
       .insert(llmBatches)
-      .values({ providerBatchId, purpose, requests })
+      .values({ providerBatchId, purpose, requests, ...(submittedAt ? { submittedAt } : {}) })
       .returning({ id: llmBatches.id });
     return row!.id;
   }

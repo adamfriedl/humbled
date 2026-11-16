@@ -359,3 +359,17 @@ describe("escalation ladder", () => {
     expect(owedAfter).not.toContainEqual({ format: "reconciliation", targetId: b });
   });
 });
+
+describe("CR-3 batch SLA", () => {
+  it("logs a batch still running after 2 hours", async () => {
+    const w = await worker();
+    await runTick(w, T0);
+    w.llm.batchEnded = () => Promise.resolve(false);
+    w.clock.set(new Date(T0.getTime() + 30 * MS_PER_MINUTE));
+    expect((await runCollect(w)).overdue).toBe(0);
+    w.clock.set(new Date(T0.getTime() + 3 * 60 * MS_PER_MINUTE));
+    const late = await runCollect(w);
+    expect(late).toMatchObject({ overdue: 1, batchesCollected: 0 });
+    expect(w.logs.some((l) => l.event === "batch_sla_exceeded")).toBe(true);
+  });
+});

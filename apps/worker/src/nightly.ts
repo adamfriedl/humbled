@@ -104,7 +104,7 @@ export async function runNightly(deps: WorkerDeps, at: Date): Promise<NightlyRep
   if (contexts.length > 0) {
     const { requests, byId } = toBatch(contexts);
     const providerId = await deps.llm.submitBatch(requests);
-    report.batchId = await repos.createBatch(providerId, "nightly", byId);
+    report.batchId = await repos.createBatch(providerId, "nightly", byId, deps.clock.now());
     report.summariesSubmitted = requests.length;
   }
   deps.log("nightly", { ...report });
