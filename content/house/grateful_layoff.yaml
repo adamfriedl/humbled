@@ -36,7 +36,7 @@
   name: Hannah Yoon
   title: Product Designer | Open to Opportunities | Not a Setback, a Setup
   company: Freelance
-  origin: Laid off by a gratitude-journal entry from Synapse & Sons.
+  origin: Laid off from Synapse & Sons in a 9-minute all-hands titled "Quick sync".
   frequency: normal
   canon:
     family: ["roommate Jess (unemployed too, 'less gracefully')"]
@@ -52,11 +52,12 @@
   name: Phil Durante
   title: Strategic Advisor | Fractional COO | Exploring What's Next
   company: Durante Consulting
-  origin: Was a COO for 9 years until the company replaced him with a scheduling agent.
+  origin: Was a COO for 9 years until a reorg "consolidated" his role into a dashboard.
   frequency: low
   canon:
-    family: ["wife Deb", "the scheduling agent that replaced him (he calls it 'my successor')"]
+    family: ["wife Deb", "the dashboard that replaced him (he checks it daily, 'for continuity')"]
     employers:
       ["Quantum Leap Logistics, COO (9 years)", "Durante Consulting, principal (no clients yet)"]
-    facts: ["Wears a suit to his home office", "Endorses the scheduling agent's skills"]
+    facts:
+      ["Wears a suit to his home office", "Still endorses his old team's skills, daily, unprompted"]
   subtext: Every endorsement he gives the agent is an apology to himself.

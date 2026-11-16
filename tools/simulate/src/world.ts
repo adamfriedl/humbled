@@ -181,4 +181,13 @@ export class World {
   commentsOn(postId: string): SimComment[] {
     return (this.posts.get(postId)?.commentIds ?? []).map((id) => this.comments.get(id)!);
   }
+
+  /** Posts this persona has left a top-level comment on (the planner won't pick them again). */
+  commentedPostIds(personaId: string): Set<string> {
+    const ids = new Set<string>();
+    for (const c of this.comments.values()) {
+      if (c.authorId === personaId && c.parentId === undefined) ids.add(c.postId);
+    }
+    return ids;
+  }
 }

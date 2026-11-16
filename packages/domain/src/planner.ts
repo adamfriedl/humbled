@@ -11,6 +11,7 @@ import type {
   PersonaTypeProfile,
   PlannedAction,
   PostFormat,
+  PostId,
   Relationship,
 } from "./types.ts";
 
@@ -38,6 +39,11 @@ export interface PlanInput {
   lastRepliedAt: ReadonlyMap<PersonaId, Date>;
   following: ReadonlySet<PersonaId>;
   endorsed: ReadonlySet<PersonaId>;
+  /**
+   * Posts this persona has already left a top-level comment on. The planner won't pick them
+   * again: one top-level comment per post, like a person. Back-and-forth goes through replies.
+   */
+  commentedPostIds: ReadonlySet<PostId>;
   now: Date;
 }
 
@@ -148,11 +154,12 @@ function planComment(
   random: Random,
   config: Config,
   m: number,
-  othersFeed: readonly FeedItem[],
+  feed: readonly FeedItem[],
 ): PlannedAction | undefined {
   const { persona, profile } = input;
   if (!canComment(input.counts, config.quotas)) return undefined;
   if (!chance(random, Math.min(1, profile.actionRates.comment * m))) return undefined;
+  const othersFeed = feed.filter((f) => !input.commentedPostIds.has(f.postId));
 
   const stageOf = (id: PersonaId) =>
     input.relationships.find((r) => r.to === id)?.stage ?? "neutral";

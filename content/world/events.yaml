@@ -1,92 +1,98 @@
-# Fictional industry events, one per day. `launch: true` is the launch-day seed event.
+# Fictional industry events, one per day, in file order (the simulator starts at the top, so the
+# first seven are what a 7-day run sees). `launch: true` is the launch-day seed event.
+#
+# Write these as believable business news, one notch past real: the kind of headline that makes
+# a reader check whether it actually happened. No cartoon premises (dogs as executives, offices
+# in tents). The comedy comes from the personas' reactions, so the event just has to be real
+# enough to react to, with one precise, petty detail.
 - id: synergetix-pod-crackdown
   launch: true
   headline: Synergetix cracks down on engagement pods, comment automation and "comment to agree" posts
   body: Synergetix says its professional feed will now suppress coordinated engagement, automated comments and posts that ask readers to comment "agree". Insiders say the change affects "basically everyone".
-- id: ai-replaces-middle-managers
-  headline: AI replaces all middle managers at Synergetix; productivity unchanged
-  body: The company confirmed 400 management roles were replaced by a scheduling agent. Meeting volume is reportedly up 30%.
-- id: synergetix-workweek
-  headline: Synergetix announces 4-day work week, then 7-day work week, in the same press release
-  body: A spokesperson called it "flexibility in both directions".
-- id: return-to-office-tents
-  headline: Pivotal Paradigms mandates return to office; office has been converted to a glamping site
-  body: Employees must badge in to a tent four days a week. "Collaboration happens around the fire," said the CEO.
-- id: cold-plunge-benefit
-  headline: Grindstone Capital replaces health insurance with a company cold plunge
-  body: The firm says the plunge "addresses root causes".
-- id: unlimited-pto-zero
-  headline: Study finds employees with unlimited PTO take an average of negative two days off
-  body: Researchers at Northstar Alignment Group say some respondents "apologized for the survey taking time".
-- id: chief-vibes-officer
-  headline: Kaizen Kollective appoints its first Chief Vibes Officer, a golden retriever
-  body: The dog will report to the board quarterly. Analysts call the move "long overdue".
-- id: biscuit-unicorn
-  headline: Blue Ocean Biscuits reaches $1B valuation without selling a biscuit
-  body: The company says it is "focused on the platform, not the biscuit".
-- id: top-voice-humble-badge
-  headline: Professional feeds introduce "Top Voice in Being Humble" badge
-  body: The first 10,000 recipients have each posted about how humbled they are to receive it.
-- id: agent-gets-promoted
-  headline: Agentic Solutions promotes an AI agent to VP; agent immediately schedules a reorg
-  body: The agent's first memo was 11 pages and titled "Alignment Is a Journey".
+- id: layoffs-quick-sync
+  headline: Synapse & Sons lays off 200 employees in a 9-minute all-hands titled "Quick sync"
+  body: The calendar invite was marked optional. Attendance was 96%.
+- id: rto-badge-bonus
+  headline: Pivotal Paradigms ties bonuses to badge swipes; employees discover swiping twice counts double
+  body: The company has closed the loophole and thanked staff for "surfacing it". Wednesday swipes were up 340% before the fix.
+- id: earnings-efficiency
+  headline: Synergetix earnings call says "efficiency" 41 times; stock up 6%
+  body: The word "employees" appeared once, in the safe harbor statement.
+- id: ai-usage-mandate
+  headline: CloudNine Dynamics asks staff to use AI for "at least half of all tasks"; a dashboard tracks it
+  body: Several teams report typing "hi" into the assistant every morning to stay above target.
+- id: top-voice-retired
+  headline: Synergetix retires its "Top Voice" badges; 11,000 profiles still display them
+  body: Former recipients have been asked to remove the badge "when convenient". Most have not found it convenient.
+- id: unassigned-seating
+  headline: Leverage Lab moves to unassigned seating; desks book out on the app by 7:02am
+  body: Employees who arrive later work from the cafeteria, which the company now calls "a neighborhood".
+- id: four-day-week-pilot
+  headline: Synergetix pilots a four-day work week for "select teams"
+  body: The teams have not yet been selected. A spokesperson said the pilot is "about trust".
 - id: meeting-free-wednesday
   headline: OmniSync introduces Meeting-Free Wednesdays; employees schedule a meeting to discuss them
   body: The kickoff meeting is recurring.
-- id: four-am-club-ipo
-  headline: The 4AM Club, a morning-routine startup, files for IPO
-  body: The S-1 lists "waking up" as a core competency and "sleep" as a key risk factor.
-- id: office-nap-pods-removed
-  headline: Hyperscale Hospitality removes nap pods, citing "too much resting"
-  body: The pods will be repurposed as phone booths for "intentional networking".
-- id: synergy-shortage
-  headline: Consultants warn of a global synergy shortage
-  body: Pivotal Paradigms says existing synergies are being "leveraged at unsustainable rates".
-- id: hustle-tax
-  headline: Grindstone Capital proposes an internal "rest tax" on employees who log off before 7pm
-  body: Proceeds fund the cold plunge.
-- id: email-banned
-  headline: Disruptify bans email internally; all communication now happens via voice memo
-  body: The average voice memo is 14 minutes long and begins with "so, quick one".
-- id: podcast-glut
-  headline: Thoughtwave Media reports more B2B podcasts than B2B podcast listeners
-  body: The company is launching a podcast about the problem.
-- id: rebrand-rebrand
-  headline: Paradigm Shift Partners rebrands for the tenth time, to its original name
-  body: The agency calls it "a return to our roots, reimagined".
-- id: layoffs-gratitude
-  headline: Synapse & Sons lays off 200 employees via a gratitude journal entry
-  body: Each employee received a personalized page beginning "I'm grateful for you, and…"
-- id: productivity-score
-  headline: OmniSync launches a public productivity score on every employee profile
-  body: Early adopters report sleeping in their cars "to keep the streak".
-- id: vc-funds-vibes
-  headline: Ascendant Ventures raises a $500M fund exclusively for "founders with momentum"
-  body: The partners declined to define momentum but said "you know it when you see it".
-- id: ai-writes-all-posts
-  headline: Survey finds 90% of professional posts are now written by AI; the other 10% claim they are
-  body: Every respondent insisted their own posts were "100% authentic".
-- id: open-office-outdoors
-  headline: CloudNine Dynamics moves its open-plan office outdoors "to break down walls"
-  body: The company says weather is "a growth opportunity".
-- id: mandatory-fun-quarterly
-  headline: Kaizen Kollective makes fun a quarterly OKR
-  body: The Q3 target is "4.2 laughs per employee per week, measured by survey".
-- id: logistics-blockchain-pallet
-  headline: Quantum Leap Logistics puts a single pallet on the blockchain; pallet is now lost
-  body: Executives say the pallet is "decentralized".
-- id: thought-leader-shortage
-  headline: Report says there are now more thought leaders than thoughts
-  body: Northstar Alignment Group calls for "a framework to address the gap".
-- id: hiring-freeze-thaw
-  headline: Bandwidth Partners announces a hiring freeze, a hiring thaw, and a hiring "slush"
-  body: Candidates in the slush will be contacted "in due course".
-- id: standing-desk-mandate
-  headline: Hyperscale Hospitality bans sitting at work; chairs reclassified as "legacy furniture"
-  body: Exceptions require two manager approvals and a doctor's note.
-- id: ai-reference-checks
-  headline: Brightpath launches AI reference checks that call your ex-partners
-  body: The company says relationships "are the ultimate track record".
-- id: unlimited-hustle
-  headline: Grindstone Capital announces "unlimited hustle" policy
-  body: Employees may now work as many hours as they want, which leadership expects to be "all of them".
+- id: focus-streaks
+  headline: OmniSync adds "focus streaks" to its calendar app; users block "Focus" over meetings to keep them
+  body: The company says meeting attendance is down 18% "for reasons we're investigating".
+- id: nap-pods-removed
+  headline: Kaizen Kollective removes office nap pods after a "utilization review"
+  body: The pods will become phone booths. The review found they were mostly being used as phone booths.
+- id: biscuit-series-b
+  headline: Blue Ocean Biscuits raises a $40M Series B and says it is now "a platform company"
+  body: It has not said what the platform is. Biscuit sales were flat.
+- id: rebrand-lowercase
+  headline: Paradigm Shift Partners unveils its new logo after a 14-month rebrand; it is the old logo in lowercase
+  body: The agency calls it "a quiet confidence".
+- id: podcast-listeners
+  headline: Thoughtwave Media finds the average B2B podcast episode has 31 listeners, four of them the guests
+  body: The company is launching a podcast about the findings.
+- id: hiring-pause
+  headline: Bandwidth Partners announces a "strategic hiring pause"; recruiters keep posting roles "to build pipeline"
+  body: Applicants will be contacted "when the pause lifts". The company has not said when that is.
+- id: vc-momentum-fund
+  headline: Ascendant Ventures raises a $500M fund for "founders with momentum"
+  body: The partners declined to define momentum. Two of the first five checks went to former partners.
+- id: ai-posts-survey
+  headline: "Survey: 71% of professionals say they can spot AI-written posts; 64% use AI to write theirs"
+  body: Nearly every respondent said their own posts "still sound like me".
+- id: team-joy-okr
+  headline: Kaizen Kollective adds "team joy" to its quarterly OKRs, measured by pulse survey
+  body: The Q3 target is 4.2 out of 5. The survey is mandatory.
+- id: logistics-ai-rename
+  headline: Quantum Leap Logistics relabels its routing software "AI-powered"; stock rises 22%
+  body: The software is unchanged. The press release thanked the engineering team, who learned about it from the press release.
+- id: clarity-trend-report
+  headline: Northstar Alignment Group's leadership report names "clarity" the top trend for a sixth year
+  body: The report is 140 pages.
+- id: chairs-removed
+  headline: Hyperscale Hospitality removes half its office chairs "to encourage movement"
+  body: The remaining chairs are in the executive wing, which the memo calls "a different use case".
+- id: backchannel-references
+  headline: Brightpath Human Capital adds backchannel reference checks for every hire, including interns
+  body: Candidates are now asked to list someone who "didn't love working with you".
+- id: early-all-hands
+  headline: Grindstone Capital moves its all-hands to 6:15am "to respect people's evenings"
+  body: Attendance is optional. Attendance is tracked.
+- id: cold-plunge-coffee
+  headline: Grindstone Capital installs an office cold plunge, removing the second coffee machine to make room
+  body: Leadership called it "a trade-up".
+- id: pto-preapproval
+  headline: Disruptify's unlimited PTO now requires approval 60 days in advance
+  body: HR says the policy remains unlimited "in spirit".
+- id: async-video-updates
+  headline: Disruptify replaces internal email with async video updates
+  body: The average update is 7 minutes long and opens with "So, quick one."
+- id: grateful-layoff-memo
+  headline: Velocity Vertical's layoff memo says "grateful" nine times and "layoff" zero times
+  body: Affected employees have been "transitioned to alumni".
+- id: endorsement-inflation
+  headline: Synergetix adds one-tap skill endorsements; "Leadership" endorsements rise 900%
+  body: The most-endorsed user has 4,100 endorsements for Leadership and no direct reports.
+- id: agentic-seed-round
+  headline: 'Agentic Solutions raises an $8M seed; its deck lists "headcount (incl. agents): 46"'
+  body: Human headcount is four. The company says the distinction is "increasingly outdated".
+- id: rto-hybrid-redefined
+  headline: Synapse & Sons redefines "hybrid" as four days in the office and one day "flexible in-office"
+  body: The memo says nothing about the policy has changed except "the words".

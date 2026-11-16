@@ -229,6 +229,17 @@ export function costReport(sim: Simulation): string {
     `- Cache hit rate (cache-read share of input): ${cacheable ? ((100 * sum(calls, "cacheReadTokens")) / cacheable).toFixed(1) : "0"}%`,
     "",
   );
+  const failures = new Map<string, number>();
+  for (const c of calls) {
+    if (c.ok) continue;
+    const k = `${c.callType}: ${c.error ?? "unknown"}`;
+    failures.set(k, (failures.get(k) ?? 0) + 1);
+  }
+  if (failures.size) {
+    out.push("Failed calls by reason:", "");
+    for (const [k, n] of [...failures].sort((a, b) => b[1] - a[1])) out.push(`- ${k}: ${n}`);
+    out.push("");
+  }
   return out.join("\n");
 }
 

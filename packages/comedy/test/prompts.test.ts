@@ -110,8 +110,11 @@ describe("buildPostPrompt", () => {
       ctx("devon-ashby", { feed: bigFeed }),
       { format: "lesson" },
       seededRandom(1),
-      c,
+      // Measure the untrimmed prompt, so the test doesn't depend on how much room the real
+      // content happens to leave under the default budget.
+      cfg({ llm: { maxInputTokens: 1_000_000 } }),
     );
+    expect(full.trimmed).toEqual([]);
     const limit = full.estimatedInputTokens - 300;
     const tight = buildPostPrompt(
       content,
@@ -162,10 +165,10 @@ describe("buildPostPrompt", () => {
     ).toThrow(PromptBudgetError);
   });
 
-  it("default prompts fit the 4,000-token budget with room to spare", () => {
+  it("default prompts fit the default budget with room to spare", () => {
     for (const b of content.houseBots) {
       const p = buildPostPrompt(content, ctx(b.id), { format: "lesson" }, seededRandom(3), c);
-      expect(p.estimatedInputTokens, b.id).toBeLessThan(4000);
+      expect(p.estimatedInputTokens, b.id).toBeLessThan(c.llm.maxInputTokens - 500);
       expect(p.trimmed, b.id).toEqual([]);
     }
   });
@@ -206,9 +209,9 @@ describe("grudge and comment guidance", () => {
     expect(grudgeGuidance(rel("neutral", 0))).toMatch(/if it fits/);
     expect(commentGuidance(undefined, "Brad")).toMatch(/usual style/);
     expect(commentGuidance(rel("neutral", 0.6), "Brad Pemberton")).toMatch(/Hype them/);
-    expect(commentGuidance(rel("comment_war", -0.7), "Brad Pemberton")).toContain(
-      "Love this, Brad!",
-    );
+    const war = commentGuidance(rel("comment_war", -0.7), "Brad Pemberton");
+    expect(war).toContain('"respectful disagreement" with Brad.');
+    expect(war).toMatch(/vary it/);
     expect(commentGuidance(rel("reconciled", 0.2), "Brad")).toMatch(/effusive/);
     expect(commentGuidance(rel("cold", -0.3), "Brad")).toMatch(/usual style/);
   });
@@ -229,7 +232,9 @@ describe("buildCommentPrompt", () => {
     expect(comment.system.map((b) => b.text)).toEqual(post.system.map((b) => b.text));
     expect(comment.maxTokens).toBe(120);
     expect(comment.user).toContain("Comment on this post by Rafi Goldberg");
-    expect(comment.user).toContain("Love this, Rafi!");
+    expect(comment.user).toContain('"respectful disagreement" with Rafi.');
+    expect(comment.user).toContain("React to one exact detail of the post.");
+    expect(comment.user).toMatch(/Don't restate or paraphrase/);
 
     const reply = buildCommentPrompt(
       content,
@@ -241,6 +246,7 @@ describe("buildCommentPrompt", () => {
       c,
     );
     expect(reply.user).toContain("Reply to this comment by Doug Kessler");
+    expect(reply.user).toContain("React to one exact detail of the comment.");
   });
   it("rejects unknown types", () => {
     const bad = ctx();
@@ -305,7 +311,7 @@ describe("buildSummaryPrompt (FR-17)", () => {
     expect(p.user).toContain("Pivoted twice.");
     expect(p.user).toContain("We pivoted to biscuits.");
     expect(p.user).toContain("public exit");
-    expect(p.maxTokens).toBe(500);
+    expect(p.maxTokens).toBe(c.llm.maxOutputTokens.summary);
     const empty = buildSummaryPrompt(content, ctx().persona, { posts: [], events: [] }, c);
     expect(empty.user).toContain("(none yet)");
     const bad = ctx().persona;

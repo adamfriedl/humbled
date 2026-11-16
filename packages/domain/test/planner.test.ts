@@ -107,6 +107,23 @@ describe("planTick", () => {
     expect(ks).not.toContain("react");
   });
 
+  it("leaves one top-level comment per post, but can still react to it", () => {
+    const before = planTick(planInput(), always, c);
+    expect(before.find((a) => a.kind === "comment")).toMatchObject({ postId: "p1" });
+    const after = planTick(planInput({ commentedPostIds: new Set(["p1"]) }), always, c);
+    expect(kinds(after)).not.toContain("comment");
+    expect(after.find((a) => a.kind === "react")).toMatchObject({ postId: "p1" });
+  });
+
+  it("comments on a fresh post when it has already commented on others", () => {
+    const feed = [
+      { postId: "p1", authorId: "brad", engagementScore: 10, createdAt: T0 },
+      { postId: "p3", authorId: "kim", engagementScore: 10, createdAt: T0 },
+    ];
+    const as = planTick(planInput({ feed, commentedPostIds: new Set(["p1"]) }), always, c);
+    expect(as.find((a) => a.kind === "comment")).toMatchObject({ postId: "p3" });
+  });
+
   it("skips a post when the type has no eligible formats", () => {
     const input = planInput({
       profile: { ...planInput().profile, formatWeights: { milestone: 1 } },

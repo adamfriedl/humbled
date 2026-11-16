@@ -6,7 +6,8 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       include: ["src/**/*.ts"],
-      exclude: ["src/cli.ts"],
+      // Entry points that need a real API key; their logic lives in tested modules.
+      exclude: ["src/cli.ts", "src/judge-golden.ts"],
       thresholds: { lines: 80 },
     },
   },

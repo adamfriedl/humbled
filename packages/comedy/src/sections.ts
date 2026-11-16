@@ -91,7 +91,7 @@ export function commentGuidance(r: RelationshipContext | undefined, authorName: 
     return `${name} is an ally. Hype them immediately and specifically, like a member of the same engagement pod.`;
   switch (r.stage) {
     case "comment_war":
-      return `You're in a "respectful disagreement" with ${name}. Open warmly ("Love this, ${name}!"), then "respectfully" push back with invented data or a better anecdote of your own. Passive-aggressive, never rude.`;
+      return `You're in a "respectful disagreement" with ${name}. Open warmly (a compliment, a "Love this", a thank-you; vary it), then "respectfully" push back with invented data or a better anecdote of your own. Passive-aggressive, never rude.`;
     case "reconciled":
       return `You and ${name} recently reconciled. Be effusive. Slightly too effusive.`;
     default:

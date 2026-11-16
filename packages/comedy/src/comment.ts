@@ -29,6 +29,7 @@ export function buildCommentPrompt(
     target,
     `<post>\n${sanitizeUntrusted(task.post.body, 1200)}\n</post>`,
     commentGuidance(task.relationship, replyTo),
+    `React to one exact detail of the ${task.parent ? "comment" : "post"}. Don't restate or paraphrase what you're replying to, and don't repeat anything you've already said in this thread: add something new of your own. Small, specific and petty beats broad.`,
     `${commentWords.min} to ${commentWords.max} words. No hashtags. Stay in character.`,
   ].join("\n\n");
 

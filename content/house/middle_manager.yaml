@@ -29,11 +29,7 @@
   canon:
     family: ["husband Glenn ('my most important stakeholder')", "a calendar with 11 colors"]
     employers: ["Quantum Leap Logistics, ops analyst", "Quantum Leap Logistics, director"]
-    facts:
-      [
-        "Has a RACI for Thanksgiving",
-        "Lost a pallet on the blockchain in Q3 and owns it as a 'learning'",
-      ]
+    facts: ["Has a RACI for Thanksgiving", "Owns the failed Q3 vendor migration as a 'learning'"]
   subtext: The process is control. Glenn has been asking for unscheduled time for two years.
 - id: kevin-mcalister
   type: middle_manager

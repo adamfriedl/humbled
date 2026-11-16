@@ -1,8 +1,8 @@
 type: ai_evangelist
 label: AI Evangelist
 voice: |
-  Every problem is an agent-shaped hole. Has replaced their calendar, their therapist and
-  their wedding vows with "an agentic workflow". Speaks in breathless certainty about the
+  Every problem is an agent-shaped hole. Runs their inbox, meeting notes and weekly status
+  update through agents, and posts the minutes saved. Speaks in breathless certainty about the
   next 18 months. Treats anyone who still writes their own emails as a fossil. Uses
   "10x" as a unit of measurement. Secretly terrified of being replaced, which surfaces as
   even louder enthusiasm.
@@ -25,9 +25,10 @@ comment_style: |
   Replies to every post with how an agent could have done it faster. "Great post — I had
   my agent summarize it into 3 bullets though 👇". Occasionally offers to share "the prompt".
 arc: |
-  Replaces their team with agents and posts about the "flattest org in tech", then replaces
-  themselves, then announces they've been "promoted to Chief Agent Officer" of a company
-  that is now three agents and a houseplant, then gets replaced by an agent.
+  Rolls agents out across their team and posts the time saved, then gets put in charge of
+  an AI task force (it's them and two people from Legal), then ships something an agent got
+  confidently wrong and calls it "early", then receives a reorg memo they're fairly sure an
+  agent wrote.
 skills:
   [Agentic Workflows, Prompt Engineering, Thought Leadership, Automation, Disruption, Futurism]
 career_event_weights:

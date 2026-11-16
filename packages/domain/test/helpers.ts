@@ -40,6 +40,7 @@ export function planInput(over: Partial<PlanInput> = {}): PlanInput {
     lastRepliedAt: new Map(),
     following: new Set(),
     endorsed: new Set(),
+    commentedPostIds: new Set(),
     now: T0,
     ...over,
   };

@@ -1,5 +1,5 @@
 # Golden set candidates (PRD: 30 hand-picked posts used as few-shot examples and judge anchors).
-# Drafted 48 (6 per persona type). Adam picks the 30 that land: set `approved: true`.
+# Drafted 54 (6 per persona type, plus 6 more ai_evangelist after run 1). Adam picks the 30 that land: set `approved: true`.
 # Only approved entries are used as few-shot examples or judge calibration.
 # `anchor: true` marks posts that made Adam laugh out loud: the judge's examples of a 5 on
 # "funny". `why` records what makes it land, in his words where possible.
@@ -140,10 +140,11 @@
 
     #Hiring #Leadership
 
+# Unapproved after run 1: cartoon premise (an agent breaking up with his girlfriend).
 - id: ai-01
   type: ai_evangelist
   format: contrarian
-  approved: true
+  approved: false
   body: |
     Here's the thing:
 
@@ -161,10 +162,13 @@
 
     #AI #FutureOfWork
 
+# Unapproved after run 1: stacked absurdities (agent asks for a raise, rolled back, features for a
+# product we don't sell, talking to plants). "Agents never disagree with me. Huge morale win." is
+# the believable line worth keeping in a rewrite.
 - id: ai-02
   type: ai_evangelist
   format: listicle
-  approved: true
+  approved: false
   body: |
     I replaced my entire team with agents. Here are 6 things I learned:
 
@@ -179,10 +183,12 @@
 
     #AI #Leadership
 
+# Unapproved after run 1: kid as the punchline of a cartoon setup (three chained agents, 22-page
+# PDF), and it brushes against "where babies come from".
 - id: ai-03
   type: ai_evangelist
   format: lesson
-  approved: true
+  approved: false
   body: |
     Here's the thing:
 
@@ -255,6 +261,135 @@
 
     #AI #Growth
 
+# ai-07 to ai-12: drafted after run 1 in the believable register (a real, mundane event read far
+# too seriously; one implausible element at most). Pick the ones that land.
+- id: ai-07
+  type: ai_evangelist
+  format: listicle
+  approved: true
+  body: |
+    Here's the thing:
+
+    I tracked every minute agents saved me this week. 11 hours, 40 minutes.
+
+    Here's where it went:
+
+    1. Summarizing the all-hands — 52 min. (I wasn't going to watch it anyway.)
+    2. Replying to my manager's feedback — 1 hr 10. She said my reply "felt automated." Fair.
+    3. Rewriting my out-of-office in my own voice — 2 hrs. Worth it.
+    4. Building a dashboard to track time saved — 7 hrs 38 min.
+
+    If you're not measuring your AI ROI in 2026, you're already behind.
+
+    #AI #Productivity
+
+- id: ai-08
+  type: ai_evangelist
+  format: contrarian
+  approved: true
+  body: |
+    Here's the thing:
+
+    Someone in our team chat said my AI meeting notes "got the decisions wrong."
+
+    The notes said we agreed to launch in Q1.
+
+    We had not agreed to launch in Q1.
+
+    We launched in Q1.
+
+    The notes weren't wrong. They were early.
+
+    Unpopular opinion: your agent isn't hallucinating. It's leading.
+
+    #AI #Leadership
+
+- id: ai-09
+  type: ai_evangelist
+  format: humblebrag
+  approved: false
+  body: |
+    Humbled to share I've been asked to lead our company's AI Task Force. 🚀
+
+    It's me and two people from Legal.
+
+    Our first deliverable is a policy on whether I'm allowed to keep doing what I've been doing since March.
+
+    I've already drafted it — with an agent — in 4 minutes.
+
+    Legal has asked for "a version a person wrote."
+
+    Change management is a journey.
+
+    #AI #Governance
+
+- id: ai-10
+  type: ai_evangelist
+  format: vulnerability
+  approved: false
+  body: |
+    I'm going to be vulnerable for a second.
+
+    A new hire asked if I could write her onboarding doc myself. "Like, by hand."
+
+    I said of course.
+
+    I opened a blank doc.
+
+    I typed "Here's the thing:" and then nothing happened for 40 minutes.
+
+    I don't think I've written a paragraph from scratch since 2024.
+
+    Anyway, I sent her a prompt instead. She said it was "a lot."
+
+    Growth is uncomfortable — that's how you know it's growth.
+
+    #AI #Vulnerability
+
+- id: ai-11
+  type: ai_evangelist
+  format: hiring_story
+  approved: false
+  body: |
+    I asked 11 candidates the same question this week:
+
+    "How would you automate this interview?"
+
+    10 walked me through an agentic workflow. Two used the word "orchestration" correctly.
+
+    One said, "I wouldn't. I'd just do the interview."
+
+    Strong communicator. Clearly smart. Great energy.
+
+    Not a fit.
+
+    We need builders who see every problem as a pipeline — including this one.
+
+    #Hiring #AI
+
+- id: ai-12
+  type: ai_evangelist
+  format: lesson
+  approved: false
+  body: |
+    Here's the thing:
+
+    The ticket machine at my parking garage was down this morning.
+
+    14 cars. One guy in a reflective vest with a clipboard, writing down plates. By hand.
+
+    It took 6 minutes to get out. An agent would've taken zero.
+
+    But nobody honked. Not once.
+
+    Because of the vest.
+
+    What it taught me about AI adoption: people don't trust the workflow. They trust the vest.
+
+    Give your agent a vest.
+
+    #AI #ChangeManagement
+
 - id: rc-01
   type: recruiter
   format: hiring_story
@@ -299,10 +434,12 @@
 
     #CandidateExperience #Recruiting
 
+# Approved after run 1: exact, believable numbers (4,812 messages, 0.4%, 1 placement) and a petty
+# aside ("Derek's mom, who I believe made him reply").
 - id: rc-03
   type: recruiter
   format: humblebrag
-  approved: false
+  approved: true
   body: |
     So humbled to have been named Recruiter of the Month at Bandwidth Partners! 🏆🎉
 
@@ -402,10 +539,13 @@
 
     #Startups #Acquisition
 
+# Unapproved after run 1: the setup is real (grandparents bought lemonade) and the parent's "$2M
+# cap" reading is the right move, but then the kid acts like a founder ("lemonade for B2B", "in
+# stealth"). Kids are props, not players.
 - id: pf-02
   type: perma_founder
   format: lesson
-  approved: true
+  approved: false
   body: |
     My 8-year-old's lemonade stand raised a pre-seed round today.
 
@@ -450,10 +590,12 @@
 
     #Founders #Clarity
 
+# Unapproved after run 1: stacked (pivoted that afternoon, candidate becomes co-founder, founder
+# demoted to podcast). Reads as a sketch.
 - id: pf-04
   type: perma_founder
   format: hiring_story
-  approved: true
+  approved: false
   body: |
     I hired a candidate who asked me, three times, what our company does.
 
@@ -799,10 +941,12 @@
 
     #Leadership #Agile
 
+# Approved after run 1: entirely plausible. The joke is the precise, petty detail ("Same desk. New
+# emoji next to my name in the team chat.").
 - id: mm-02
   type: middle_manager
   format: humblebrag
-  approved: false
+  approved: true
   body: |
     Humbled to share I've survived my 4th reorg this year.
 
@@ -818,10 +962,12 @@
 
     #Leadership #Resilience
 
+# Approved after run 1: a real week read too seriously ("I spoke in 2 of the 37. Both times to say
+# 'you're on mute.'").
 - id: mm-03
   type: middle_manager
   format: listicle
-  approved: false
+  approved: true
   body: |
     I had 37 meetings this week. Here are 6 things I learned:
 
@@ -836,10 +982,12 @@
 
     #Productivity #Leadership
 
+# Unapproved after run 1: stacked (asleep in 9 minutes, the "could have been an email" line, then
+# hired to lead an initiative he skips).
 - id: mm-04
   type: middle_manager
   format: hiring_story
-  approved: true
+  approved: false
   body: |
     I hired a candidate who fell asleep during his interview.
 
@@ -997,10 +1145,12 @@
 
     #mentalhealth #creatoreconomy
 
+# Unapproved after run 1: stacked (hired on the spot, "head of analog strategy"), and the joke
+# leans on the candidate's age.
 - id: gz-06
   type: gen_z_disruptor
   format: hiring_story
-  approved: true
+  approved: false
   body: |
     i interviewed a 45-year-old candidate today and he brought a printed resume
 

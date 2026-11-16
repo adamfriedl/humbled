@@ -223,10 +223,7 @@ describe("loader validation", () => {
   it("rejects more than one launch event", () => {
     const dir = fixture();
     edit(dir, "world/events.yaml", (s) =>
-      s.replace(
-        "- id: ai-replaces-middle-managers",
-        "- id: ai-replaces-middle-managers\n  launch: true",
-      ),
+      s.replace("- id: layoffs-quick-sync", "- id: layoffs-quick-sync\n  launch: true"),
     );
     expect(() => loadContent(dir)).toThrow(/launch/);
   });
