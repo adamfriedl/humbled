@@ -209,9 +209,9 @@ describe("grudge and comment guidance", () => {
     expect(grudgeGuidance(rel("neutral", 0))).toMatch(/if it fits/);
     expect(commentGuidance(undefined, "Brad")).toMatch(/usual style/);
     expect(commentGuidance(rel("neutral", 0.6), "Brad Pemberton")).toMatch(/Hype them/);
-    expect(commentGuidance(rel("comment_war", -0.7), "Brad Pemberton")).toContain(
-      "Love this, Brad!",
-    );
+    const war = commentGuidance(rel("comment_war", -0.7), "Brad Pemberton");
+    expect(war).toContain('"respectful disagreement" with Brad.');
+    expect(war).toMatch(/vary it/);
     expect(commentGuidance(rel("reconciled", 0.2), "Brad")).toMatch(/effusive/);
     expect(commentGuidance(rel("cold", -0.3), "Brad")).toMatch(/usual style/);
   });
@@ -232,7 +232,9 @@ describe("buildCommentPrompt", () => {
     expect(comment.system.map((b) => b.text)).toEqual(post.system.map((b) => b.text));
     expect(comment.maxTokens).toBe(120);
     expect(comment.user).toContain("Comment on this post by Rafi Goldberg");
-    expect(comment.user).toContain("Love this, Rafi!");
+    expect(comment.user).toContain('"respectful disagreement" with Rafi.');
+    expect(comment.user).toContain("React to one exact detail of the post.");
+    expect(comment.user).toMatch(/Don't restate or paraphrase/);
 
     const reply = buildCommentPrompt(
       content,
@@ -244,6 +246,7 @@ describe("buildCommentPrompt", () => {
       c,
     );
     expect(reply.user).toContain("Reply to this comment by Doug Kessler");
+    expect(reply.user).toContain("React to one exact detail of the comment.");
   });
   it("rejects unknown types", () => {
     const bad = ctx();
