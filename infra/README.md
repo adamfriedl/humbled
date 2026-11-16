@@ -21,10 +21,21 @@ modules/          project, network, database, security, cloud_run_service, sched
 
 ## First-time setup (dev)
 
-You need a GCP project with billing enabled, `gcloud` logged in as an owner, and Terraform 1.9
-or newer.
+You need a GCP project with billing enabled, `gcloud` logged in as an owner, Billing Account
+Administrator on the billing account (for the budget), and Terraform 1.9 or newer. Terraform
+uses Application Default Credentials, not your `gcloud` login, and some APIs (Budgets, Service
+Usage) need ADC's quota project to be this project:
 
-1. **Bootstrap** (local state, once):
+```bash
+gcloud auth application-default login
+gcloud auth application-default set-quota-project PROJECT
+```
+
+`PROJECT` is the project **id** (e.g. `humbled-514915`), not its name or number. Steps 1–3
+run locally; CI takes over applies after step 4.
+
+1. **Bootstrap** (local state, once). Keep `infra/bootstrap/terraform.tfstate` safe: it's the
+   only copy.
 
    ```bash
    cd infra/bootstrap
@@ -33,14 +44,33 @@ or newer.
      -var billing_account_id=XXXXXX-XXXXXX-XXXXXX
    ```
 
-   After step 2 (once the Anthropic key exists), set these GitHub repository variables
-   (Settings → Secrets and variables → Actions → Variables). The deploy workflow skips every
-   job until they exist, and setting them earlier lets a merge apply Terraform before the
-   worker's secret has a value:
+   Freshly enabled APIs take a minute to propagate. If an apply fails with "API not enabled" or
+   a permission error on a new service, wait and re-run it.
+
+2. **Create the secrets, then add the Anthropic key.** Cloud Run won't start a revision whose
+   secret has no version, so this comes before the full apply. `terraform.tfvars` is gitignored;
+   don't commit it (a committed tfvars would override the `TF_VAR_*` values CI sets).
+
+   ```bash
+   cd infra/envs/dev
+   cp terraform.tfvars.example terraform.tfvars   # fill in, project_id included
+   terraform init -backend-config=bucket=PROJECT-tfstate
+   terraform apply -target=module.security
+   printf '%s' "$ANTHROPIC_API_KEY" | gcloud secrets versions add anthropic-api-key --data-file=- --project PROJECT
+   ```
+
+3. **Apply everything** locally, from `infra/envs/dev`: `terraform apply`. Cloud SQL and the
+   private service connection take 10–15 minutes. The worker starts on a placeholder image;
+   the dead-letter queues stay empty in the meantime, because the placeholder answers 200.
+
+4. **Hand over to CI.** Only now set these GitHub repository **variables** (Settings → Secrets
+   and variables → Actions → Variables, not Secrets). The deploy workflow skips every job until
+   they exist; once set, every merge to main runs `terraform apply`. They must be
+   repository-level, not on an environment, because the PR plan job doesn't run in one:
 
    | variable                         | value                                               |
    | -------------------------------- | --------------------------------------------------- |
-   | `GCP_PROJECT_ID`                 | the project                                         |
+   | `GCP_PROJECT_ID`                 | the project id                                      |
    | `GCP_WORKLOAD_IDENTITY_PROVIDER` | bootstrap output `workload_identity_provider`       |
    | `GCP_DEPLOYER_SERVICE_ACCOUNT`   | bootstrap output `deployer_service_account`         |
    | `TF_STATE_BUCKET`                | bootstrap output `state_bucket`                     |
@@ -49,33 +79,18 @@ or newer.
    | `ALERT_EMAILS`                   | optional, a JSON list such as `["you@example.com"]` |
 
    Also create a GitHub environment named `dev`. The deploy job runs in it, so you can add
-   protection rules later.
+   protection rules later. From here the deploy workflow (`.github/workflows/deploy.yml`)
+   builds the real worker image and deploys it by digest on every merge to main, and pull
+   requests get a `terraform plan` comment.
 
-2. **Create the secrets first, then add the Anthropic key.** Cloud Run won't start a revision
-   whose secret has no version, so this comes before the full apply:
-
-   ```bash
-   cd infra/envs/dev
-   cp terraform.tfvars.example terraform.tfvars   # fill in
-   terraform init -backend-config=bucket=PROJECT-tfstate
-   terraform apply -target=module.security
-   printf '%s' "$ANTHROPIC_API_KEY" | gcloud secrets versions add anthropic-api-key --data-file=-
-   ```
-
-3. **Apply everything:** `terraform apply` (or merge to main and let the deploy workflow do it).
-   The worker starts on a placeholder image. The deploy workflow (`.github/workflows/deploy.yml`)
-   builds the real one and deploys it by digest on every merge to main. The dead-letter queues
-   stay empty in the meantime, because the placeholder answers 200. Pull requests get a
-   `terraform plan` comment.
-
-4. **Lock files:** the first `terraform init` on a machine with normal registry access writes
+5. **Lock files:** the first `terraform init` on a machine with normal registry access writes
    `.terraform.lock.hcl` in `bootstrap/` and `envs/dev/`. Add the other platforms and commit them:
 
    ```bash
    terraform providers lock -platform=linux_amd64 -platform=darwin_arm64
    ```
 
-5. **Anthropic spend limit:** set a monthly limit in the Anthropic Console (CR-8). It's the one
+6. **Anthropic spend limit:** set a monthly limit in the Anthropic Console (CR-8). It's the one
    piece that isn't Terraform.
 
 ## Teardown

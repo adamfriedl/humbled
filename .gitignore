@@ -12,3 +12,5 @@ tools/simulate/runs/
 .terraform/
 *.tfstate*
 infra/modules/billing_guard/.build/
+*.tfvars
+!*.tfvars.example
