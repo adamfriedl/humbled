@@ -93,6 +93,7 @@ resource "google_iam_workload_identity_pool_provider" "github" {
 resource "google_service_account" "deployer" {
   account_id   = "github-deployer"
   display_name = "GitHub Actions deployer (Terraform apply, image push, deploy)"
+  depends_on   = [google_project_service.bootstrap]
 }
 
 # Any workflow run in the repository may impersonate the deployer. Plans run on pull requests
@@ -114,11 +115,14 @@ resource "google_project_iam_member" "deployer" {
     "roles/iam.serviceAccountAdmin",
     "roles/secretmanager.admin",
     "roles/run.admin",
+    "roles/pubsub.admin", # editor can't read or set IAM on topics and subscriptions
     "roles/servicenetworking.networksAdmin",
   ])
   project = var.project_id
   role    = each.value
   member  = "serviceAccount:${google_service_account.deployer.email}"
+
+  depends_on = [google_project_service.bootstrap]
 }
 
 resource "google_storage_bucket_iam_member" "deployer_state" {
