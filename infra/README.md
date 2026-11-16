@@ -23,13 +23,14 @@ modules/          project, network, database, security, cloud_run_service, sched
 
 You need a GCP project with billing enabled, `gcloud` logged in as an owner, Billing Account
 Administrator on the billing account (for the budget), and Terraform 1.9 or newer. Terraform
-uses Application Default Credentials, not your `gcloud` login, and some APIs (Budgets, Service
-Usage) need ADC's quota project to be this project:
+uses Application Default Credentials, not your `gcloud` login:
 
 ```bash
 gcloud auth application-default login
-gcloud auth application-default set-quota-project PROJECT
 ```
+
+The dev provider sets `billing_project` and `user_project_override`, so API quota is billed to
+the project itself; you don't need to set an ADC quota project (the provider ignores it anyway).
 
 `PROJECT` is the project **id** (e.g. `humbled-514915`), not its name or number. Steps 1–3
 run locally; CI takes over applies after step 4.
@@ -96,9 +97,21 @@ run locally; CI takes over applies after step 4.
 ## Teardown
 
 `terraform destroy` in `envs/dev` removes everything billable. Deletion protection is off in
-dev. Cloud Run's direct VPC egress holds `serverless-ipv4-*` addresses in the subnet for up
-to a couple of hours after the service is deleted, so the subnet and network can fail with
-`resourceInUseByAnotherResource`. Wait, and run `terraform destroy` again. The state bucket and the WIF pool from `bootstrap/` stay behind and cost nothing at rest.
+dev. Two waits are normal:
+
+- Cloud Run's direct VPC egress holds `serverless-ipv4-*` addresses in the subnet for up to a
+  couple of hours after the service is deleted, so the subnet fails with
+  `resourceInUseByAnotherResource`. Wait, and run `terraform destroy` again.
+- Cloud SQL releases its side of the private-services peering lazily. The connection is
+  abandoned on destroy; if the network then refuses to delete, remove the peering yourself:
+  `gcloud compute networks peerings delete servicenetworking-googleapis-com --network humbled`.
+
+What stays behind: the state bucket and WIF pool from `bootstrap/`, and the `gcf-artifacts`
+repository and `gcf-v2-sources-*` bucket that Cloud Functions creates outside Terraform. Both
+are recreated on the next apply and sit inside the free tier.
+
+On a fresh apply, an alert policy can fail with "Cannot find metric(s)": a new log-based metric
+takes up to 10 minutes to become usable. Wait, and run `terraform apply` again.
 
 ## Checks
 

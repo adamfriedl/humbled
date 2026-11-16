@@ -24,6 +24,10 @@ terraform {
 provider "google" {
   project = var.project_id
   region  = var.region
+  # Bill API quota to this project. Without it, user credentials (ADC) bill to gcloud's own
+  # OAuth client project, where the Budgets API is off, and the budget fails with a 403.
+  billing_project       = var.project_id
+  user_project_override = true
   default_labels = {
     app = "humbled"
     env = "dev"
