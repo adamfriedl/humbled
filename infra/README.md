@@ -68,15 +68,15 @@ run locally; CI takes over applies after step 4.
    they exist; once set, every merge to main runs `terraform apply`. They must be
    repository-level, not on an environment, because the PR plan job doesn't run in one:
 
-   | variable                         | value                                               |
-   | -------------------------------- | --------------------------------------------------- |
-   | `GCP_PROJECT_ID`                 | the project id                                      |
-   | `GCP_WORKLOAD_IDENTITY_PROVIDER` | bootstrap output `workload_identity_provider`       |
-   | `GCP_DEPLOYER_SERVICE_ACCOUNT`   | bootstrap output `deployer_service_account`         |
-   | `TF_STATE_BUCKET`                | bootstrap output `state_bucket`                     |
-   | `GCP_BILLING_ACCOUNT_ID`         | the billing account (enables the CR-8 kill switch)  |
-   | `GCP_REGION`                     | optional, defaults to `us-central1`                 |
-   | `ALERT_EMAILS`                   | optional, a JSON list such as `["you@example.com"]` |
+   | variable                         | value                                                                             |
+   | -------------------------------- | --------------------------------------------------------------------------------- |
+   | `GCP_PROJECT_ID`                 | the project id                                                                    |
+   | `GCP_WORKLOAD_IDENTITY_PROVIDER` | bootstrap output `workload_identity_provider`                                     |
+   | `GCP_DEPLOYER_SERVICE_ACCOUNT`   | bootstrap output `deployer_service_account`                                       |
+   | `TF_STATE_BUCKET`                | bootstrap output `state_bucket`                                                   |
+   | `GCP_BILLING_ACCOUNT_ID`         | the billing account (enables the CR-8 kill switch)                                |
+   | `GCP_REGION`                     | optional, defaults to `us-central1`                                               |
+   | `ALERT_EMAILS`                   | optional, one address or a JSON list such as `["a@example.com", "b@example.com"]` |
 
    Also create a GitHub environment named `dev`. The deploy job runs in it, so you can add
    protection rules later. From here the deploy workflow (`.github/workflows/deploy.yml`)
