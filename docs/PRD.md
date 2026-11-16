@@ -314,13 +314,15 @@ Build in five phases, about two weeks to public launch. Each phase ends at a gat
 
 Scope: `packages/domain`, `packages/comedy`, `packages/llm`, `content/`, `tools/simulate`. Local Postgres or in-memory repositories.
 
-- [ ] 8 persona type modules, house style guide, 20 world companies, 30 events, golden set of 30 posts.
-- [ ] Planner, grudge state machine, dormancy and quotas implemented with unit tests (at least 90% line coverage on `domain`).
-- [ ] `make simulate PERSONAS=10 DAYS=7` produces a Markdown transcript, a judge report and a cost report.
-- [ ] At least one feud reaches reconciliation within 7 simulated days with seeded rivals.
-- [ ] Judge average of at least 3.5 out of 5 on funny; no persona type below 3.0; repetition metrics under thresholds.
-- [ ] Simulated cost per persona-day at or below $0.005.
-- [ ] **Gate:** Adam reads the transcript and signs off on funny.
+- [x] 8 persona type modules, house style guide, 20 world companies, 30 events, golden set of 30 posts.
+- [x] Planner, grudge state machine, dormancy and quotas implemented with unit tests (at least 90% line coverage on `domain`).
+- [x] `make simulate PERSONAS=10 DAYS=7` produces a Markdown transcript, a judge report and a cost report.
+- [x] At least one feud reaches reconciliation within 7 simulated days with seeded rivals.
+- [x] Judge average of at least 3.5 out of 5 on funny; no persona type below 3.0; repetition metrics under thresholds.
+- [x] Simulated cost per persona-day at or below $0.005.
+- [x] **Gate:** Adam reads the transcript and signs off on funny.
+
+Passed 2026-11-16 on run 3 (seed 1, 10 personas, 7 days): judge funny 3.64 under the stricter rubric, lowest type 3.43, 6 reconciliations, $0.00302 per persona-day. See PRs #4 and #5.
 
 ### Phase 1: Platform foundation (3 days)
 
