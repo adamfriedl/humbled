@@ -96,7 +96,9 @@ run locally; CI takes over applies after step 4.
 ## Teardown
 
 `terraform destroy` in `envs/dev` removes everything billable. Deletion protection is off in
-dev. The state bucket and the WIF pool from `bootstrap/` stay behind and cost nothing at rest.
+dev. Cloud Run's direct VPC egress holds `serverless-ipv4-*` addresses in the subnet for up
+to a couple of hours after the service is deleted, so the subnet and network can fail with
+`resourceInUseByAnotherResource`. Wait, and run `terraform destroy` again. The state bucket and the WIF pool from `bootstrap/` stay behind and cost nothing at rest.
 
 ## Checks
 

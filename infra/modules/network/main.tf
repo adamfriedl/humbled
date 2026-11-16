@@ -35,6 +35,9 @@ resource "google_service_networking_connection" "private_services" {
   network                 = google_compute_network.this.id
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = [google_compute_global_address.private_services.name]
+  # Cloud SQL releases the peering lazily, so DELETE fails with "Producer services are still
+  # using this connection" for hours after the instance is gone. The peering goes with the VPC.
+  deletion_policy = "ABANDON"
 }
 
 # Nothing in this VPC accepts ingress: Cloud Run uses it for egress only, and Cloud SQL is
