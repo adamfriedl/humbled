@@ -6,6 +6,7 @@ import { z } from "zod";
  */
 
 const probability = z.number().min(0).max(1);
+const thinkingMode = z.enum(["off", "low", "medium"]).default("off");
 
 export const DormancyTierSchema = z.object({
   /** Owner last seen strictly less than this many days ago. */
@@ -199,8 +200,54 @@ export const ConfigSchema = z.object({
           relationshipNote: z.number().int().positive(),
         })
         .default({ post: 400, comment: 120, summary: 500, judge: 200, relationshipNote: 60 }),
+      /**
+       * Thinking per call type (ADR 0003). "off" disables thinking; "low"/"medium" run adaptive
+       * thinking at that effort. Haiku 5.5 thinks by default, and thinking bills as output.
+       */
+      thinking: z
+        .object({
+          post: thinkingMode,
+          comment: thinkingMode,
+          summary: thinkingMode,
+          judge: thinkingMode,
+          relationshipNote: thinkingMode,
+        })
+        .prefault({}),
+      /**
+       * USD per million tokens, per model, at the ≤100K-prompt rate. Cache reads, cache writes
+       * and batch discount are multipliers on these. Keep in sync with Anthropic's price list.
+       */
+      pricing: z
+        .record(
+          z.string(),
+          z.object({
+            inputPerMTok: z.number().nonnegative(),
+            outputPerMTok: z.number().nonnegative(),
+          }),
+        )
+        .default({ "claude-haiku-5-5": { inputPerMTok: 0.1, outputPerMTok: 0.5 } }),
+      cacheReadMultiplier: z.number().nonnegative().default(0.1),
+      cacheWriteMultiplier: z.number().nonnegative().default(1.25),
+      batchDiscount: z.number().min(0).max(1).default(0.5),
+      /**
+       * API base URL, set explicitly so the SDK never inherits an ANTHROPIC_BASE_URL meant for
+       * another tool in the environment.
+       */
+      baseURL: z.string().url().default("https://api.anthropic.com"),
       /** Hours after which an open batch is logged as late (CR-3). */
       batchSlaHours: z.number().positive().default(2),
+    })
+    .prefault({}),
+
+  /** Phase 0 gate thresholds, checked by the simulation harness. */
+  eval: z
+    .object({
+      minAvgFunny: z.number().min(1).max(5).default(3.5),
+      minTypeAvgFunny: z.number().min(1).max(5).default(3),
+      /** Projected (batch-priced) LLM cost per persona per simulated day. */
+      maxCostPerPersonaDayUsd: z.number().nonnegative().default(0.005),
+      /** A type's posts "converge" when their mean pairwise trigram overlap exceeds this. */
+      maxTypeTrigramOverlap: probability.default(0.08),
     })
     .prefault({}),
 

@@ -285,3 +285,32 @@ describe("judge", () => {
     expect(selectBest([s(0, 5, 1)], 1, 4)).toBeUndefined();
   });
 });
+
+describe("buildSummaryPrompt (FR-17)", () => {
+  it("shares the persona's cached tiers and includes today's posts and events", async () => {
+    const { buildSummaryPrompt } = await import("../src/index.ts");
+    const post = buildPostPrompt(content, ctx(), { format: "lesson" }, seededRandom(1), c);
+    const p = buildSummaryPrompt(
+      content,
+      ctx().persona,
+      {
+        previousSummary: "Pivoted twice.",
+        posts: ["We pivoted to biscuits."],
+        events: ["Rafi Goldberg: comment war → public exit"],
+      },
+      c,
+    );
+    expect(p.kind).toBe("summary");
+    expect(p.system.map((b) => b.text)).toEqual(post.system.map((b) => b.text));
+    expect(p.user).toContain("Pivoted twice.");
+    expect(p.user).toContain("We pivoted to biscuits.");
+    expect(p.user).toContain("public exit");
+    expect(p.maxTokens).toBe(500);
+    const empty = buildSummaryPrompt(content, ctx().persona, { posts: [], events: [] }, c);
+    expect(empty.user).toContain("(none yet)");
+    const bad = ctx().persona;
+    expect(() =>
+      buildSummaryPrompt(content, { ...bad, type: "nope" as never }, { posts: [], events: [] }, c),
+    ).toThrow();
+  });
+});

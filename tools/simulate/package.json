@@ -1,0 +1,21 @@
+{
+  "name": "@humbled/simulate",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "simulate": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@humbled/comedy": "workspace:*",
+    "@humbled/config": "workspace:*",
+    "@humbled/content": "workspace:*",
+    "@humbled/domain": "workspace:*",
+    "@humbled/llm": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.0"
+  }
+}

@@ -6,7 +6,7 @@ export interface PromptBlock {
   cache: boolean;
 }
 
-export type PromptKind = "post" | "comment" | "judge";
+export type PromptKind = "post" | "comment" | "judge" | "summary";
 
 /** SDK-agnostic prompt. `packages/llm` maps it onto a Messages API request. */
 export interface BuiltPrompt {
