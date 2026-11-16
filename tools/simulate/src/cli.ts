@@ -8,11 +8,11 @@ import { seededRandom } from "@humbled/domain";
 import {
   AnthropicLLMClient,
   FakeLLMClient,
+  fakeResponder,
   InMemorySpendLedger,
   type LLMClient,
 } from "@humbled/llm";
 import { selectPersonas, Simulation } from "./engine.ts";
-import { fakeResponder } from "./fake.ts";
 import { costReport, gateMarkdown, judgeReport, transcript } from "./report.ts";
 
 const { values } = parseArgs({

@@ -1,8 +1,8 @@
 import { seededRandom, pickOne } from "@humbled/domain";
-import type { LLMRequest } from "@humbled/llm";
+import type { LLMRequest } from "./types.ts";
 
 /**
- * Offline stand-in for the model, for testing the harness. Output is deliberately labeled
+ * Offline stand-in for the model, for the simulator (FAKE=1) and worker tests. Output is deliberately labeled
  * [FAKE] and is not funny; it only has the right shape, length and variety.
  */
 

@@ -36,6 +36,37 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@22.20.5)(@vitest/coverage-v8@5.1.0)(vite@8.3.8(@types/node@22.20.5)(esbuild@0.28.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  apps/worker:
+    dependencies:
+      '@humbled/comedy':
+        specifier: workspace:*
+        version: link:../../packages/comedy
+      '@humbled/config':
+        specifier: workspace:*
+        version: link:../../packages/config
+      '@humbled/content':
+        specifier: workspace:*
+        version: link:../../packages/content
+      '@humbled/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@humbled/domain':
+        specifier: workspace:*
+        version: link:../../packages/domain
+      '@humbled/llm':
+        specifier: workspace:*
+        version: link:../../packages/llm
+      tsx:
+        specifier: ^4.20.0
+        version: 4.23.15
+    devDependencies:
+      '@testcontainers/postgresql':
+        specifier: ^12.2.1
+        version: 12.2.1(bare-buffer@3.7.2)
+      drizzle-orm:
+        specifier: ^0.45.4
+        version: 0.45.4(@opentelemetry/api@1.10.0)(@types/pg@8.23.1)(pg@8.23.1)
+
   packages/comedy:
     dependencies:
       '@humbled/config':
@@ -114,6 +145,9 @@ importers:
       '@humbled/config':
         specifier: workspace:*
         version: link:../config
+      '@humbled/domain':
+        specifier: workspace:*
+        version: link:../domain
 
   tools/simulate:
     dependencies:

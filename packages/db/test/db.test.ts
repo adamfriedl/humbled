@@ -405,3 +405,23 @@ describe("job runs and comment counts", () => {
     expect(await repos().commentCounts([])).toEqual(new Map());
   });
 });
+
+describe("releasing claims", () => {
+  it("releases a job run and unbatched actions, keeping batched ones", async () => {
+    await repos().upsertHouseBots([seed("a")]);
+    expect(await repos().claimJobRun("tick", "t1")).toBe(true);
+    await repos().releaseJobRun("tick", "t1");
+    expect(await repos().claimJobRun("tick", "t1")).toBe(true);
+
+    const plan = { kind: "post" as const, personaId: "a", format: "lesson" as const };
+    const post: ActionKey = { tickId: "t1", personaId: "a", actionType: "post" };
+    const comment: ActionKey = { ...post, actionType: "comment" };
+    await repos().claimAction(post, plan);
+    await repos().claimAction(comment, plan);
+    await repos().attachBatch([post], "b1");
+    await repos().releaseActions([post, comment]);
+    expect(await repos().getAction(post)).toBeDefined();
+    expect(await repos().getAction(comment)).toBeUndefined();
+    expect(await repos().claimAction(comment, plan)).toBe(true);
+  });
+});

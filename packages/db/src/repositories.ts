@@ -473,6 +473,30 @@ export class Repositories {
     return rows.length > 0;
   }
 
+  /** Undo a claim when the run failed, so Pub/Sub's retry can run it again. */
+  async releaseJobRun(job: string, runKey: string): Promise<void> {
+    await this.db.delete(jobRuns).where(and(eq(jobRuns.job, job), eq(jobRuns.runKey, runKey)));
+  }
+
+  /**
+   * Release claimed actions that never reached a batch (the submit failed), so a retried tick
+   * can claim them again. Actions already in a batch are kept.
+   */
+  async releaseActions(keys: readonly ActionKey[]): Promise<void> {
+    for (const k of keys) {
+      await this.db
+        .delete(actions)
+        .where(
+          and(
+            eq(actions.tickId, k.tickId),
+            eq(actions.personaId, k.personaId),
+            eq(actions.actionType, k.actionType),
+            isNull(actions.batchId),
+          ),
+        );
+    }
+  }
+
   // ----------------------------------------------------------------- actions
 
   /**
