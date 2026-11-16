@@ -1,0 +1,24 @@
+{
+  "name": "@humbled/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@humbled/comedy": "workspace:*",
+    "@humbled/config": "workspace:*",
+    "@humbled/content": "workspace:*",
+    "@humbled/db": "workspace:*",
+    "@humbled/domain": "workspace:*",
+    "@humbled/llm": "workspace:*",
+    "tsx": "^4.20.0"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "^12.2.1",
+    "drizzle-orm": "^0.45.4"
+  }
+}

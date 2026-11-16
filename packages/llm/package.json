@@ -16,6 +16,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",
     "@humbled/comedy": "workspace:*",
-    "@humbled/config": "workspace:*"
+    "@humbled/config": "workspace:*",
+    "@humbled/domain": "workspace:*"
   }
 }

@@ -19,6 +19,7 @@ import {
   comments,
   endorsements,
   follows,
+  jobRuns,
   llmBatches,
   personaMemory,
   personas,
@@ -53,6 +54,19 @@ export interface PersonaRow {
   ownerLastSeenAt: Date | null;
   canon: Record<string, unknown>;
   careerSummary: string | null;
+  pendingPosts: PendingPost[];
+}
+
+/** A ladder post owed after a nightly transition. */
+export interface PendingPost {
+  format: PostFormat;
+  targetId: string;
+}
+
+/** A directed relationship plus the seeded backstory, if any. */
+export interface StoredRelationship {
+  rel: Relationship;
+  history: string | null;
 }
 
 export interface NewPost {
@@ -142,6 +156,7 @@ export class Repositories {
       ownerLastSeenAt: p.ownerId ? (seen.get(p.ownerId) ?? null) : null,
       canon: (byId.get(p.id)?.canon as Record<string, unknown> | undefined) ?? {},
       careerSummary: byId.get(p.id)?.careerSummary ?? null,
+      pendingPosts: (byId.get(p.id)?.pendingPosts as PendingPost[] | undefined) ?? [],
     }));
   }
 
@@ -155,14 +170,30 @@ export class Repositories {
       });
   }
 
+  async setPendingPosts(personaId: string, pending: readonly PendingPost[]): Promise<void> {
+    await this.db
+      .insert(personaMemory)
+      .values({ personaId, pendingPosts: pending })
+      .onConflictDoUpdate({
+        target: personaMemory.personaId,
+        set: { pendingPosts: pending, updatedAt: sql`now()` },
+      });
+  }
+
   // -------------------------------------------------------------- relationships
 
   /** Seed a relationship only if it doesn't exist yet (content seeds never overwrite history). */
-  async seedRelationship(r: Relationship): Promise<void> {
+  async seedRelationship(r: Relationship, history?: string): Promise<void> {
     await this.db
       .insert(relationships)
-      .values(relationshipRow(r))
+      .values({ ...relationshipRow(r), history: history ?? null })
       .onConflictDoNothing({ target: [relationships.aId, relationships.bId] });
+  }
+
+  /** Every relationship with its backstory (for /nightly and prompt context). */
+  async allRelationships(): Promise<StoredRelationship[]> {
+    const rows = await this.db.select().from(relationships);
+    return rows.map((r) => ({ rel: toRelationship(r), history: r.history }));
   }
 
   async saveRelationship(r: Relationship, lastEventAt?: Date): Promise<void> {
@@ -175,14 +206,7 @@ export class Repositories {
 
   async relationshipsFrom(personaId: string): Promise<Relationship[]> {
     const rows = await this.db.select().from(relationships).where(eq(relationships.aId, personaId));
-    return rows.map((r) => ({
-      from: r.aId,
-      to: r.bId,
-      affinity: r.affinity,
-      stage: r.stage,
-      stageSince: r.stageSince,
-      notes: r.notes,
-    }));
+    return rows.map(toRelationship);
   }
 
   // ---------------------------------------------------------------------- feed
@@ -284,7 +308,8 @@ export class Repositories {
 
   /**
    * Comments by others on this persona's posts, and replies by others to this persona's
-   * comments, since `since`: what the planner may reply to.
+   * comments, since `since`, that this persona hasn't replied to yet: what the planner may
+   * reply to.
    */
   async replyCandidates(personaId: string, since: Date): Promise<CommentRef[]> {
     const rows = await this.db.execute<{
@@ -302,6 +327,9 @@ export class Repositories {
         and c.persona_id <> ${personaId}
         and ((c.parent_id is null and p.persona_id = ${personaId})
              or parent.persona_id = ${personaId})
+        and not exists (
+          select 1 from ${comments} mine where mine.parent_id = c.id and mine.persona_id = ${personaId}
+        )
       order by c.created_at desc
     `);
     return rows.rows.map((r) => ({
@@ -311,6 +339,36 @@ export class Repositories {
       depth: Number(r.depth),
       ...(r.parent_author ? { parentAuthorId: r.parent_author } : {}),
     }));
+  }
+
+  /** When this persona last replied to each author (the reply cooldown). */
+  async lastRepliedAt(personaId: string): Promise<Map<string, Date>> {
+    const rows = await this.db.execute<{ author: string; at: Date }>(sql`
+      select parent.persona_id as author, max(c.created_at) as at
+      from ${comments} c
+      join ${comments} parent on parent.id = c.parent_id
+      where c.persona_id = ${personaId}
+      group by parent.persona_id
+    `);
+    return new Map(rows.rows.map((r) => [r.author, new Date(r.at)]));
+  }
+
+  /** Whether the persona already posted this format on the UTC day of `at` (event reactions). */
+  async postedFormatOn(personaId: string, format: PostFormat, at: Date): Promise<boolean> {
+    const { start, end } = utcDay(at);
+    const rows = await this.db
+      .select({ id: posts.id })
+      .from(posts)
+      .where(
+        and(
+          eq(posts.personaId, personaId),
+          eq(posts.format, format),
+          gte(posts.createdAt, start),
+          lt(posts.createdAt, end),
+        ),
+      )
+      .limit(1);
+    return rows.length > 0;
   }
 
   /** Posts and comments (top-level and replies) a persona made on the UTC day of `at`. */
@@ -392,6 +450,53 @@ export class Repositories {
     return new Map(rows.map((r) => [r.postId, r.n]));
   }
 
+  /** Comment counts (all depths) per post, for engagement rescoring. */
+  async commentCounts(postIds: readonly string[]): Promise<Map<string, number>> {
+    if (postIds.length === 0) return new Map();
+    const rows = await this.db
+      .select({ postId: comments.postId, n: sql<number>`count(*)::int` })
+      .from(comments)
+      .where(inArray(comments.postId, [...postIds]))
+      .groupBy(comments.postId);
+    return new Map(rows.map((r) => [r.postId, r.n]));
+  }
+
+  // ---------------------------------------------------------------- job runs
+
+  /** Claim a once-per-key job run. Returns false if it already ran (a Pub/Sub redelivery). */
+  async claimJobRun(job: string, runKey: string): Promise<boolean> {
+    const rows = await this.db
+      .insert(jobRuns)
+      .values({ job, runKey })
+      .onConflictDoNothing()
+      .returning({ job: jobRuns.job });
+    return rows.length > 0;
+  }
+
+  /** Undo a claim when the run failed, so Pub/Sub's retry can run it again. */
+  async releaseJobRun(job: string, runKey: string): Promise<void> {
+    await this.db.delete(jobRuns).where(and(eq(jobRuns.job, job), eq(jobRuns.runKey, runKey)));
+  }
+
+  /**
+   * Release claimed actions that never reached a batch (the submit failed), so a retried tick
+   * can claim them again. Actions already in a batch are kept.
+   */
+  async releaseActions(keys: readonly ActionKey[]): Promise<void> {
+    for (const k of keys) {
+      await this.db
+        .delete(actions)
+        .where(
+          and(
+            eq(actions.tickId, k.tickId),
+            eq(actions.personaId, k.personaId),
+            eq(actions.actionType, k.actionType),
+            isNull(actions.batchId),
+          ),
+        );
+    }
+  }
+
   // ----------------------------------------------------------------- actions
 
   /**
@@ -457,10 +562,11 @@ export class Repositories {
     providerBatchId: string,
     purpose: "tick" | "nightly",
     requests: Record<string, unknown>,
+    submittedAt?: Date,
   ): Promise<string> {
     const [row] = await this.db
       .insert(llmBatches)
-      .values({ providerBatchId, purpose, requests })
+      .values({ providerBatchId, purpose, requests, ...(submittedAt ? { submittedAt } : {}) })
       .returning({ id: llmBatches.id });
     return row!.id;
   }
@@ -537,6 +643,17 @@ function relationshipRow(r: Relationship) {
   return {
     aId: r.from,
     bId: r.to,
+    affinity: r.affinity,
+    stage: r.stage,
+    stageSince: r.stageSince,
+    notes: r.notes,
+  };
+}
+
+function toRelationship(r: typeof relationships.$inferSelect): Relationship {
+  return {
+    from: r.aId,
+    to: r.bId,
     affinity: r.affinity,
     stage: r.stage,
     stageSince: r.stageSince,

@@ -1,0 +1,10 @@
+**/node_modules
+**/coverage
+**/.turbo
+.git
+tools/simulate/runs
+infra
+docs
+*.log
+.env
+.env.*

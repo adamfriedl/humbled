@@ -221,10 +221,10 @@ describe("feed", () => {
       createdAt: at(4),
     });
 
+    // b's comment is excluded: a already replied to it (ra).
     const forA = await repos().replyCandidates("a", at(-10));
     expect(forA).toEqual([
       { commentId: rc, postId: pa, authorId: "c", depth: 3, parentAuthorId: "a" },
-      { commentId: cb, postId: pa, authorId: "b", depth: 1 },
     ]);
     expect(await repos().replyCandidates("a", at(10))).toEqual([]);
     expect(await repos().commentedPostIds("a", at(-10))).toEqual(new Set([pb]));
@@ -314,5 +314,114 @@ describe("utcDay", () => {
       start: new Date("2026-11-16T00:00:00.000Z"),
       end: new Date("2026-11-17T00:00:00.000Z"),
     });
+  });
+});
+
+describe("worker state", () => {
+  it("keeps owed ladder posts and relationship backstory", async () => {
+    await repos().upsertHouseBots([seed("a"), seed("b")]);
+    await repos().setPendingPosts("a", [{ format: "public_exit", targetId: "b" }]);
+    expect((await repos().listPersonas())[0]?.pendingPosts).toEqual([
+      { format: "public_exit", targetId: "b" },
+    ]);
+    await repos().setPendingPosts("a", []);
+    expect((await repos().listPersonas())[0]?.pendingPosts).toEqual([]);
+
+    const r = {
+      from: "a",
+      to: "b",
+      affinity: -0.4,
+      stage: "cold" as const,
+      stageSince: T0,
+      notes: [],
+    };
+    await repos().seedRelationship(r, "Both claimed the same deal in Q3.");
+    await repos().seedRelationship({ ...r, from: "b", to: "a" });
+    const all = await repos().allRelationships();
+    expect(all.find((x) => x.rel.from === "a")).toEqual({
+      rel: { ...r, affinity: expect.closeTo(-0.4, 5) },
+      history: "Both claimed the same deal in Q3.",
+    });
+    expect(all.find((x) => x.rel.from === "b")?.history).toBeNull();
+  });
+
+  it("skips comments already replied to, and tracks the reply cooldown", async () => {
+    await repos().upsertHouseBots([seed("a"), seed("b")]);
+    const pa = await repos().insertPost({
+      personaId: "a",
+      format: "lesson",
+      body: "x",
+      createdAt: at(0),
+    });
+    const cb = await repos().insertComment({
+      postId: pa,
+      personaId: "b",
+      body: "Love this",
+      depth: 1,
+      createdAt: at(1),
+    });
+    expect((await repos().replyCandidates("a", at(-10))).map((c) => c.commentId)).toEqual([cb]);
+    expect(await repos().lastRepliedAt("a")).toEqual(new Map());
+
+    await repos().insertComment({
+      postId: pa,
+      parentId: cb,
+      personaId: "a",
+      body: "Thanks",
+      depth: 2,
+      createdAt: at(2),
+    });
+    expect(await repos().replyCandidates("a", at(-10))).toEqual([]);
+    expect(await repos().lastRepliedAt("a")).toEqual(new Map([["b", at(2)]]));
+  });
+
+  it("knows whether a persona already posted a format today", async () => {
+    await repos().upsertHouseBots([seed("a")]);
+    expect(await repos().postedFormatOn("a", "event_reaction", T0)).toBe(false);
+    await repos().insertPost({
+      personaId: "a",
+      format: "event_reaction",
+      body: "x",
+      createdAt: at(-60),
+    });
+    expect(await repos().postedFormatOn("a", "event_reaction", T0)).toBe(true);
+    expect(await repos().postedFormatOn("a", "event_reaction", at(24 * 60))).toBe(false);
+  });
+});
+
+describe("job runs and comment counts", () => {
+  it("claims a job run once", async () => {
+    expect(await repos().claimJobRun("nightly", "2026-11-16")).toBe(true);
+    expect(await repos().claimJobRun("nightly", "2026-11-16")).toBe(false);
+    expect(await repos().claimJobRun("nightly", "2026-11-17")).toBe(true);
+  });
+
+  it("counts comments per post", async () => {
+    await repos().upsertHouseBots([seed("a"), seed("b")]);
+    const p = await repos().insertPost({ personaId: "a", format: "lesson", body: "x" });
+    const c = await repos().insertComment({ postId: p, personaId: "b", body: "y", depth: 1 });
+    await repos().insertComment({ postId: p, parentId: c, personaId: "a", body: "z", depth: 2 });
+    expect(await repos().commentCounts([p])).toEqual(new Map([[p, 2]]));
+    expect(await repos().commentCounts([])).toEqual(new Map());
+  });
+});
+
+describe("releasing claims", () => {
+  it("releases a job run and unbatched actions, keeping batched ones", async () => {
+    await repos().upsertHouseBots([seed("a")]);
+    expect(await repos().claimJobRun("tick", "t1")).toBe(true);
+    await repos().releaseJobRun("tick", "t1");
+    expect(await repos().claimJobRun("tick", "t1")).toBe(true);
+
+    const plan = { kind: "post" as const, personaId: "a", format: "lesson" as const };
+    const post: ActionKey = { tickId: "t1", personaId: "a", actionType: "post" };
+    const comment: ActionKey = { ...post, actionType: "comment" };
+    await repos().claimAction(post, plan);
+    await repos().claimAction(comment, plan);
+    await repos().attachBatch([post], "b1");
+    await repos().releaseActions([post, comment]);
+    expect(await repos().getAction(post)).toBeDefined();
+    expect(await repos().getAction(comment)).toBeUndefined();
+    expect(await repos().claimAction(comment, plan)).toBe(true);
   });
 });

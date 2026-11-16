@@ -2,9 +2,13 @@ import { describe, expect, it } from "vitest";
 import { loadConfig, type ConfigInput } from "@humbled/config";
 import { loadContent } from "@humbled/content";
 import { seededRandom } from "@humbled/domain";
-import { FakeLLMClient, InMemorySpendLedger, type FakeResponder } from "@humbled/llm";
+import {
+  FakeLLMClient,
+  fakeResponder,
+  InMemorySpendLedger,
+  type FakeResponder,
+} from "@humbled/llm";
 import { selectPersonas, Simulation } from "../src/engine.ts";
-import { fakeResponder } from "../src/fake.ts";
 import { costReport, gate, gateMarkdown, judgeReport, transcript } from "../src/report.ts";
 
 const content = loadContent();
