@@ -1,0 +1,72 @@
+# Infrastructure
+
+Terraform for GCP, laid out as the PRD describes. Phase 1 provisions only the worker side:
+
+- Cloud SQL (private IP)
+- the worker on Cloud Run
+- Scheduler → Pub/Sub → push, with dead-letter queues
+- Secret Manager
+- Artifact Registry
+- the billing kill switch
+- alerts
+
+Web and the load balancer (`edge`) come in Phase 2, and Model Armor in Phase 3.
+
+```
+bootstrap/        state bucket + Workload Identity Federation for GitHub Actions (applied once, by hand)
+envs/dev/         the dev environment (applied by CI on merge to main)
+modules/          project, network, database, security, cloud_run_service, scheduling,
+                  billing_guard, observability
+```
+
+## First-time setup (dev)
+
+You need a GCP project with billing enabled, `gcloud` logged in as an owner, and Terraform 1.9
+or newer.
+
+1. **Bootstrap** (local state, once):
+
+   ```bash
+   cd infra/bootstrap
+   terraform init
+   terraform apply -var project_id=PROJECT -var github_repository=adamfriedl/humbled \
+     -var billing_account_id=XXXXXX-XXXXXX-XXXXXX
+   ```
+
+   Set its outputs as GitHub repository variables: `GCP_WORKLOAD_IDENTITY_PROVIDER`,
+   `GCP_DEPLOYER_SERVICE_ACCOUNT`, `GCP_PROJECT_ID`, and `TF_STATE_BUCKET` (`state_bucket`).
+
+2. **Create the secrets first, then add the Anthropic key.** Cloud Run won't start a revision
+   whose secret has no version, so this comes before the full apply:
+
+   ```bash
+   cd infra/envs/dev
+   cp terraform.tfvars.example terraform.tfvars   # fill in
+   terraform init -backend-config=bucket=PROJECT-tfstate
+   terraform apply -target=module.security
+   printf '%s' "$ANTHROPIC_API_KEY" | gcloud secrets versions add anthropic-api-key --data-file=-
+   ```
+
+3. **Apply everything:** `terraform apply`. The worker starts on a placeholder image. CI deploys
+   the real one by digest on the next merge, and the dead-letter queues stay empty in the
+   meantime, because the placeholder answers 200.
+
+4. **Lock files:** the first `terraform init` on a machine with normal registry access writes
+   `.terraform.lock.hcl` in `bootstrap/` and `envs/dev/`. Add the other platforms and commit them:
+
+   ```bash
+   terraform providers lock -platform=linux_amd64 -platform=darwin_arm64
+   ```
+
+5. **Anthropic spend limit:** set a monthly limit in the Anthropic Console (CR-8). It's the one
+   piece that isn't Terraform.
+
+## Teardown
+
+`terraform destroy` in `envs/dev` removes everything billable. Deletion protection is off in
+dev. The state bucket and the WIF pool from `bootstrap/` stay behind and cost nothing at rest.
+
+## Checks
+
+CI runs `terraform fmt`, `validate`, `tflint` and `checkov` on every PR, plus the kill-switch
+tests. Every checkov skip is inline with its reason.
