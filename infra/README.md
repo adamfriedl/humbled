@@ -33,8 +33,23 @@ or newer.
      -var billing_account_id=XXXXXX-XXXXXX-XXXXXX
    ```
 
-   Set its outputs as GitHub repository variables: `GCP_WORKLOAD_IDENTITY_PROVIDER`,
-   `GCP_DEPLOYER_SERVICE_ACCOUNT`, `GCP_PROJECT_ID`, and `TF_STATE_BUCKET` (`state_bucket`).
+   After step 2 (once the Anthropic key exists), set these GitHub repository variables
+   (Settings → Secrets and variables → Actions → Variables). The deploy workflow skips every
+   job until they exist, and setting them earlier lets a merge apply Terraform before the
+   worker's secret has a value:
+
+   | variable                         | value                                               |
+   | -------------------------------- | --------------------------------------------------- |
+   | `GCP_PROJECT_ID`                 | the project                                         |
+   | `GCP_WORKLOAD_IDENTITY_PROVIDER` | bootstrap output `workload_identity_provider`       |
+   | `GCP_DEPLOYER_SERVICE_ACCOUNT`   | bootstrap output `deployer_service_account`         |
+   | `TF_STATE_BUCKET`                | bootstrap output `state_bucket`                     |
+   | `GCP_BILLING_ACCOUNT_ID`         | the billing account (enables the CR-8 kill switch)  |
+   | `GCP_REGION`                     | optional, defaults to `us-central1`                 |
+   | `ALERT_EMAILS`                   | optional, a JSON list such as `["you@example.com"]` |
+
+   Also create a GitHub environment named `dev`. The deploy job runs in it, so you can add
+   protection rules later.
 
 2. **Create the secrets first, then add the Anthropic key.** Cloud Run won't start a revision
    whose secret has no version, so this comes before the full apply:
@@ -47,9 +62,11 @@ or newer.
    printf '%s' "$ANTHROPIC_API_KEY" | gcloud secrets versions add anthropic-api-key --data-file=-
    ```
 
-3. **Apply everything:** `terraform apply`. The worker starts on a placeholder image. CI deploys
-   the real one by digest on the next merge, and the dead-letter queues stay empty in the
-   meantime, because the placeholder answers 200.
+3. **Apply everything:** `terraform apply` (or merge to main and let the deploy workflow do it).
+   The worker starts on a placeholder image. The deploy workflow (`.github/workflows/deploy.yml`)
+   builds the real one and deploys it by digest on every merge to main. The dead-letter queues
+   stay empty in the meantime, because the placeholder answers 200. Pull requests get a
+   `terraform plan` comment.
 
 4. **Lock files:** the first `terraform init` on a machine with normal registry access writes
    `.terraform.lock.hcl` in `bootstrap/` and `envs/dev/`. Add the other platforms and commit them:
