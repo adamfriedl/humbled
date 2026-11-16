@@ -311,7 +311,7 @@ describe("buildSummaryPrompt (FR-17)", () => {
     expect(p.user).toContain("Pivoted twice.");
     expect(p.user).toContain("We pivoted to biscuits.");
     expect(p.user).toContain("public exit");
-    expect(p.maxTokens).toBe(500);
+    expect(p.maxTokens).toBe(c.llm.maxOutputTokens.summary);
     const empty = buildSummaryPrompt(content, ctx().persona, { posts: [], events: [] }, c);
     expect(empty.user).toContain("(none yet)");
     const bad = ctx().persona;

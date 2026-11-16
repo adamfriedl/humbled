@@ -202,7 +202,7 @@ export const ConfigSchema = z.object({
           judge: z.number().int().positive(),
           relationshipNote: z.number().int().positive(),
         })
-        .default({ post: 400, comment: 120, summary: 500, judge: 200, relationshipNote: 60 }),
+        .default({ post: 400, comment: 120, summary: 900, judge: 200, relationshipNote: 60 }),
       /**
        * Thinking per call type (ADR 0003). "off" disables thinking; "low"/"medium" run adaptive
        * thinking at that effort. Haiku 5.5 thinks by default, and thinking bills as output.
