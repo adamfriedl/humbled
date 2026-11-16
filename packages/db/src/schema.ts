@@ -90,6 +90,11 @@ export const personaMemory = pgTable("persona_memory", {
   canon: jsonb("canon").notNull().default({}),
   careerSummary: text("career_summary"),
   greatestHits: text("greatest_hits").array().notNull().default([]),
+  /**
+   * Ladder posts owed after a nightly stage transition (public exit, reconciliation): written
+   * by /nightly, consumed by the next ticks. [{ format, targetId }]
+   */
+  pendingPosts: jsonb("pending_posts").notNull().default([]),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -106,6 +111,8 @@ export const relationships = pgTable(
     stage: relationshipStage("stage").notNull().default("neutral"),
     stageSince: timestamp("stage_since", { withTimezone: true }).notNull().defaultNow(),
     notes: text("notes").array().notNull().default([]),
+    /** The seeded backstory, shared by both directions of a seeded feud. */
+    history: text("history"),
     lastEventAt: timestamp("last_event_at", { withTimezone: true }),
   },
   (t) => [primaryKey({ columns: [t.aId, t.bId] }), index("relationships_b_idx").on(t.bId)],
@@ -309,4 +316,18 @@ export const reports = pgTable(
     uniqueIndex("reports_once_idx").on(t.targetType, t.targetId, t.reporterId),
     index("reports_open_idx").on(t.resolvedAt),
   ],
+);
+
+/**
+ * Once-per-key jobs (/nightly per day). Pub/Sub delivers at least once; a run claims its key
+ * first, so a redelivery can't advance every relationship twice.
+ */
+export const jobRuns = pgTable(
+  "job_runs",
+  {
+    job: text("job").notNull(),
+    runKey: text("run_key").notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [primaryKey({ columns: [t.job, t.runKey] })],
 );
