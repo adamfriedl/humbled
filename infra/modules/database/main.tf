@@ -1,11 +1,17 @@
 # Cloud SQL for PostgreSQL 16 with a private IP only. pgvector needs no flag on Cloud SQL: the
 # first migration runs CREATE EXTENSION vector. The connection string (with a generated
 # password) is stored in Secret Manager for the services to mount, never output (SR-9).
+# Cloud SQL reserves a deleted instance's name for about a week, so a fixed name would make
+# destroy-then-apply fail. The suffix only changes when the instance is replaced.
+resource "random_id" "instance_suffix" {
+  byte_length = 2
+}
+
 resource "google_sql_database_instance" "this" {
   # checkov:skip=CKV_GCP_79:The PRD pins PostgreSQL 16, matching local dev and the test image (pgvector/pgvector:pg16).
   # checkov:skip=CKV_GCP_6:ssl_mode ENCRYPTED_ONLY rejects unencrypted connections; checkov only recognises the deprecated require_ssl.
   project             = var.project_id
-  name                = var.name
+  name                = "${var.name}-${random_id.instance_suffix.hex}"
   region              = var.region
   database_version    = "POSTGRES_16"
   deletion_protection = var.deletion_protection
