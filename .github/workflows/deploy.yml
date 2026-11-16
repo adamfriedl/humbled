@@ -1,0 +1,100 @@
+name: Deploy
+
+# Dev: `terraform plan` on pull requests (posted as a comment), and on merge to main: build the
+# worker image, push it to Artifact Registry, `terraform apply`, and deploy the image by digest.
+# Needs the bootstrap outputs as repository variables (see infra/README.md); until they're set,
+# every job is skipped.
+on:
+  pull_request:
+    paths: ["infra/**", "apps/**", "packages/**", "content/**", ".github/workflows/deploy.yml"]
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
+env:
+  REGION: ${{ vars.GCP_REGION || 'us-central1' }}
+  TF_VAR_project_id: ${{ vars.GCP_PROJECT_ID }}
+  TF_VAR_region: ${{ vars.GCP_REGION || 'us-central1' }}
+  TF_VAR_billing_account_id: ${{ vars.GCP_BILLING_ACCOUNT_ID }}
+  TF_VAR_alert_emails: ${{ vars.ALERT_EMAILS || '[]' }}
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request' && vars.GCP_PROJECT_ID != '' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOYER_SERVICE_ACCOUNT }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.17"
+          terraform_wrapper: false
+      - name: terraform plan
+        working-directory: infra/envs/dev
+        run: |
+          terraform init -input=false -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}"
+          terraform plan -input=false -no-color -lock-timeout=5m -out=tfplan > plan.txt 2>&1 || { cat plan.txt; exit 1; }
+          tail -c 60000 plan.txt > plan-tail.txt
+      - name: comment the plan
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const plan = fs.readFileSync("infra/envs/dev/plan-tail.txt", "utf8");
+            const marker = "<!-- terraform-plan-dev -->";
+            const body = `${marker}\n### Terraform plan (dev)\n\n<details><summary>Show plan</summary>\n\n\`\`\`\n${plan}\n\`\`\`\n</details>`;
+            const { data: comments } = await github.rest.issues.listComments({ ...context.repo, issue_number: context.issue.number });
+            const mine = comments.find((c) => c.body?.startsWith(marker));
+            if (mine) await github.rest.issues.updateComment({ ...context.repo, comment_id: mine.id, body });
+            else await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
+
+  deploy:
+    if: github.event_name == 'push' && vars.GCP_PROJECT_ID != ''
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOYER_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.17"
+          terraform_wrapper: false
+
+      - name: terraform apply
+        working-directory: infra/envs/dev
+        run: |
+          terraform init -input=false -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}"
+          terraform apply -input=false -auto-approve -lock-timeout=5m
+          echo "IMAGE_REPO=$(terraform output -raw image_repository)" >> "$GITHUB_ENV"
+
+      - name: build and push the worker image
+        run: |
+          gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
+          image="${IMAGE_REPO}/worker:${GITHUB_SHA}"
+          docker build -f apps/worker/Dockerfile -t "$image" .
+          docker push "$image"
+          digest=$(gcloud artifacts docker images describe "$image" --format='value(image_summary.digest)')
+          echo "IMAGE=${IMAGE_REPO}/worker@${digest}" >> "$GITHUB_ENV"
+
+      # Terraform owns the service's shape and ignores its image; this sets the image by digest.
+      - name: deploy the worker
+        run: |
+          gcloud run services update worker --region "$REGION" --image "$IMAGE" --quiet
+          echo "Deployed $IMAGE" >> "$GITHUB_STEP_SUMMARY"
