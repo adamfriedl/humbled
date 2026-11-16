@@ -188,8 +188,11 @@ export const ConfigSchema = z.object({
           relationshipNote: z.string().default("claude-haiku-5-5"),
         })
         .prefault({}),
-      /** CR-4. */
-      maxInputTokens: z.number().int().positive().default(4000),
+      /**
+       * CR-4. Hard input budget per prompt (estimated tokens). 5,000 leaves room for a full feed
+       * sample on top of the ~3,000-token cached house style and examples (ADR 0008).
+       */
+      maxInputTokens: z.number().int().positive().default(5000),
       /** CR-5. */
       maxOutputTokens: z
         .object({

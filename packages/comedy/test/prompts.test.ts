@@ -165,10 +165,10 @@ describe("buildPostPrompt", () => {
     ).toThrow(PromptBudgetError);
   });
 
-  it("default prompts fit the 4,000-token budget with room to spare", () => {
+  it("default prompts fit the default budget with room to spare", () => {
     for (const b of content.houseBots) {
       const p = buildPostPrompt(content, ctx(b.id), { format: "lesson" }, seededRandom(3), c);
-      expect(p.estimatedInputTokens, b.id).toBeLessThan(4000);
+      expect(p.estimatedInputTokens, b.id).toBeLessThan(c.llm.maxInputTokens - 500);
       expect(p.trimmed, b.id).toEqual([]);
     }
   });
