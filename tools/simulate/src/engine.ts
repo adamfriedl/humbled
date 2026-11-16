@@ -259,6 +259,7 @@ export class Simulation {
           lastRepliedAt: persona.lastRepliedAt,
           following: persona.following,
           endorsed: persona.endorsed,
+          commentedPostIds: this.world.commentedPostIds(persona.card.id),
           now,
         },
         this.random,

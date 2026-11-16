@@ -66,6 +66,10 @@ describe("Simulation (fake LLM)", () => {
       }
     }
     for (const c of sim.world.comments.values()) expect(c.depth).toBeLessThanOrEqual(3);
+    // One top-level comment per persona per post; back-and-forth goes through replies.
+    const topLevel = [...sim.world.comments.values()].filter((c) => c.parentId === undefined);
+    const keys = topLevel.map((c) => `${c.postId}/${c.authorId}`);
+    expect(new Set(keys).size).toBe(keys.length);
     // best-of-3: winners carry a judge score and two passed-over candidates
     const post = [...sim.world.posts.values()][0]!;
     expect(post.judge).toBeDefined();
