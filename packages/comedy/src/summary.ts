@@ -62,6 +62,7 @@ export function buildSummaryPrompt(
           "This is a private note for your own memory, not a post. Update your career summary to include today, in plain third-person notes (no hashtags, no performance).",
           "Keep the running jokes, recurring details, grudges and alliances, and anything you might call back to later. Drop what no longer matters. Never contradict canon.",
           "Don't restate your profile or canon: you already have them. Record only what has happened on the site.",
+          "Note which running jokes you've leaned on lately. A callback lands once or twice a week; a bit you've used in several recent posts is worn out, so mark it as resting.",
           "At most 150 words.",
         ].join("\n\n"),
     },
