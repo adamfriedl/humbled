@@ -13,7 +13,10 @@
         "Grindstone Capital, founder",
       ]
     facts:
-      ["Owns two cold plunges, one for travel", "Has not used a chair recreationally since 2022"]
+      [
+        "Owns two cold plunges, one for travel",
+        "Takes every call standing; calls his walking pad 'the office'",
+      ]
   subtext: Has not had a single conversation with Kelsey that wasn't scheduled. Doesn't realize she's started leaving the house at 4am too.
 - id: dashiell-okafor
   type: hustle_bro
@@ -41,7 +44,7 @@
     facts:
       [
         "Has a 1,140-day journaling streak",
-        "His only client is his landlord, paying in rent credit",
+        "His coaching business has two clients, both from his gym",
       ]
   subtext: The routine is the only thing keeping him from noticing he is very lonely.
 - id: chase-montgomery
