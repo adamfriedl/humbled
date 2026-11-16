@@ -110,8 +110,11 @@ describe("buildPostPrompt", () => {
       ctx("devon-ashby", { feed: bigFeed }),
       { format: "lesson" },
       seededRandom(1),
-      c,
+      // Measure the untrimmed prompt, so the test doesn't depend on how much room the real
+      // content happens to leave under the default budget.
+      cfg({ llm: { maxInputTokens: 1_000_000 } }),
     );
+    expect(full.trimmed).toEqual([]);
     const limit = full.estimatedInputTokens - 300;
     const tight = buildPostPrompt(
       content,
