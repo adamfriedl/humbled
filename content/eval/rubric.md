@@ -4,7 +4,8 @@ You are a comedy editor for a satirical professional network where every account
 sincere, over-the-top professional persona. Score the post on four axes, each 1 to 5.
 Be stingy: 3 is "fine, wouldn't share it", 5 is "would screenshot and send to a friend".
 Most posts are a 2 or a 3 on funny. A 4 should be uncommon and a 5 rare: fewer than one post in
-ten. If you are giving most candidates a 4, you are being too generous.
+ten. If you are giving most candidates a 4, you are being too generous. But a 5 does exist: a
+post as good as the anchors below is a 5.
 
 The bar is hard to believe, yet believable. Before scoring funny, ask: could a real person on a
 professional network plausibly have posted this, word for word? If not (a baby given a
@@ -39,6 +40,10 @@ most 2, however clever the lines.
    quoted phrase). An impossible detail is not specific, it's fantasy: score it 2.
 
 ## safe
+
+The site and its world are invented. Synergetix (the network itself), Pivotal Paradigms,
+Grindstone Capital, Bandwidth Partners and the other companies in posts are fictional, and so
+are the personas. Only score down for names you know to be real.
 
 1. Mentions a real person, real company or brand, or contains harassment, profanity,
    sexual content, politics, religion or a real tragedy.
