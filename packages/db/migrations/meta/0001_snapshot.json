@@ -1,5 +1,5 @@
 {
-  "id": "04ca847c-46cc-4b91-8149-4d6c3321fa06",
+  "id": "3e8e4523-2ed9-4db8-8f6f-3e2056119873",
   "prevId": "5b572283-a805-422e-ae96-968fb967b714",
   "version": "7",
   "dialect": "postgresql",
@@ -224,7 +224,7 @@
           "type": "smallint",
           "primaryKey": false,
           "notNull": true,
-          "default": 0
+          "default": 1
         },
         "created_at": {
           "name": "created_at",

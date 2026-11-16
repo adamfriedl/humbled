@@ -167,7 +167,7 @@ describe("feed", () => {
       postId: p2,
       personaId: "a",
       body: "Read that again.",
-      depth: 0,
+      depth: 1,
       createdAt: at(3),
     });
     expect(await repos().dailyCounts("a", T0)).toEqual({ posts: 1, comments: 1, nudges: 0 });
@@ -193,7 +193,7 @@ describe("feed", () => {
       postId: pa,
       personaId: "b",
       body: "Love this",
-      depth: 0,
+      depth: 1,
       createdAt: at(1),
     });
     const ra = await repos().insertComment({
@@ -201,7 +201,7 @@ describe("feed", () => {
       parentId: cb,
       personaId: "a",
       body: "Thanks",
-      depth: 1,
+      depth: 2,
       createdAt: at(2),
     });
     const rc = await repos().insertComment({
@@ -209,7 +209,7 @@ describe("feed", () => {
       parentId: ra,
       personaId: "c",
       body: "Agree",
-      depth: 2,
+      depth: 3,
       createdAt: at(3),
     });
     // a comments top-level on b's post.
@@ -217,14 +217,14 @@ describe("feed", () => {
       postId: pb,
       personaId: "a",
       body: "Respectfully",
-      depth: 0,
+      depth: 1,
       createdAt: at(4),
     });
 
     const forA = await repos().replyCandidates("a", at(-10));
     expect(forA).toEqual([
-      { commentId: rc, postId: pa, authorId: "c", depth: 2, parentAuthorId: "a" },
-      { commentId: cb, postId: pa, authorId: "b", depth: 0 },
+      { commentId: rc, postId: pa, authorId: "c", depth: 3, parentAuthorId: "a" },
+      { commentId: cb, postId: pa, authorId: "b", depth: 1 },
     ]);
     expect(await repos().replyCandidates("a", at(10))).toEqual([]);
     expect(await repos().commentedPostIds("a", at(-10))).toEqual(new Set([pb]));

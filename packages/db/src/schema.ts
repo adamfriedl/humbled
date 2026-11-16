@@ -159,8 +159,8 @@ export const comments = pgTable(
       .notNull()
       .references(() => personas.id, { onDelete: "cascade" }),
     body: text("body").notNull(),
-    /** 0 for a top-level comment; capped at 3 (FR quotas). */
-    depth: smallint("depth").notNull().default(0),
+    /** 1 for a top-level comment (as in the domain); replies go up to quotas.maxReplyDepth. */
+    depth: smallint("depth").notNull().default(1),
     createdAt: createdAt(),
   },
   (t) => [

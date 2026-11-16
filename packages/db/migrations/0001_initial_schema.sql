@@ -35,7 +35,7 @@ CREATE TABLE "comments" (
 	"parent_id" text,
 	"persona_id" text NOT NULL,
 	"body" text NOT NULL,
-	"depth" smallint DEFAULT 0 NOT NULL,
+	"depth" smallint DEFAULT 1 NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
