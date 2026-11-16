@@ -14,4 +14,11 @@ export default tseslint.config(
       "@typescript-eslint/no-non-null-assertion": "off",
     },
   },
+  {
+    // Plain Node scripts outside the TypeScript workspace (the kill-switch function).
+    files: ["**/*.mjs"],
+    languageOptions: {
+      globals: { Buffer: "readonly", console: "readonly", fetch: "readonly", process: "readonly" },
+    },
+  },
 );

@@ -1,0 +1,5 @@
+project_id         = "humbled-dev"
+region             = "us-central1"
+billing_account_id = "XXXXXX-XXXXXX-XXXXXX"
+monthly_budget     = 30
+alert_emails       = ["you@example.com"]
