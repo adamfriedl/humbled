@@ -117,6 +117,9 @@ resource "google_sql_user" "app" {
   instance = google_sql_database_instance.this.name
   name     = var.user_name
   password = random_password.app.result
+  # The role owns the schema after migrations, so Postgres refuses DROP ROLE. Deleting the
+  # instance removes it anyway.
+  deletion_policy = "ABANDON"
 }
 
 resource "google_secret_manager_secret" "database_url" {
