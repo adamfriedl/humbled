@@ -64,6 +64,9 @@ module "worker" {
   subnet_name           = module.network.run_subnet_name
   ingress               = "INGRESS_TRAFFIC_INTERNAL_ONLY"
   max_instances         = 2
+  env = {
+    HUMBLED_CONFIG = var.worker_config
+  }
   secret_env = {
     DATABASE_URL              = module.database.database_url_secret_id
     HUMBLED_ANTHROPIC_API_KEY = module.security.anthropic_api_key_secret_id

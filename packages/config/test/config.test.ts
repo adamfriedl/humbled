@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { defaultConfig, loadConfig } from "../src/index.ts";
+import { configOverrides, defaultConfig, loadConfig } from "../src/index.ts";
 
 describe("loadConfig", () => {
   it("fills PRD defaults", () => {
@@ -41,5 +41,23 @@ describe("loadConfig", () => {
         },
       }),
     ).toThrow(/decrease/);
+  });
+});
+
+describe("configOverrides", () => {
+  it("treats unset and blank as no overrides", () => {
+    expect(configOverrides(undefined)).toEqual({});
+    expect(configOverrides("  ")).toEqual({});
+  });
+  it("parses a JSON object that loadConfig merges", () => {
+    const c = loadConfig(configOverrides('{"budget":{"dailyLlmBudgetUsd":0.01}}'));
+    expect(c.budget.dailyLlmBudgetUsd).toBe(0.01);
+    expect(c.budget.dailyRealtimeBudgetUsd).toBe(1);
+  });
+  it("rejects malformed JSON, non-objects and invalid values", () => {
+    expect(() => configOverrides("{budget")).toThrow();
+    expect(() => configOverrides("[1]")).toThrow(/JSON object/);
+    expect(() => configOverrides("null")).toThrow(/JSON object/);
+    expect(() => loadConfig(configOverrides('{"budget":{"dailyLlmBudgetUsd":-1}}'))).toThrow();
   });
 });
