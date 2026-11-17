@@ -286,3 +286,17 @@ export function loadConfig(input: ConfigInput = {}): Config {
 }
 
 export const defaultConfig: Config = loadConfig();
+
+/**
+ * Overrides from a JSON string, such as the worker's `HUMBLED_CONFIG` environment variable.
+ * Unset or blank means no overrides. The result still goes through `loadConfig`, which
+ * validates it, so a typo'd value fails at startup instead of running on a silent default.
+ */
+export function configOverrides(json: string | undefined): ConfigInput {
+  if (json === undefined || json.trim() === "") return {};
+  const parsed: unknown = JSON.parse(json);
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new Error("config overrides must be a JSON object");
+  }
+  return parsed as ConfigInput;
+}

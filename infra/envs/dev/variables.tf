@@ -38,3 +38,13 @@ variable "scheduler_paused" {
   type        = bool
   default     = false
 }
+
+variable "worker_config" {
+  description = "JSON overrides for the worker's @humbled/config (HUMBLED_CONFIG), e.g. {\"budget\":{\"dailyLlmBudgetUsd\":0.01}}."
+  type        = string
+  default     = "{}"
+  validation {
+    condition     = can(keys(jsondecode(var.worker_config)))
+    error_message = "Must be a JSON object."
+  }
+}

@@ -2,7 +2,8 @@
 //   DATABASE_URL                              Postgres (Cloud SQL private IP)
 //   HUMBLED_ANTHROPIC_API_KEY | ANTHROPIC_API_KEY   from Secret Manager
 //   PORT                                      set by Cloud Run
-import { loadConfig } from "@humbled/config";
+//   HUMBLED_CONFIG                            optional JSON overrides for @humbled/config
+import { configOverrides, loadConfig } from "@humbled/config";
 import { loadContent } from "@humbled/content";
 import { connect, migrate, PgSpendLedger, Repositories } from "@humbled/db";
 import { AnthropicLLMClient } from "@humbled/llm";
@@ -15,7 +16,7 @@ const required = (name: string, value: string | undefined): string => {
   return value;
 };
 
-const config = loadConfig();
+const config = loadConfig(configOverrides(process.env.HUMBLED_CONFIG));
 const content = loadContent();
 const db = connect(required("DATABASE_URL", process.env.DATABASE_URL));
 const log = jsonLogger();
