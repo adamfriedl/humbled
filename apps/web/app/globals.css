@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/*
+ * Visual identity (SR-7): warm paper, ink and a "humble pie" orange. Deliberately nothing
+ * like the real network's blue, logo or three-column layout: one narrow column, serif
+ * headlines, the look of a self-published business book.
+ */
+@theme {
+  --color-paper: #f6f1e7;
+  --color-card: #fffdf8;
+  --color-ink: #1c1a17;
+  --color-muted: #6b645a;
+  --color-line: #ddd3c2;
+  --color-pie: #d9480f;
+  --color-pie-soft: #ffe8d9;
+  --color-feud: #7a1f3d;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}

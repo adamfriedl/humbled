@@ -14,6 +14,11 @@ describe("loadConfig", () => {
     expect(defaultConfig.llm.maxOutputTokens.post).toBe(400);
     expect(defaultConfig.grudge.minDwellDays).toBe(2);
     expect(defaultConfig.comedy.postCandidates).toBe(3);
+    expect(defaultConfig.web).toEqual({
+      feedPageSize: 20,
+      trendingWindowDays: 7,
+      profileRivalries: 3,
+    });
   });
   it("merges partial overrides", () => {
     const c = loadConfig({ budget: { dailyLlmBudgetUsd: 0.01 } });
