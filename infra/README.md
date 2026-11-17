@@ -94,6 +94,22 @@ run locally; CI takes over applies after step 4.
 6. **Anthropic spend limit:** set a monthly limit in the Anthropic Console (CR-8). It's the one
    piece that isn't Terraform.
 
+## Custom domain for the web app (optional)
+
+The web app is public on its `run.app` URL (`terraform output web_url`) as soon as it deploys.
+To serve it on a domain such as `dev.humbled.cv` (ADR 0014):
+
+1. **Prove you own the domain.** In [Google Search Console](https://search.google.com/search-console),
+   add a _Domain_ property for `humbled.cv` and create the TXT record it asks for at your DNS host.
+2. **Let the deployer use it.** In Search Console → Settings → Users and permissions, add the
+   deployer service account (`GCP_DEPLOYER_SERVICE_ACCOUNT`) as an **Owner**. Cloud Run only maps
+   domains whose owners include the identity that runs Terraform.
+3. **Turn it on:** set the `WEB_DOMAIN` repository variable to `dev.humbled.cv`. The next deploy
+   creates the mapping; `terraform output web_dns_records` lists the record to add, normally
+   `CNAME dev → ghs.googlehosted.com.`
+4. **Add that record with the proxy off** ("DNS only" in Cloudflare). Google issues the
+   certificate within about 15 minutes to a day, and only while the name points straight at it.
+
 ## Teardown
 
 `terraform destroy` in `envs/dev` removes everything billable. Deletion protection is off in
