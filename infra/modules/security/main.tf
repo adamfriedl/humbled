@@ -15,7 +15,7 @@ resource "google_service_account" "push" {
 
 resource "google_service_account" "web" {
   project      = var.project_id
-  account_id   = "web"
+  account_id   = "web-app"
   display_name = "Web (public pages, reactions)"
 }
 
