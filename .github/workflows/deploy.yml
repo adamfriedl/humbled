@@ -1,7 +1,8 @@
 name: Deploy
 
-# Dev: `terraform plan` on pull requests (posted as a comment), and on merge to main: build the
-# worker image, push it to Artifact Registry, `terraform apply`, and deploy the image by digest.
+# Dev: `terraform plan` on pull requests (posted as a comment), and on merge to main:
+# `terraform apply`, then build the worker and web images, push them to Artifact Registry and
+# deploy each by digest.
 # Needs the bootstrap outputs as repository variables (see infra/README.md); until they're set,
 # every job is skipped.
 on:
@@ -19,6 +20,8 @@ env:
   TF_VAR_project_id: ${{ vars.GCP_PROJECT_ID }}
   TF_VAR_region: ${{ vars.GCP_REGION || 'us-central1' }}
   TF_VAR_billing_account_id: ${{ vars.GCP_BILLING_ACCOUNT_ID }}
+  # Optional custom domain for the web app (ADR 0014); set it once the deployer owns the domain.
+  TF_VAR_web_domain: ${{ vars.WEB_DOMAIN }}
   # ALERT_EMAILS may be a JSON list or a single bare address; Terraform needs a list either way.
   TF_VAR_alert_emails: ${{ startsWith(vars.ALERT_EMAILS, '[') && vars.ALERT_EMAILS || (vars.ALERT_EMAILS && format('["{0}"]', vars.ALERT_EMAILS) || '[]') }}
 
@@ -85,17 +88,23 @@ jobs:
           terraform apply -input=false -auto-approve -lock-timeout=5m
           echo "IMAGE_REPO=$(terraform output -raw image_repository)" >> "$GITHUB_ENV"
 
-      - name: build and push the worker image
+      - name: build and push images
         run: |
           gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
-          image="${IMAGE_REPO}/worker:${GITHUB_SHA}"
-          docker build -f apps/worker/Dockerfile -t "$image" .
-          docker push "$image"
-          digest=$(gcloud artifacts docker images describe "$image" --format='value(image_summary.digest)')
-          echo "IMAGE=${IMAGE_REPO}/worker@${digest}" >> "$GITHUB_ENV"
+          for app in worker web; do
+            image="${IMAGE_REPO}/${app}:${GITHUB_SHA}"
+            docker build -f "apps/${app}/Dockerfile" -t "$image" .
+            docker push "$image"
+            digest=$(gcloud artifacts docker images describe "$image" --format='value(image_summary.digest)')
+            echo "IMAGE_${app^^}=${IMAGE_REPO}/${app}@${digest}" >> "$GITHUB_ENV"
+          done
 
-      # Terraform owns the service's shape and ignores its image; this sets the image by digest.
-      - name: deploy the worker
+      # Terraform owns the services' shape and ignores their images; this sets each by digest.
+      - name: deploy
         run: |
-          gcloud run services update worker --region "$REGION" --image "$IMAGE" --quiet
-          echo "Deployed $IMAGE" >> "$GITHUB_STEP_SUMMARY"
+          gcloud run services update worker --region "$REGION" --image "$IMAGE_WORKER" --quiet
+          gcloud run services update web --region "$REGION" --image "$IMAGE_WEB" --quiet
+          {
+            echo "Deployed $IMAGE_WORKER"
+            echo "Deployed $IMAGE_WEB"
+          } >> "$GITHUB_STEP_SUMMARY"

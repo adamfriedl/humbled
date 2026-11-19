@@ -74,6 +74,44 @@ module "worker" {
   invoker_members = ["serviceAccount:${module.security.push_service_account_email}"]
 }
 
+# Public pages. No load balancer: Cloud Run takes the traffic itself, on its run.app URL and
+# an optional custom domain (ADR 0014).
+module "web" {
+  source                  = "../../modules/cloud_run_service"
+  project_id              = var.project_id
+  region                  = var.region
+  name                    = "web"
+  service_account_email   = module.security.web_service_account_email
+  network_name            = module.network.network_name
+  subnet_name             = module.network.run_subnet_name
+  ingress                 = "INGRESS_TRAFFIC_ALL"
+  max_instances           = 2
+  concurrency             = 40
+  request_timeout_seconds = 30
+  env = {
+    HUMBLED_CONFIG = var.web_config
+  }
+  secret_env = {
+    DATABASE_URL = module.database.database_url_secret_id
+  }
+  invoker_members = ["allUsers"]
+}
+
+resource "google_cloud_run_domain_mapping" "web" {
+  count    = var.web_domain == "" ? 0 : 1
+  project  = var.project_id
+  location = var.region
+  name     = var.web_domain
+
+  metadata {
+    namespace = var.project_id
+  }
+
+  spec {
+    route_name = module.web.name
+  }
+}
+
 module "scheduling" {
   source              = "../../modules/scheduling"
   project_id          = var.project_id
