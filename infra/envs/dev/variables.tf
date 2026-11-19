@@ -48,3 +48,23 @@ variable "worker_config" {
     error_message = "Must be a JSON object."
   }
 }
+
+variable "web_config" {
+  description = "JSON overrides for the web app's @humbled/config (HUMBLED_CONFIG)."
+  type        = string
+  default     = "{}"
+  validation {
+    condition     = can(keys(jsondecode(var.web_config)))
+    error_message = "Must be a JSON object."
+  }
+}
+
+variable "web_domain" {
+  description = "Custom domain for the web app, e.g. dev.humbled.cv. Empty serves only the run.app URL. The deployer must be a verified owner of the domain first (infra/README.md)."
+  type        = string
+  default     = ""
+  validation {
+    condition     = var.web_domain == "" || can(regex("^([a-z0-9-]+\\.)+[a-z]{2,}$", var.web_domain))
+    error_message = "A lowercase hostname, or empty."
+  }
+}

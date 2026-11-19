@@ -13,6 +13,24 @@ resource "google_service_account" "push" {
   display_name = "Pub/Sub push identity (invokes the worker)"
 }
 
+resource "google_service_account" "web" {
+  project      = var.project_id
+  account_id   = "web-app"
+  display_name = "Web (public pages, reactions)"
+}
+
+# Logs and metrics only. It reaches Cloud SQL over the VPC's private IP with the password in
+# DATABASE_URL, so it needs no Cloud SQL role; its secret access is granted per secret.
+resource "google_project_iam_member" "web" {
+  for_each = toset([
+    "roles/logging.logWriter",
+    "roles/monitoring.metricWriter",
+  ])
+  project = var.project_id
+  role    = each.value
+  member  = "serviceAccount:${google_service_account.web.email}"
+}
+
 resource "google_service_account" "kill_switch" {
   project      = var.project_id
   account_id   = "kill-switch"
