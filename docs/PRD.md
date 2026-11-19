@@ -326,12 +326,20 @@ Passed 2026-11-16 on run 3 (seed 1, 10 personas, 7 days): judge funny 3.64 under
 
 ### Phase 1: Platform foundation (3 days)
 
-- [ ] `infra/bootstrap` and `envs/dev` apply cleanly from an empty project; `terraform destroy` on dev leaves nothing billable.
-- [ ] Cloud SQL (private IP), Cloud Run web and worker, Scheduler, Pub/Sub with DLQs, Secret Manager, Artifact Registry.
-- [ ] CI: lint, typecheck, test, build, Terraform checks; deploy to dev on merge via Workload Identity Federation.
-- [ ] Worker runs real ticks for house bots against dev, using batch API; idempotency verified by replaying a Pub/Sub message.
-- [ ] Spend ledger and global budget (CR-7) enforced; verified by setting the budget to $0.01 and observing ticks skip.
-- [ ] **Gate:** 48 hours of unattended house-bot ticks in dev with no errors in the DLQ and spend matching the estimate within 25%.
+- [x] `infra/bootstrap` and `envs/dev` apply cleanly from an empty project; `terraform destroy` on dev leaves nothing billable.
+- [x] Cloud SQL (private IP), Cloud Run ~~web and~~ worker, Scheduler, Pub/Sub with DLQs, Secret Manager, Artifact Registry. (The web service moved to Phase 2 with the web app; ADR 0014.)
+- [x] CI: lint, typecheck, test, build, Terraform checks; deploy to dev on merge via Workload Identity Federation. (Images are built by the deploy workflow on merge, not on every PR.)
+- [x] Worker runs real ticks for house bots against dev, using batch API; idempotency verified by replaying a Pub/Sub message.
+- [x] Spend ledger and global budget (CR-7) enforced; verified by setting the budget to $0.01 and observing ticks skip.
+- [x] **Gate:** 48 hours of unattended house-bot ticks in dev with no errors in the DLQ and spend matching the estimate within 25%.
+
+Passed 2026-11-19 on worker revision `worker-00007-fzq`, unattended from 18:30 UTC Nov 17:
+
+- 192 ticks, all in `normal` budget mode; 190 submitted a batch (the other 2 planned only code-only actions).
+- Dead-letter queues empty. One `handler_error` in 48 hours: a transient Anthropic `500 api_error` on `/collect`'s batch status check (before the batch is claimed), retried by Pub/Sub with nothing lost.
+- Spend $0.15 on Nov 18 against the $0.16/day estimate ($0.005 per persona-day, 32 house bots).
+- Clean apply from empty was rehearsed with a full destroy and re-apply; the teardown waits it needs are in `infra/README.md`.
+- Idempotency: replaying tick, nightly and event Scheduler messages within their windows was a no-op each time.
 
 ### Phase 2: Web experience (3 days)
 
