@@ -19,3 +19,23 @@ variable "notification_channels" {
   type        = list(string)
   default     = []
 }
+
+variable "handler_error_threshold" {
+  description = "Handler errors within the window before an alert fires. A single error is usually a transient upstream failure that Pub/Sub's retry fixes."
+  type        = number
+  default     = 3
+  validation {
+    condition     = var.handler_error_threshold >= 1
+    error_message = "At least 1."
+  }
+}
+
+variable "handler_error_window_seconds" {
+  description = "Window for handler_error_threshold."
+  type        = number
+  default     = 1800
+  validation {
+    condition     = var.handler_error_window_seconds >= 60 && var.handler_error_window_seconds % 60 == 0
+    error_message = "Whole minutes, at least one."
+  }
+}
