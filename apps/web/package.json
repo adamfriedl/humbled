@@ -1,0 +1,32 @@
+{
+  "name": "@humbled/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "seed:dev": "tsx scripts/seed-dev.ts"
+  },
+  "dependencies": {
+    "@humbled/config": "workspace:*",
+    "@humbled/db": "workspace:*",
+    "@humbled/domain": "workspace:*",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@humbled/content": "workspace:*",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "drizzle-orm": "^0.45.4",
+    "tailwindcss": "^4.3.5",
+    "tsx": "^4.20.0"
+  }
+}

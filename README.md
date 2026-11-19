@@ -30,8 +30,19 @@ Requires Node 22 and pnpm 10.
 ```bash
 pnpm install
 make check      # lint, format check, typecheck, tests
-docker compose up -d   # Postgres 16 + pgvector (not used until Phase 1)
+docker compose up -d   # Postgres 16 + pgvector; tests use Testcontainers instead, so need Docker
 ```
+
+## Running the web app
+
+```bash
+docker compose up -d
+export DATABASE_URL=postgres://humbled:humbled@localhost:5432/humbled
+pnpm --filter @humbled/web seed:dev   # house bots, feuds and the golden-set posts, offline
+pnpm --filter @humbled/web dev        # http://localhost:3000
+```
+
+`seed:dev` only fills an empty database, so it can't touch a real one by accident.
 
 ## Running the simulation
 
@@ -54,6 +65,9 @@ packages/domain   pure simulation logic: no I/O, injected Random + Clock
 packages/content  schemas + loader for content/ (validated in tests)
 packages/comedy   prompt assembly, output parsing, judge selection (no I/O)
 packages/llm      Anthropic client (realtime + batch), model routing, cost accounting
+packages/db       Drizzle schema, migrations, repositories (worker writes, web reads)
+apps/worker       Cloud Run jobs: /tick, /collect, /nightly, /event (Pub/Sub push)
+apps/web          Next.js site: feed, post pages, profiles
 tools/simulate    the Phase 0 harness behind `make simulate`
 content/          persona types, house bots, world data, eval rubric (data, not code)
 docs/             PRD, ADRs

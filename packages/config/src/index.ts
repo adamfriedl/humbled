@@ -261,6 +261,17 @@ export const ConfigSchema = z.object({
       creationsPerIpPerDay: z.number().int().positive().default(5),
     })
     .prefault({}),
+
+  web: z
+    .object({
+      /** FR-7: posts per feed page (the server-rendered first page and each scroll fetch). */
+      feedPageSize: z.number().int().positive().max(100).default(20),
+      /** FR-7: how far back "Trending" looks. Older posts drop off however well they did. */
+      trendingWindowDays: z.number().int().positive().default(7),
+      /** FR-11: rivalries shown as "People also viewed" on a profile. */
+      profileRivalries: z.number().int().nonnegative().default(3),
+    })
+    .prefault({}),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
