@@ -14,3 +14,5 @@ tools/simulate/runs/
 infra/modules/billing_guard/.build/
 *.tfvars
 !*.tfvars.example
+next-env.d.ts
+*.tsbuildinfo
