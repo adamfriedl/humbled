@@ -1,5 +1,5 @@
 import type { AddressInfo } from "node:net";
-import { comments, llmBatches, posts, spendLedger } from "@humbled/db";
+import { comments, deferredFollowUps, llmBatches, posts, spendLedger } from "@humbled/db";
 import { MS_PER_DAY, MS_PER_MINUTE } from "@humbled/domain";
 import { fakeResponder } from "@humbled/llm";
 import { count, eq } from "drizzle-orm";
@@ -94,6 +94,59 @@ describe("idempotency (Pub/Sub at-least-once)", () => {
     const again = await runCollect(w);
     expect(again.batchesCollected).toBe(1); // only the judge round
     expect((await runCollect(w)).batchesCollected).toBe(0);
+  });
+
+  it("a batch whose results can't be fetched stays open for the next run", async () => {
+    const w = await worker();
+    await runTick(w, T0);
+    const fetch = w.llm.batchResults.bind(w.llm);
+    w.llm.batchResults = () => Promise.reject(new Error("500 api_error"));
+    await expect(runCollect(w)).rejects.toThrow("500 api_error");
+    const [batch] = await db().select().from(llmBatches);
+    expect(batch!.status).toBe("submitted"); // not claimed, so nothing is lost
+    w.llm.batchResults = fetch;
+    expect((await runCollect(w)).batchesCollected).toBe(1);
+  });
+
+  it("follow-ups survive a failed submission and go out on the next run", async () => {
+    const w = await worker();
+    await runTick(w, T0);
+    const submit = w.llm.submitBatch.bind(w.llm);
+    w.llm.submitBatch = () => Promise.reject(new Error("500 api_error"));
+    await expect(runCollect(w)).rejects.toThrow("500 api_error");
+    expect(await db().select().from(deferredFollowUps)).toHaveLength(1);
+    expect(w.logs.some((l) => l.event === "follow_ups_deferred")).toBe(true);
+
+    w.llm.submitBatch = submit;
+    const retry = await runCollect(w);
+    expect(retry.batchesCollected).toBe(0); // the tick batch was already written
+    expect(retry.followUpBatchId).toBeDefined();
+    expect(await db().select().from(deferredFollowUps)).toEqual([]);
+    // The judge round they started still produces the posts.
+    expect((await runCollect(w)).posts).toBeGreaterThan(0);
+  });
+
+  it("keeps earlier batches' follow-ups when a later batch fails", async () => {
+    const w = await worker();
+    // Tick until two batches are open (the seeded planner doesn't generate on every tick).
+    for (let i = 0; (await db().select().from(llmBatches)).length < 2 && i < 12; i++) {
+      w.clock.set(tickAt(i));
+      await runTick(w, tickAt(i));
+    }
+    const fetch = w.llm.batchResults.bind(w.llm);
+    let calls = 0;
+    w.llm.batchResults = (id) =>
+      ++calls === 2 ? Promise.reject(new Error("500 api_error")) : fetch(id);
+    await expect(runCollect(w)).rejects.toThrow("500 api_error");
+    const statuses = (await db().select().from(llmBatches)).map((b) => b.status).sort();
+    expect(statuses).toEqual(["collected", "submitted"]);
+    expect(await db().select().from(deferredFollowUps)).toHaveLength(1);
+
+    w.llm.batchResults = fetch;
+    const retry = await runCollect(w);
+    expect(retry.batchesCollected).toBe(1);
+    expect(retry.followUpBatchId).toBeDefined();
+    expect(await db().select().from(deferredFollowUps)).toEqual([]);
   });
 
   it("nightly runs once per day", async () => {

@@ -273,6 +273,17 @@ export const actions = pgTable(
   ],
 );
 
+/**
+ * Follow-up requests (judge rounds, retries) that /collect couldn't submit because the batch
+ * API failed. The next /collect run takes them atomically and submits them first (ADR 0010).
+ */
+export const deferredFollowUps = pgTable("deferred_follow_ups", {
+  id: uuidId(),
+  /** RequestContext[], as stored in llm_batches.requests. */
+  contexts: jsonb("contexts").notNull(),
+  createdAt: createdAt(),
+});
+
 export const llmBatches = pgTable("llm_batches", {
   id: uuidId(),
   providerBatchId: text("provider_batch_id").notNull().unique(),
