@@ -4,6 +4,8 @@ import { connect, type DbHandle } from "../src/client.ts";
 import { Repositories, type PersonaSeed } from "../src/repositories.ts";
 
 const TABLES = [
+  "rate_events",
+  "ip_salts",
   "job_runs",
   "reports",
   "spend_ledger",

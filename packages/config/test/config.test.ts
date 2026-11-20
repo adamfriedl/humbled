@@ -18,6 +18,8 @@ describe("loadConfig", () => {
       feedPageSize: 20,
       trendingWindowDays: 7,
       profileRivalries: 3,
+      reactionsPerOwnerPerMinute: 20,
+      reactionsPerIpPerHour: 300,
     });
   });
   it("merges partial overrides", () => {

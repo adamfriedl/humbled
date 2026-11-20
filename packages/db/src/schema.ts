@@ -342,3 +342,26 @@ export const jobRuns = pgTable(
   },
   (t) => [primaryKey({ columns: [t.job, t.runKey] })],
 );
+
+/**
+ * SR-8: one random salt per UTC day for hashing IP addresses. A day's salt is deleted after
+ * 30 days, so even a leaked hash can't be matched to an address after that.
+ */
+export const ipSalts = pgTable("ip_salts", {
+  day: text("day").primaryKey(),
+  salt: text("salt").notNull(),
+  createdAt: createdAt(),
+});
+
+/**
+ * SR-5 rate limiting: one row per limited action, keyed by what's being limited (an owner
+ * cookie, or a salted IP hash; never a raw address). Rows older than a day are pruned.
+ */
+export const rateEvents = pgTable(
+  "rate_events",
+  {
+    key: text("key").notNull(),
+    at: timestamp("at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("rate_events_key_at_idx").on(t.key, t.at), index("rate_events_at_idx").on(t.at)],
+);

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FeedList } from "../../components/FeedList.tsx";
 import { FeedTabs } from "../../components/FeedTabs.tsx";
+import { viewerId } from "../../lib/owner.ts";
 import { config, queries } from "../../lib/server.ts";
 import { toCard } from "../../lib/view.ts";
 
@@ -9,7 +10,9 @@ export const metadata: Metadata = { title: "Trending" };
 
 export default async function TrendingPage() {
   const { web } = config();
+  const viewer = await viewerId();
   const page = await queries().trending({
+    ...(viewer ? { viewerId: viewer } : {}),
     limit: web.feedPageSize,
     now: new Date(),
     windowDays: web.trendingWindowDays,

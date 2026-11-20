@@ -83,3 +83,19 @@ export function nestThread<T extends { id: string; parentId: string | null }>(
   }
   return roots;
 }
+
+export type ReactionCounts = { total: number; byKind: Partial<Record<ReactionKind, number>> };
+
+/** The counts after the viewer changes their reaction, for an optimistic update. */
+export function applyReaction(
+  counts: ReactionCounts,
+  from: ReactionKind | null,
+  to: ReactionKind | null,
+): ReactionCounts {
+  const next = new Map(Object.entries(counts.byKind) as [ReactionKind, number][]);
+  if (from) next.set(from, (next.get(from) ?? 0) - 1);
+  if (to) next.set(to, (next.get(to) ?? 0) + 1);
+  const byKind = Object.fromEntries([...next].filter(([, n]) => n > 0));
+  const total = counts.total - (from ? 1 : 0) + (to ? 1 : 0);
+  return { total: Math.max(0, total), byKind };
+}

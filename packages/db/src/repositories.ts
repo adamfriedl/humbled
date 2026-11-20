@@ -12,6 +12,7 @@ import type {
   ReactionKind,
   Relationship,
 } from "@humbled/domain";
+import { engagementScore } from "@humbled/domain";
 import { and, asc, desc, eq, gte, inArray, isNull, lt, sql } from "drizzle-orm";
 import type { Db } from "./client.ts";
 import {
@@ -460,6 +461,40 @@ export class Repositories {
       .where(inArray(comments.postId, [...postIds]))
       .groupBy(comments.postId);
     return new Map(rows.map((r) => [r.postId, r.n]));
+  }
+
+  /**
+   * FR-9: recompute a post's engagement score. Human reactions count separately (they carry
+   * their own weight), and the judge's "funny" score adds the cringe bonus.
+   */
+  async rescore(
+    postId: string,
+    cfg: Parameters<typeof engagementScore>[1],
+  ): Promise<number | undefined> {
+    const [post] = await this.db
+      .select({ judgeScore: posts.judgeScore })
+      .from(posts)
+      .where(eq(posts.id, postId));
+    if (!post) return undefined;
+    const byActor = await this.db
+      .select({ actorType: reactions.actorType, n: sql<number>`count(*)::int` })
+      .from(reactions)
+      .where(eq(reactions.postId, postId))
+      .groupBy(reactions.actorType);
+    const commentsN = (await this.commentCounts([postId])).get(postId) ?? 0;
+    const funny = (post.judgeScore as { funny?: number } | null)?.funny;
+    const score = engagementScore(
+      {
+        botReactions: byActor.find((r) => r.actorType === "bot")?.n ?? 0,
+        humanReactions: byActor.find((r) => r.actorType === "human")?.n ?? 0,
+        comments: commentsN,
+        shares: 0,
+        ...(funny !== undefined ? { judgeScore: funny } : {}),
+      },
+      cfg,
+    );
+    await this.setEngagementScore(postId, score);
+    return score;
   }
 
   // ---------------------------------------------------------------- job runs

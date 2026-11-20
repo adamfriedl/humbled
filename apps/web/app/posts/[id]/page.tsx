@@ -4,13 +4,14 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { PostCard } from "../../../components/PostCard.tsx";
 import { Thread } from "../../../components/Thread.tsx";
+import { viewerId } from "../../../lib/owner.ts";
 import { queries } from "../../../lib/server.ts";
 import { toCard, toCommentData } from "../../../lib/view.ts";
 
 export const dynamic = "force-dynamic";
 
 // Shared by generateMetadata and the page, so one request runs the query once.
-const load = cache((id: string) => queries().post(id));
+const load = cache(async (id: string) => queries().post(id, await viewerId()));
 
 type Props = { params: Promise<{ id: string }> };
 
