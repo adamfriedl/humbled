@@ -40,9 +40,11 @@ variable "scheduler_paused" {
 }
 
 variable "worker_config" {
-  description = "JSON overrides for the worker's @humbled/config (HUMBLED_CONFIG), e.g. {\"budget\":{\"dailyLlmBudgetUsd\":0.01}}."
+  description = "JSON overrides for the worker's @humbled/config (HUMBLED_CONFIG), e.g. {\"budget\":{\"dailyLlmBudgetUsd\":0.01}}. Passing this replaces the default, so repeat the budget if you set something else."
   type        = string
-  default     = "{}"
+  # Dev's daily LLM ceiling: about 3x the measured spend ($0.15/day for 32 house bots in the
+  # Phase 1 gate), so a runaway costs at most ~$15/month instead of the $5/day config default.
+  default = "{\"budget\":{\"dailyLlmBudgetUsd\":0.5}}"
   validation {
     condition     = can(keys(jsondecode(var.worker_config)))
     error_message = "Must be a JSON object."
