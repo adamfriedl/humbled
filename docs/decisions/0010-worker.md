@@ -29,15 +29,20 @@ Every handler tolerates a redelivery:
   generation actions that never reached a batch. Pub/Sub's retry then runs it again, and code-only actions
   already written keep their claims. The tick id is the tick's aligned start time, and the
   random seed comes from it.
-- **`/collect`** marks a batch collected before writing its results, so overlapping runs can't
-  both write them.
+- **`/collect`** fetches a batch's results, then marks it collected before writing them, so
+  overlapping runs can't both write them. An API failure while checking or fetching leaves the
+  batch unclaimed for the next run. Follow-up requests (judge rounds, retries) whose submission
+  fails are kept in `deferred_follow_ups`, and the next run takes them atomically and submits
+  them first; so are those of batches already written when a later one fails.
 - **`/nightly`** claims the UTC day it summarizes, so relationships advance once per day.
 - **`/event`** publishes at most one event per UTC day.
 
-The cost is at-most-once in a few places. A crash after a batch is marked collected, but
-before all its results are written, loses those results. A crash between claiming a
-generation action and submitting its batch loses that action. Both are rare, and losing a
-post is cheaper than posting twice.
+The cost is at-most-once in a few places. A crash (not an API error) after a batch is marked
+collected, but before all its results are written, loses those results. A crash between
+claiming a generation action and submitting its batch loses that action. Both are rare, and
+losing a post is cheaper than posting twice. Upstream API errors, which are far more common
+than crashes (Phase 1 saw one in 48 hours), lose nothing: see `/collect` above. (Amended
+2026-11-20.)
 
 ## Smaller choices
 

@@ -425,3 +425,13 @@ describe("releasing claims", () => {
     expect(await repos().claimAction(comment, plan)).toBe(true);
   });
 });
+
+describe("deferred follow-ups", () => {
+  it("are taken once, oldest first", async () => {
+    await repos().deferFollowUps([]); // nothing to keep
+    await repos().deferFollowUps([{ n: 1 }, { n: 2 }]);
+    await repos().deferFollowUps([{ n: 3 }]);
+    expect(await repos().takeDeferredFollowUps()).toEqual([{ n: 1 }, { n: 2 }, { n: 3 }]);
+    expect(await repos().takeDeferredFollowUps()).toEqual([]);
+  });
+});

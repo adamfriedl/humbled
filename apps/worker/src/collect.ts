@@ -43,9 +43,45 @@ export async function runCollect(deps: WorkerDeps): Promise<CollectReport> {
     dropped: 0,
   };
   const followUps: RequestContext[] = [];
+
+  try {
+    await collectEnded(deps, report, followUps);
+  } catch (e) {
+    // Follow-ups for batches already written must survive: keep them for the next run.
+    await deps.repos.deferFollowUps(followUps);
+    throw e;
+  }
+
+  followUps.push(...((await deps.repos.takeDeferredFollowUps()) as RequestContext[]));
+  if (followUps.length > 0) {
+    const { requests, byId } = toBatch(followUps);
+    let providerId: string;
+    try {
+      providerId = await deps.llm.submitBatch(requests);
+    } catch (e) {
+      await deps.repos.deferFollowUps(followUps);
+      deps.log("follow_ups_deferred", { count: followUps.length });
+      throw e;
+    }
+    report.followUpBatchId = await deps.repos.createBatch(
+      providerId,
+      "tick",
+      byId,
+      deps.clock.now(),
+    );
+  }
+  deps.log("collect", { ...report });
+  return report;
+}
+
+/** Write every ended batch's results; follow-up requests go into `followUps`. */
+async function collectEnded(
+  deps: WorkerDeps,
+  report: CollectReport,
+  followUps: RequestContext[],
+): Promise<void> {
   let world: Snapshot | undefined;
   const golden = deps.content.golden.map((g) => g.body);
-
   for (const batch of await deps.repos.openBatches()) {
     if (!(await deps.llm.batchEnded(batch.providerBatchId))) {
       const ageMs = deps.clock.now().getTime() - batch.submittedAt.getTime();
@@ -55,13 +91,16 @@ export async function runCollect(deps: WorkerDeps): Promise<CollectReport> {
       }
       continue;
     }
+    // Fetch before claiming: if the API fails here nothing is claimed, and the next run (or
+    // Pub/Sub's retry) collects the batch. Once claimed, only our own writes can fail.
+    const results = await deps.llm.batchResults(batch.providerBatchId);
     const now = deps.clock.now();
-    // Claim it first: an overlapping /collect run skips a batch another run already took.
+    // Claim it: an overlapping /collect run skips a batch another run already took.
     if (!(await deps.repos.markBatch(batch.id, "collected", now))) continue;
     report.batchesCollected++;
     world ??= await Snapshot.load(deps);
     const contexts = batch.requests as Record<string, RequestContext>;
-    for (const result of await deps.llm.batchResults(batch.providerBatchId)) {
+    for (const result of results) {
       const ctx = contexts[result.id];
       if (!ctx) continue;
       await recordSpend(deps, result, ctx, now);
@@ -78,19 +117,6 @@ export async function runCollect(deps: WorkerDeps): Promise<CollectReport> {
       }
     }
   }
-
-  if (followUps.length > 0) {
-    const { requests, byId } = toBatch(followUps);
-    const providerId = await deps.llm.submitBatch(requests);
-    report.followUpBatchId = await deps.repos.createBatch(
-      providerId,
-      "tick",
-      byId,
-      deps.clock.now(),
-    );
-  }
-  deps.log("collect", { ...report });
-  return report;
 }
 
 async function recordSpend(deps: WorkerDeps, r: LLMResult, ctx: RequestContext, at: Date) {

@@ -7,6 +7,7 @@ const TABLES = [
   "job_runs",
   "reports",
   "spend_ledger",
+  "deferred_follow_ups",
   "llm_batches",
   "actions",
   "nudges",

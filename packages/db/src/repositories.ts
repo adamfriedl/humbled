@@ -17,6 +17,7 @@ import type { Db } from "./client.ts";
 import {
   actions,
   comments,
+  deferredFollowUps,
   endorsements,
   follows,
   jobRuns,
@@ -557,6 +558,25 @@ export class Repositories {
   }
 
   // ----------------------------------------------------------------- batches
+
+  /** Keep follow-up requests whose submission failed, for the next /collect run. */
+  async deferFollowUps(contexts: readonly unknown[]): Promise<void> {
+    if (contexts.length === 0) return;
+    await this.db.insert(deferredFollowUps).values({ contexts: [...contexts] });
+  }
+
+  /**
+   * Take every deferred follow-up, oldest first. Deleting and returning in one statement means
+   * two overlapping /collect runs can't both submit the same requests.
+   */
+  async takeDeferredFollowUps(): Promise<unknown[]> {
+    const rows = await this.db
+      .delete(deferredFollowUps)
+      .returning({ contexts: deferredFollowUps.contexts, createdAt: deferredFollowUps.createdAt });
+    return rows
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+      .flatMap((r) => (Array.isArray(r.contexts) ? r.contexts : []));
+  }
 
   async createBatch(
     providerBatchId: string,
