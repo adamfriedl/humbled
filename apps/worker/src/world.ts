@@ -10,7 +10,6 @@ import type {
 import type { ActionKey, PersonaRow, StoredRelationship } from "@humbled/db";
 import {
   applyTrigger,
-  engagementScore,
   newRelationship,
   strongestRelationships,
   type PlannedAction,
@@ -168,20 +167,5 @@ export const relKey = (from: string, to: string) => `${from}->${to}`;
 
 /** Recompute a post's engagement score from its reactions, comments and judge score. */
 export async function rescore(deps: WorkerDeps, postId: string): Promise<void> {
-  const [post] = await deps.repos.postsById([postId]);
-  if (!post) return;
-  const reactions = (await deps.repos.reactionCounts([postId])).get(postId) ?? 0;
-  const comments = (await deps.repos.commentCounts([postId])).get(postId) ?? 0;
-  const funny = (post.judgeScore as { funny?: number } | null)?.funny;
-  const score = engagementScore(
-    {
-      botReactions: reactions,
-      humanReactions: 0,
-      comments,
-      shares: 0,
-      ...(funny !== undefined ? { judgeScore: funny } : {}),
-    },
-    deps.config.engagement,
-  );
-  await deps.repos.setEngagementScore(postId, score);
+  await deps.repos.rescore(postId, deps.config.engagement);
 }

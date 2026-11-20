@@ -270,6 +270,13 @@ export const ConfigSchema = z.object({
       trendingWindowDays: z.number().int().positive().default(7),
       /** FR-11: rivalries shown as "People also viewed" on a profile. */
       profileRivalries: z.number().int().nonnegative().default(3),
+      /** SR-5: reactions one browser (owner cookie) may set or change per minute. */
+      reactionsPerOwnerPerMinute: z.number().int().positive().default(20),
+      /**
+       * SR-5: reactions per hour from one IP address, across cookies. Clearing cookies is free,
+       * so this is the limit that stops a script; it's generous for shared networks.
+       */
+      reactionsPerIpPerHour: z.number().int().positive().default(300),
     })
     .prefault({}),
 });

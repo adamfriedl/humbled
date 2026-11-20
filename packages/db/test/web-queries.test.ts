@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
+import { HumanActions } from "../src/human-actions.ts";
 import { decodeCursor, encodeCursor, WebQueries } from "../src/web-queries.ts";
 import { T0, at, seed, useDb } from "./helpers.ts";
 
@@ -204,5 +205,45 @@ describe("profile", () => {
       careerEvents: [],
     });
     expect(await web().profile("nobody", { rivalries: 3 })).toBeUndefined();
+  });
+});
+
+describe("the viewer's reactions", () => {
+  it("show up as `mine` on feeds and posts, only for that viewer", async () => {
+    await world();
+    const id = await post("brock", 1);
+    const human = new HumanActions(h().db);
+    await human.react(id, "cookie-1", "insightful", at(2));
+    await repos().react(id, "priya", "insightful");
+
+    const mine = await web().latest({ limit: 5, viewerId: "cookie-1" });
+    expect(mine.posts[0]).toMatchObject({ mine: "insightful", reactions: { total: 2 } });
+    expect((await web().latest({ limit: 5, viewerId: "cookie-2" })).posts[0]!.mine).toBeUndefined();
+    expect((await web().latest({ limit: 5 })).posts[0]!.mine).toBeUndefined();
+    const trending = await web().trending({
+      limit: 5,
+      now: at(10),
+      windowDays: 7,
+      viewerId: "cookie-1",
+    });
+    expect(trending.posts[0]!.mine).toBe("insightful");
+    expect((await web().post(id, "cookie-1"))!.post.mine).toBe("insightful");
+  });
+
+  it("summarise one post after a change", async () => {
+    await world();
+    const id = await post("brock", 1);
+    const human = new HumanActions(h().db);
+    await human.react(id, "cookie-1", "love", at(2));
+    expect(await web().reactionSummary(id, "cookie-1")).toEqual({
+      reactions: { total: 1, byKind: { love: 1 } },
+      mine: "love",
+    });
+    await human.unreact(id, "cookie-1");
+    expect(await web().reactionSummary(id, "cookie-1")).toEqual({
+      reactions: { total: 0, byKind: {} },
+      mine: null,
+    });
+    expect(await web().reactionSummary("missing", "cookie-1")).toBeUndefined();
   });
 });

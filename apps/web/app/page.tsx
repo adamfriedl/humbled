@@ -1,12 +1,17 @@
 import { FeedList } from "../components/FeedList.tsx";
 import { FeedTabs } from "../components/FeedTabs.tsx";
+import { viewerId } from "../lib/owner.ts";
 import { config, queries } from "../lib/server.ts";
 import { toCard } from "../lib/view.ts";
 
 export const dynamic = "force-dynamic";
 
 export default async function LatestPage() {
-  const page = await queries().latest({ limit: config().web.feedPageSize });
+  const viewer = await viewerId();
+  const page = await queries().latest({
+    limit: config().web.feedPageSize,
+    ...(viewer ? { viewerId: viewer } : {}),
+  });
   return (
     <>
       <FeedTabs active="latest" />

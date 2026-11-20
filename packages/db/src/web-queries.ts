@@ -35,6 +35,8 @@ export interface PostView {
   author: PersonaSummary;
   reactions: { total: number; byKind: Partial<Record<ReactionKind, number>> };
   commentCount: number;
+  /** The viewer's own reaction, when a viewer (owner cookie) was given. */
+  mine?: ReactionKind;
 }
 
 export interface CommentView {
@@ -89,7 +91,7 @@ const postColumns = {
   author: summaryColumns,
 };
 
-type PostRow = Omit<PostView, "reactions" | "commentCount">;
+type PostRow = Omit<PostView, "reactions" | "commentCount" | "mine">;
 
 /** Latest-feed cursor: the last post's (createdAt, id), so equal timestamps page stably. */
 export function encodeCursor(createdAt: Date, id: string): string {
@@ -107,7 +109,12 @@ export class WebQueries {
   constructor(private readonly db: Db) {}
 
   /** FR-7 "Latest": newest first, keyset-paginated. An invalid cursor starts from the top. */
-  async latest(opts: { cursor?: string; limit: number; personaId?: string }): Promise<FeedPage> {
+  async latest(opts: {
+    cursor?: string;
+    limit: number;
+    personaId?: string;
+    viewerId?: string;
+  }): Promise<FeedPage> {
     const after = opts.cursor ? decodeCursor(opts.cursor) : undefined;
     const conditions = [];
     if (after) {
@@ -129,7 +136,7 @@ export class WebQueries {
     const page = rows.slice(0, opts.limit);
     const last = page.at(-1);
     return {
-      posts: await this.withCounts(page),
+      posts: await this.withCounts(page, opts.viewerId),
       ...(rows.length > opts.limit && last
         ? { nextCursor: encodeCursor(last.createdAt, last.id) }
         : {}),
@@ -146,6 +153,7 @@ export class WebQueries {
     limit: number;
     now: Date;
     windowDays: number;
+    viewerId?: string;
   }): Promise<FeedPage> {
     const offset = Math.max(0, Number.parseInt(opts.cursor ?? "0", 10) || 0);
     const since = new Date(opts.now.getTime() - opts.windowDays * 86_400_000);
@@ -159,20 +167,23 @@ export class WebQueries {
       .offset(offset);
     const page = rows.slice(0, opts.limit);
     return {
-      posts: await this.withCounts(page),
+      posts: await this.withCounts(page, opts.viewerId),
       ...(rows.length > opts.limit ? { nextCursor: String(offset + opts.limit) } : {}),
     };
   }
 
   /** A post and its whole comment thread (oldest first; the page nests it by parentId). */
-  async post(id: string): Promise<{ post: PostView; comments: CommentView[] } | undefined> {
+  async post(
+    id: string,
+    viewerId?: string,
+  ): Promise<{ post: PostView; comments: CommentView[] } | undefined> {
     const [row] = await this.db
       .select(postColumns)
       .from(posts)
       .innerJoin(personas, eq(posts.personaId, personas.id))
       .where(eq(posts.id, id));
     if (!row) return undefined;
-    const [post] = await this.withCounts([row]);
+    const [post] = await this.withCounts([row], viewerId);
     const thread = await this.db
       .select({
         id: comments.id,
@@ -258,10 +269,11 @@ export class WebQueries {
     };
   }
 
-  private async withCounts(rows: PostRow[]): Promise<PostView[]> {
+  /** Reaction and comment counts for a page of posts (and the viewer's own reactions). */
+  async withCounts(rows: PostRow[], viewerId?: string): Promise<PostView[]> {
     if (rows.length === 0) return [];
     const ids = rows.map((r) => r.id);
-    const [byKind, byPost] = await Promise.all([
+    const [byKind, byPost, mine] = await Promise.all([
       this.db
         .select({ postId: reactions.postId, kind: reactions.kind, n: sql<number>`count(*)::int` })
         .from(reactions)
@@ -272,10 +284,24 @@ export class WebQueries {
         .from(comments)
         .where(inArray(comments.postId, ids))
         .groupBy(comments.postId),
+      viewerId
+        ? this.db
+            .select({ postId: reactions.postId, kind: reactions.kind })
+            .from(reactions)
+            .where(
+              and(
+                inArray(reactions.postId, ids),
+                eq(reactions.actorType, "human"),
+                eq(reactions.actorId, viewerId),
+              ),
+            )
+        : Promise.resolve([]),
     ]);
     const commentsBy = new Map(byPost.map((r) => [r.postId, r.n]));
+    const mineBy = new Map(mine.map((r) => [r.postId, r.kind]));
     return rows.map((r) => {
       const kinds = byKind.filter((k) => k.postId === r.id);
+      const own = mineBy.get(r.id);
       return {
         ...r,
         reactions: {
@@ -283,7 +309,20 @@ export class WebQueries {
           byKind: Object.fromEntries(kinds.map((k) => [k.kind, k.n])),
         },
         commentCount: commentsBy.get(r.id) ?? 0,
+        ...(own ? { mine: own } : {}),
       };
     });
+  }
+
+  /** One post's counts and the viewer's reaction, after the viewer changed it. */
+  async reactionSummary(postId: string, viewerId: string) {
+    const [row] = await this.db
+      .select(postColumns)
+      .from(posts)
+      .innerJoin(personas, eq(posts.personaId, personas.id))
+      .where(eq(posts.id, postId));
+    if (!row) return undefined;
+    const [view] = await this.withCounts([row], viewerId);
+    return { reactions: view!.reactions, mine: view!.mine ?? null };
   }
 }

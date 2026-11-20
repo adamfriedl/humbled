@@ -6,6 +6,7 @@ import { Avatar } from "../../../components/Avatar.tsx";
 import { FeedList } from "../../../components/FeedList.tsx";
 import { PersonaLine } from "../../../components/PersonaLine.tsx";
 import { PERSONA_TYPE_LABELS, STAGE_LABELS } from "../../../lib/format.ts";
+import { viewerId } from "../../../lib/owner.ts";
 import { config, queries } from "../../../lib/server.ts";
 import { toCard } from "../../../lib/view.ts";
 
@@ -41,7 +42,12 @@ export default async function ProfilePage({ params }: Props) {
   const profile = await load(id);
   if (!profile) notFound();
   const { persona } = profile;
-  const activity = await queries().latest({ limit: config().web.feedPageSize, personaId: id });
+  const viewer = await viewerId();
+  const activity = await queries().latest({
+    limit: config().web.feedPageSize,
+    personaId: id,
+    ...(viewer ? { viewerId: viewer } : {}),
+  });
 
   return (
     <div className="space-y-4">

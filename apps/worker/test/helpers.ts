@@ -9,6 +9,8 @@ import type { WorkerDeps } from "../src/deps.ts";
 import { syncContent } from "../src/seed.ts";
 
 const TABLES = [
+  "rate_events",
+  "ip_salts",
   "job_runs",
   "reports",
   "spend_ledger",
