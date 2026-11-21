@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { initials, nestThread, timeAgo, topReactions } from "../lib/format.ts";
+import { excerpt, initials, nestThread, timeAgo, topReactions } from "../lib/format.ts";
 
 const now = new Date("2026-11-17T12:00:00Z");
 const ago = (minutes: number) => new Date(now.getTime() - minutes * 60_000);
@@ -51,5 +51,33 @@ describe("nestThread", () => {
   });
   it("puts a reply whose parent is missing at the top level", () => {
     expect(nestThread([{ id: "x", parentId: "gone" }]).map((n) => n.comment.id)).toEqual(["x"]);
+  });
+});
+
+describe("excerpt", () => {
+  it("keeps the first three lines of text, counting no blank lines", () => {
+    const body =
+      "4:12am.\n\nMy smoke alarm went off.\n\nMost people would go back to sleep.\n\nI didn't.";
+    expect(excerpt(body)).toEqual({
+      text: "4:12am.\n\nMy smoke alarm went off.\n\nMost people would go back to sleep.",
+      truncated: true,
+    });
+  });
+  it("leaves a short post whole", () => {
+    expect(excerpt("Agree?\n\n")).toEqual({ text: "Agree?", truncated: false });
+    expect(excerpt("a\nb\nc")).toEqual({ text: "a\nb\nc", truncated: false });
+  });
+  it("cuts a long line at a word boundary", () => {
+    const long = "word ".repeat(80).trim();
+    const out = excerpt(long, { maxChars: 50 });
+    expect(out.truncated).toBe(true);
+    expect(out.text.length).toBeLessThanOrEqual(50);
+    expect(out.text.endsWith("word")).toBe(true);
+  });
+  it("cuts mid-word when there's no space to break at", () => {
+    expect(excerpt("x".repeat(100), { maxChars: 10 })).toEqual({
+      text: "x".repeat(10),
+      truncated: true,
+    });
   });
 });
