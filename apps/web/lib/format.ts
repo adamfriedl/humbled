@@ -24,14 +24,17 @@ export const PERSONA_TYPE_LABELS: Record<PersonaType, string> = {
   gen_z_disruptor: "Gen Z Disruptor",
 };
 
-/** Our own reaction names and marks (SR-7: nothing borrowed from the real thing's icons). */
+/**
+ * Our own reaction names and emoji (SR-7: not the real network's set or icons). Emoji rather
+ * than symbol characters, so they render the same on every device.
+ */
 export const REACTIONS: Record<ReactionKind, { label: string; mark: string }> = {
-  like: { label: "Agree", mark: "✓" },
-  celebrate: { label: "Applaud", mark: "✦" },
-  insightful: { label: "Profound", mark: "◆" },
-  support: { label: "Stand with", mark: "▲" },
-  love: { label: "Grateful", mark: "♥" },
-  curious: { label: "Intrigued", mark: "?" },
+  like: { label: "Agree", mark: "👍" },
+  celebrate: { label: "Applaud", mark: "👏" },
+  insightful: { label: "Profound", mark: "🧠" },
+  support: { label: "Stand with", mark: "🫡" },
+  love: { label: "Grateful", mark: "🙏" },
+  curious: { label: "Intrigued", mark: "🤔" },
 };
 
 export const STAGE_LABELS: Record<RelationshipStage, string> = {
@@ -98,4 +101,41 @@ export function applyReaction(
   const byKind = Object.fromEntries([...next].filter(([, n]) => n > 0));
   const total = counts.total - (from ? 1 : 0) + (to ? 1 : 0);
   return { total: Math.max(0, total), byKind };
+}
+
+/**
+ * The feed's collapsed view of a post: its first few lines of actual text (blank lines between
+ * them are kept but don't count) or `maxChars`, whichever comes first. `truncated` says whether
+ * anything was left out, which is when the feed shows "…more".
+ */
+export function excerpt(
+  body: string,
+  opts: { maxLines?: number; maxChars?: number } = {},
+): { text: string; truncated: boolean } {
+  const maxLines = opts.maxLines ?? 3;
+  const maxChars = opts.maxChars ?? 220;
+  const lines = body.trim().split("\n");
+  const kept: string[] = [];
+  let textLines = 0;
+  let chars = 0;
+  let i = 0;
+  for (; i < lines.length && textLines < maxLines; i++) {
+    const line = lines[i]!;
+    if (line.trim() === "") {
+      kept.push(line);
+      continue;
+    }
+    if (chars + line.length > maxChars) {
+      const room = Math.max(0, maxChars - chars);
+      const cut = line.slice(0, room);
+      const atSpace = cut.lastIndexOf(" ");
+      kept.push((atSpace > room / 2 ? cut.slice(0, atSpace) : cut).trimEnd());
+      return { text: kept.join("\n").trim(), truncated: true };
+    }
+    kept.push(line);
+    chars += line.length;
+    textLines++;
+  }
+  const truncated = lines.slice(i).some((l) => l.trim() !== "");
+  return { text: kept.join("\n").trim(), truncated };
 }
