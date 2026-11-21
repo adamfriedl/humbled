@@ -97,6 +97,32 @@ module "web" {
   invoker_members = ["allUsers"]
 }
 
+# Keep one web instance warm. Cloud Run keeps an idle instance for roughly 15 minutes, so a
+# request every 5 keeps the first visitor off a ~4s cold start. Idle time isn't billed under
+# request-based billing, so this costs about $0.10/month (the Scheduler job). Not a guarantee:
+# min_instances = 1 is, at ~$5-8/month. The billing kill switch pauses this job too.
+resource "google_cloud_scheduler_job" "web_warm" {
+  project          = var.project_id
+  region           = var.region
+  name             = "web-keep-warm"
+  description      = "Keeps a web instance warm (no cold start for the first visitor)."
+  schedule         = "*/5 * * * *"
+  time_zone        = "Etc/UTC"
+  attempt_deadline = "15s"
+  paused           = var.scheduler_paused
+
+  http_target {
+    http_method = "GET"
+    uri         = "${module.web.uri}/healthz"
+  }
+
+  retry_config {
+    retry_count = 0
+  }
+
+  depends_on = [module.project]
+}
+
 resource "google_cloud_run_domain_mapping" "web" {
   count    = var.web_domain == "" ? 0 : 1
   project  = var.project_id
