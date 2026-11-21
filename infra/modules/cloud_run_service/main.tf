@@ -36,6 +36,9 @@ resource "google_cloud_run_v2_service" "this" {
           memory = var.memory
         }
         cpu_idle = true
+        # Full CPU while an instance starts: Node and Next.js boot faster on a cold start, and
+        # it's only billed for those seconds.
+        startup_cpu_boost = true
       }
 
       dynamic "env" {
@@ -59,13 +62,16 @@ resource "google_cloud_run_v2_service" "this" {
         }
       }
 
+      # Probe every second: with a 5s period, an instance that was ready a moment after the
+      # first probe waited up to 5s more before taking its cold-start request. Same 60s limit.
       startup_probe {
         http_get {
           path = "/healthz"
         }
         initial_delay_seconds = 0
-        period_seconds        = 5
-        failure_threshold     = 24
+        period_seconds        = 1
+        timeout_seconds       = 1
+        failure_threshold     = 60
       }
     }
   }
