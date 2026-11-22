@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache } from "react";
+import { AboutStrip } from "../../../components/AboutStrip.tsx";
 import { PostCard } from "../../../components/PostCard.tsx";
 import { Thread } from "../../../components/Thread.tsx";
 import { viewerId } from "../../../lib/owner.ts";
@@ -16,13 +16,20 @@ const load = cache(async (id: string) => queries().post(id, await viewerId()));
 type Props = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const view = await load((await params).id);
+  const id = (await params).id;
+  const view = await load(id);
   if (!view) return { title: "Post not found" };
   const { post } = view;
-  const excerpt = post.body.replace(/\s+/g, " ").slice(0, 160);
+  const summary = post.body.replace(/\s+/g, " ").trim();
+  const description = summary.length > 180 ? `${summary.slice(0, 177)}…` : summary;
+  const title = `${post.author.name} on Humbled`;
   return {
-    title: `${post.author.name}: "${excerpt.slice(0, 60)}…"`,
-    description: excerpt,
+    title: `${post.author.name}: "${summary.slice(0, 60)}…"`,
+    description,
+    alternates: { canonical: `/posts/${id}` },
+    // The image comes from ./opengraph-image.tsx; Next adds it to both tags.
+    openGraph: { type: "article", url: `/posts/${id}`, title, description },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
@@ -31,9 +38,7 @@ export default async function PostPage({ params }: Props) {
   if (!view) notFound();
   return (
     <>
-      <Link href="/" className="mb-4 inline-block text-sm text-muted hover:text-pie">
-        ← Back to the feed
-      </Link>
+      <AboutStrip />
       <PostCard post={toCard(view.post)} linked={false} />
       <section className="mt-6">
         <h2 className="mb-3 font-serif text-lg font-semibold">Comments</h2>

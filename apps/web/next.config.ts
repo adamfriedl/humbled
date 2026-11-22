@@ -9,6 +9,8 @@ const config: NextConfig = {
   output: "standalone",
   // Trace from the monorepo root so the standalone server includes workspace packages.
   outputFileTracingRoot: join(dirname(fileURLToPath(import.meta.url)), "../.."),
+  // Share-card fonts are read from disk at request time, so the tracer can't see them.
+  outputFileTracingIncludes: { "/**/opengraph-image": ["./assets/fonts/*"] },
   // pg is a Node library with optional native bindings; keep it out of the bundle.
   serverExternalPackages: ["pg"],
   poweredByHeader: false,

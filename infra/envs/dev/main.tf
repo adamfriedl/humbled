@@ -116,9 +116,8 @@ resource "google_cloud_scheduler_job" "web_warm" {
     uri         = "${module.web.uri}/healthz"
   }
 
-  retry_config {
-    retry_count = 0
-  }
+  # No retry_config: retry_count already defaults to 0 (a missed ping doesn't matter), and an
+  # explicit block is dropped by the API, which would show as a change on every plan.
 
   depends_on = [module.project]
 }

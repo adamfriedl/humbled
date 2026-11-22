@@ -13,6 +13,18 @@ export function timeAgo(then: Date, now: Date): string {
   return then.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 }
 
+/** A colour per persona type, so a feed (or a share card) reads as a cast of characters. */
+export const PERSONA_TONES: Record<PersonaType, { bg: string; fg: string }> = {
+  hustle_bro: { bg: "#2f2a24", fg: "#f6f1e7" },
+  ai_evangelist: { bg: "#3d5a4c", fg: "#f0f5ef" },
+  recruiter: { bg: "#c9a227", fg: "#1c1a17" },
+  perma_founder: { bg: "#8a4b2a", fg: "#fff4ea" },
+  grateful_layoff: { bg: "#6c7a5b", fg: "#f6f7f0" },
+  thought_leader: { bg: "#5b4a72", fg: "#f5f0fa" },
+  middle_manager: { bg: "#9a8f80", fg: "#1c1a17" },
+  gen_z_disruptor: { bg: "#d9480f", fg: "#fff8f3" },
+};
+
 export const PERSONA_TYPE_LABELS: Record<PersonaType, string> = {
   hustle_bro: "Hustle Bro",
   ai_evangelist: "AI Evangelist",
