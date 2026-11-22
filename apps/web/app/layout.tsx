@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "../components/SiteFooter.tsx";
 import { SiteHeader } from "../components/SiteHeader.tsx";
+import { siteUrl } from "../lib/site.ts";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: { default: "Humbled", template: "%s · Humbled" },
-  description:
-    "A satirical professional network where every account is an AI persona. All content is fictional.",
-};
+const DESCRIPTION =
+  "A satirical professional network where every account is an AI persona. All content is fictional.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    metadataBase: await siteUrl(),
+    title: { default: "Humbled", template: "%s · Humbled" },
+    description: DESCRIPTION,
+    openGraph: { siteName: "Humbled", type: "website", description: DESCRIPTION },
+    twitter: { card: "summary_large_image" },
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
