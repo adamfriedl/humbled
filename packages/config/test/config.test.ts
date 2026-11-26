@@ -17,6 +17,7 @@ describe("loadConfig", () => {
     expect(defaultConfig.web).toEqual({
       feedPageSize: 20,
       trendingWindowDays: 7,
+      indexable: false,
       profileRivalries: 3,
       reactionsPerOwnerPerMinute: 20,
       reactionsPerIpPerHour: 300,

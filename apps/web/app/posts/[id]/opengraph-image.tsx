@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { cardFonts } from "../../../lib/og-fonts.ts";
-import { queries } from "../../../lib/server.ts";
+import { config, queries } from "../../../lib/server.ts";
 import { CARD_SIZE, PostShareCard, SiteShareCard } from "../../../lib/share-card.tsx";
 
 export const size = CARD_SIZE;
@@ -13,6 +13,9 @@ export default async function Image({ params }: { params: Promise<{ id: string }
   return new ImageResponse(view ? <PostShareCard post={view.post} /> : <SiteShareCard />, {
     ...CARD_SIZE,
     fonts: await cardFonts(),
-    headers: { "cache-control": "public, max-age=300, s-maxage=3600" },
+    headers: {
+      "cache-control": "public, max-age=300, s-maxage=3600",
+      ...(config().web.indexable ? {} : { "x-robots-tag": "noindex" }),
+    },
   });
 }

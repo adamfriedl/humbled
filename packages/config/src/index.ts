@@ -268,6 +268,12 @@ export const ConfigSchema = z.object({
       feedPageSize: z.number().int().positive().max(100).default(20),
       /** FR-7: how far back "Trending" looks. Older posts drop off however well they did. */
       trendingWindowDays: z.number().int().positive().default(7),
+      /**
+       * Whether search engines may index the site. Off by default, so dev and any other
+       * non-production environment stay out of search; prod turns it on. Link-preview bots
+       * ignore noindex, so share cards work either way.
+       */
+      indexable: z.boolean().default(false),
       /** FR-11: rivalries shown as "People also viewed" on a profile. */
       profileRivalries: z.number().int().nonnegative().default(3),
       /** SR-5: reactions one browser (owner cookie) may set or change per minute. */
