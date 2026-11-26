@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "../components/SiteFooter.tsx";
 import { SiteHeader } from "../components/SiteHeader.tsx";
+import { config } from "../lib/server.ts";
 import { siteUrl } from "../lib/site.ts";
 import "./globals.css";
 
@@ -14,6 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
     description: DESCRIPTION,
     openGraph: { siteName: "Humbled", type: "website", description: DESCRIPTION },
     twitter: { card: "summary_large_image" },
+    // Non-production stays out of search (config web.indexable). A noindex tag, not a
+    // robots.txt block: preview bots like LinkedIn's obey robots.txt and would stop
+    // fetching share cards, but they ignore noindex.
+    ...(config().web.indexable ? {} : { robots: { index: false, follow: false } }),
   };
 }
 
